@@ -62,3 +62,8 @@ src
   - Redux Toolkit
   - Redux Saga
   - react-redux
+- Storybook
+
+```bash
+yarn storybook
+```

@@ -8,6 +8,7 @@ module.exports = {
     'react/jsx-one-expression-per-line': 0,
     'import/prefer-default-export': 'off',
     'react/no-unescaped-entities': 0,
+    'no-param-reassign': [2, { props: false }],
   },
   env: {
     browser: true,
