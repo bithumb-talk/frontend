@@ -57,4 +57,8 @@ src
 
 - Axios
 - Material UI
-  (Redux, react-dom 등 추가 예정)
+- react-router-dom
+- Redux
+  - Redux Toolkit
+  - Redux Saga
+  - react-redux
