@@ -7,6 +7,9 @@ yarn start
 
 ## Coding Convention
 
+- alias
+  - `./src/` -> `@/`
+  - ex) './src/App.jsx -> @/App.jsx'
 - airbnb rule
 - prettier
 - variable
@@ -50,6 +53,7 @@ src
   ㄴ constants : 상수 관리
   ㄴ hooks : React Custom Hooks 관리
   ㄴ pages : 페이지 view 관리
+  ㄴ redux : Redux store, reducer 관리
   ㄴ utils : 컴포넌트 로직을 제외한 util 로직 관리
 ```
 
@@ -63,6 +67,7 @@ src
   - Redux Saga
   - react-redux
 - Storybook
+- Craco
 
 ```bash
 yarn storybook
