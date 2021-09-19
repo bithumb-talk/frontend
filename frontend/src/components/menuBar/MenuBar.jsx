@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { MenuBox, MenuTabs, MenuTab } from './Style';
+import { MenuBox, MenuTabs, MenuTab } from './MenuBar.style';
 
 export default function MenuBar() {
   const [value, setValue] = useState(0);

@@ -2,7 +2,7 @@ import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
-import { MAIN_COLOR, POINT_COLOR } from '../../constants/Color';
+import { MAIN, POINT } from '../../constants';
 
 export const MenuBox = styled((props) => <Box {...props} />)({
   borderTop: '2px dashed orange',
@@ -26,7 +26,7 @@ export const MenuTabs = styled((props) => (
     maxWidth: 40,
     width: '100%',
     justifyContent: 'space-evenly',
-    backgroundColor: POINT_COLOR,
+    backgroundColor: POINT,
   },
 });
 
@@ -37,7 +37,7 @@ export const MenuTab = styled((props) => <Tab disableRipple {...props} />)(({ th
   marginRight: theme.spacing(1),
   color: 'rgba(0, 0, 0, 0.7)',
   '&.Mui-selected': {
-    color: MAIN_COLOR,
+    color: MAIN,
   },
   '&.Mui-focusVisible': {
     backgroundColor: 'rgba(100, 95, 228, 0.32)',
