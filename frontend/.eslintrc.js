@@ -1,4 +1,3 @@
-const os = require('os');
 module.exports = {
   extends: ['react-app', 'airbnb', 'plugin:react/recommended', 'plugin:import/recommended'],
   rules: {
@@ -22,8 +21,6 @@ module.exports = {
         ],
       },
     ],
-    'linebreak-style': ['error', require(os).EOL === '\r\n' ? 'windows' : 'unix'],
-    'prettier/prettier': ['error', { endOfLine: 'auto' }],
   },
   env: {
     browser: true,
