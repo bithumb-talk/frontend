@@ -24,6 +24,7 @@ const routes = [
   {
     path: '*',
     component: <NotFound />,
+    isPrivate: false,
   },
 ];
 
