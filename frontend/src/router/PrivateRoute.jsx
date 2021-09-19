@@ -1,6 +1,6 @@
 import { Route, Redirect } from 'react-router-dom';
 import PropsTypes from 'prop-types';
-import ROUTE from './route';
+import ROUTE from './routePath';
 
 const PrivateRoute = ({ children, ...props }) => {
   const userFlag = true;

@@ -2,7 +2,7 @@ import { Route, Switch } from 'react-router-dom';
 import {
   HomeMainPage, LoginPage, MyPage, NotFound,
 } from '@/pages/index';
-import ROUTE from './route';
+import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
 const routes = [

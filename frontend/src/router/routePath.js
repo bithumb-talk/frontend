@@ -6,7 +6,7 @@ const ROUTE = Object.freeze({
     PATH: '/login',
   },
   MYPAGE: {
-    PATH: 'mypage',
+    PATH: '/mypage/:username',
   },
 });
 
