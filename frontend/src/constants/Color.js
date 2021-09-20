@@ -1,3 +1,7 @@
-export const MAIN_COLOR = '#F37321';
-export const POINT_COLOR = '#D53126';
-export const TYPO_COLOR = '#444444';
+const COLOR = Object.freeze({
+  MAIN: '#F37321',
+  POINT: '#D53126',
+  TYPO: '#444444',
+});
+
+export default COLOR;
