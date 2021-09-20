@@ -21,8 +21,8 @@ module.exports = {
         ],
       },
     ],
+    'linebreak-style': 0,
   },
-  'linebreak-style': 0,
   env: {
     browser: true,
   },
