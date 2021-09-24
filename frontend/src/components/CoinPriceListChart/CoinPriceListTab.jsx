@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Tabs, Tab,
 } from '@mui/material';
+import {
+  useSelector,
+  useDispatch,
+} from 'react-redux';
+import { setTabIndex } from '@/redux/coinPriceSlice';
 
 function a11yProps(index) {
   return {
@@ -11,16 +16,17 @@ function a11yProps(index) {
 }
 
 function CoinPriceListTab() {
-  const [value, setValue] = useState(0);
+  const tabIndex = useSelector((state) => state.coinPrice.tabIndex);
+  const dispatch = useDispatch();
 
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    dispatch(setTabIndex(newValue));
   };
 
   return (
     <section>
       <div>
-        <Tabs variant="fullWidth" value={value} onChange={handleChange} aria-label="basic tabs example">
+        <Tabs variant="fullWidth" value={tabIndex} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="원화" {...a11yProps(0)} />
           <Tab label="관심" {...a11yProps(1)} />
         </Tabs>

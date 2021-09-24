@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import { useSelector } from 'react-redux';
 import {
   CoinPriceInfoTab,
   CoinListItem,
@@ -7,6 +8,8 @@ import {
 } from './CoinPriceListChart.style';
 
 function CoinPriceList() {
+  const tabIndex = useSelector((state) => state.coinPrice.tabIndex);
+
   return (
     <section>
       <CoinPriceInfoTab>
@@ -38,64 +41,71 @@ function CoinPriceList() {
       </CoinPriceInfoTab>
 
       <div>
-        <CoinListItem>
-          <Box sx={{
-            width: 30,
-          }}
-          >
-            <CustomStarBorderIcon />
-          </Box>
-          <Box sx={{
-            width: 94,
-          }}
-          >
-            <p>비트코인</p>
-          </Box>
-          <Box sx={{
-            width: 88,
-          }}
-          >
-            <p>53,612,000</p>
-          </Box>
-          <Box sx={{
-            width: 78,
-          }}
-          >
-            <p>0.65</p>
-          </Box>
-          <Box>
-            <p>133,831백만</p>
-          </Box>
-        </CoinListItem>
-        <CoinListItem>
-          <Box sx={{
-            width: 30,
-          }}
-          >
-            <CustomStarBorderIcon />
-          </Box>
-          <Box sx={{
-            width: 94,
-          }}
-          >
-            <p>비트코인</p>
-          </Box>
-          <Box sx={{
-            width: 88,
-          }}
-          >
-            <p>53,612,000</p>
-          </Box>
-          <Box sx={{
-            width: 78,
-          }}
-          >
-            <p>0.65</p>
-          </Box>
-          <Box>
-            <p>133,831백만</p>
-          </Box>
-        </CoinListItem>
+        {
+          tabIndex === 0
+            ? (
+              <CoinListItem>
+                <Box sx={{
+                  width: 30,
+                }}
+                >
+                  <CustomStarBorderIcon />
+                </Box>
+                <Box sx={{
+                  width: 94,
+                }}
+                >
+                  <p>비트코인</p>
+                </Box>
+                <Box sx={{
+                  width: 88,
+                }}
+                >
+                  <p>53,612,000</p>
+                </Box>
+                <Box sx={{
+                  width: 78,
+                }}
+                >
+                  <p>0.65</p>
+                </Box>
+                <Box>
+                  <p>133,831백만</p>
+                </Box>
+              </CoinListItem>
+            )
+            : (
+              <CoinListItem>
+                <Box sx={{
+                  width: 30,
+                }}
+                >
+                  <CustomStarBorderIcon />
+                </Box>
+                <Box sx={{
+                  width: 94,
+                }}
+                >
+                  <p>이더리움</p>
+                </Box>
+                <Box sx={{
+                  width: 88,
+                }}
+                >
+                  <p>53,612,000</p>
+                </Box>
+                <Box sx={{
+                  width: 78,
+                }}
+                >
+                  <p>0.65</p>
+                </Box>
+                <Box>
+                  <p>133,831백만</p>
+                </Box>
+              </CoinListItem>
+            )
+        }
       </div>
     </section>
   );
