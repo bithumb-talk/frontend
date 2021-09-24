@@ -3,9 +3,12 @@ import { Global, css } from '@emotion/react';
 const GlobalStyle = () => (
   <Global
     styles={css`
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+
       * {
         box-sizing: border-box;
         scroll-behavior: smooth;
+        font-family: 'Noto Sans', sans-serif;
       }
 
       html,
