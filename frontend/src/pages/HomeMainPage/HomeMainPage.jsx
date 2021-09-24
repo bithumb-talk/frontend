@@ -1,10 +1,9 @@
-const HomeMainPage = () => {
-  const example = 'mainpage 입니다.';
-  return (
-    <>
-      {example}
-    </>
-  );
-};
+import { CoinPriceList } from '@/components';
+
+const HomeMainPage = () => (
+  <>
+    <CoinPriceList />
+  </>
+);
 
 export default HomeMainPage;
