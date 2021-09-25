@@ -1,10 +1,7 @@
-const HomeMainPage = () => {
-  const example = 'mainpage 입니다.';
-  return (
-    <>
-      {example}
-    </>
-  );
-};
+const HomeMainPage = () => (
+  <>
+    mainpage 입니다.
+  </>
+);
 
 export default HomeMainPage;
