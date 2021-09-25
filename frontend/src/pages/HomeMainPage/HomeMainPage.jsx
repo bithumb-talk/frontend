@@ -1,8 +1,6 @@
-import { CoinPriceListChart } from '@/components';
-
 const HomeMainPage = () => (
   <>
-    <CoinPriceListChart />
+    mainpage 입니다.
   </>
 );
 
