@@ -4,4 +4,4 @@ export { default as CoinPriceListChart } from './CoinPriceListChart/CoinPriceLis
 export { default as TextEditor } from './Board/TextEditor';
 export { default as TextTitle } from './Board/TextTitle';
 export { default as ComboBox } from './Board/BoardCategory';
-export { default as BoarBottom } from './Board/BoardBottom';
+export { default as BoardBottom } from './Board/BoardBottom';

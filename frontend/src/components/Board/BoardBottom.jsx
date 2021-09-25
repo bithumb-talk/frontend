@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid';
 // eslint-disable-next-line object-curly-newline
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from './Board.style';
 
-export default function BoarBottom() {
+export default function BoardBottom() {
   return (
     <div>
       <Grid container spacing={0} alignItems="center">
