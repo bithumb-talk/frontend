@@ -17,3 +17,10 @@ export const ORAGNE = Object.freeze({
   900: '#e65100',
   // https://mui.com/customization/color/#main-content
 });
+
+export const BREAK_POINT = Object.freeze({
+  SM: 600,
+  MD: 768,
+  LG: 992,
+  XL: 1200,
+});
