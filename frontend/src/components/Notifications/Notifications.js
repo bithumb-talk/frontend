@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { getCurToken } from '../../firebase/firebaseInit';
-import '../../App.css';
 
 const Notifications = () => {
   const [isTokenFound, setTokenFound] = useState(false);

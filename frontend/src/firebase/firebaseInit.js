@@ -12,7 +12,6 @@ const firebaseConfig = initializeApp({
 });
 
 const messaging = getMessaging(firebaseConfig);
-console.log(messaging);
 
 const publicKey = process.env.REACT_APP_VAPID_KEY;
 

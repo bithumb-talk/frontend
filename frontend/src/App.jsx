@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState } from 'react';
 import { onMessageListener } from './firebase/firebaseInit';
 import Router from './router/Router';

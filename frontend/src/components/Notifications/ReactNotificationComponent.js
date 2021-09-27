@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
-import '../../App.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 const ReactNotificationComponent = ({ title, body }) => {
   const hideNotif = title === '';
@@ -12,7 +12,7 @@ const ReactNotificationComponent = ({ title, body }) => {
 
   function Display() {
     return (
-      <div>
+      <div style={{ width: '100px', height: '100px' }}>
         <h4>{title}</h4>
         <p>{body}</p>
       </div>
