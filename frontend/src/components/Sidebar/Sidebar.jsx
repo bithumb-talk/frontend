@@ -25,7 +25,7 @@ const ToggleButton = styled.button`
   left: -74px;
   transform: rotate(-90deg);
   display: ${({ isSidebar }) => (isSidebar ? 'none' : 'block')};
-  transition: 0.5s ease;
+  transition: 0.3s ease;
 `;
 
 function Sidebar({ children, width }) {
@@ -39,7 +39,8 @@ function Sidebar({ children, width }) {
       return;
     }
     setPosition(width);
-    setIsSidebar(false);
+
+    setTimeout(() => setIsSidebar(false), 400);
   };
 
   return (
