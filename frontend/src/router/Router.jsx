@@ -1,6 +1,6 @@
 import { Route, Switch } from 'react-router-dom';
 import {
-  HomeMainPage, LoginPage, MyPage, NotFound,
+  HomeMainPage, SignInPage, SignUpPage, MyPage, NotFound,
 } from '@/pages/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
@@ -12,8 +12,13 @@ const routes = [
     isPrivate: false,
   },
   {
-    path: ROUTE.LOGIN.PATH,
-    component: <LoginPage />,
+    path: ROUTE.SIGNIN.PATH,
+    component: <SignInPage />,
+    isPrivate: false,
+  },
+  {
+    path: ROUTE.SIGNUP.PATH,
+    component: <SignUpPage />,
     isPrivate: false,
   },
   {

@@ -1,0 +1,21 @@
+[debug] [2021-09-27T12:00:11.303Z] ----------------------------------------------------------------------
+[debug] [2021-09-27T12:00:11.304Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\user\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2021-09-27T12:00:11.305Z] CLI Version:   9.18.0
+[debug] [2021-09-27T12:00:11.305Z] Platform:      win32
+[debug] [2021-09-27T12:00:11.305Z] Node Version:  v16.9.1
+[debug] [2021-09-27T12:00:11.306Z] Time:          Mon Sep 27 2021 21:00:11 GMT+0900 (대한민국 표준시)
+[debug] [2021-09-27T12:00:11.306Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2021-09-27T12:00:11.314Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2021-09-27T12:00:11.314Z] > authorizing via signed-in user (sol6252@gmail.com)
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\user\Desktop\프론트엔드 취업\bithumb-talk\frontend\frontend
+

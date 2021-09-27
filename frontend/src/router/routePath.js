@@ -2,8 +2,11 @@ const ROUTE = Object.freeze({
   MAIN: {
     PATH: '/',
   },
-  LOGIN: {
-    PATH: '/login',
+  SIGNIN: {
+    PATH: '/signin',
+  },
+  SIGNUP: {
+    PATH: '/signup',
   },
   MYPAGE: {
     PATH: '/mypage/:username',
