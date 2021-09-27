@@ -5,3 +5,4 @@ export { default as TextEditor } from './Board/TextEditor';
 export { default as TextTitle } from './Board/TextTitle';
 export { default as ComboBox } from './Board/BoardCategory';
 export { default as BoardBottom } from './Board/BoardBottom';
+export { default as CoinCandleStickChart } from './CoinCandleStickChart/CoinCandleStickChart';
