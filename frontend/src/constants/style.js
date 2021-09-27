@@ -18,7 +18,7 @@ export const ORAGNE = Object.freeze({
   // https://mui.com/customization/color/#main-content
 });
 
-export const BREAT_POINT = Object.freeze({
+export const BREAK_POINT = Object.freeze({
   SM: 600,
   MD: 768,
   LG: 992,

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import { BREAK_POINT } from '@/constants/style';
 
 const SidebarContainer = styled.section`
   display: flex;
@@ -9,6 +10,10 @@ const SidebarContainer = styled.section`
   right: 0;
   transform: ${({ position }) => `translateX(${position}px)`};
   transition: 0.3s ease;
+
+  @media only screen and (min-width: ${BREAK_POINT.LG}px) {
+    display: none;
+  }
 `;
 
 const ToggleButton = styled.button`
@@ -19,7 +24,8 @@ const ToggleButton = styled.button`
   position: fixed;
   left: -74px;
   transform: rotate(-90deg);
-  visibility: ${({ isSidebar }) => (isSidebar ? 'hidden' : 'visible')};
+  display: ${({ isSidebar }) => (isSidebar ? 'none' : 'block')};
+  transition: 0.5s ease;
 `;
 
 function Sidebar({ children, width }) {
