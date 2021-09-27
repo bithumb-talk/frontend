@@ -1,7 +1,8 @@
 import { Route, Switch } from 'react-router-dom';
 import {
-  HomeMainPage, SignInPage, SignUpPage, MyPage, NotFound,
+  HomeMainPage, SignInPage, SignUpPage, MyPage, NotFound, CoinInfoPage,
 } from '@/pages/index';
+import { MenuBar } from '@/components/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
@@ -27,6 +28,11 @@ const routes = [
     isPrivate: true,
   },
   {
+    path: ROUTE.COIN.PATH,
+    component: <CoinInfoPage />,
+    isPrivate: false,
+  },
+  {
     path: '*',
     component: <NotFound />,
     isPrivate: false,
@@ -39,9 +45,24 @@ const RouteComponent = routes.map(({ path, component, isPrivate }) => (
     : <PrivateRoute key={path} exact path={path}>{component}</PrivateRoute>));
 
 const Router = () => (
-  <Switch>
-    {RouteComponent}
-  </Switch>
+  <>
+    <Switch>
+      <Route
+        exact
+        path={
+        [
+          ROUTE.MAIN.PATH,
+          ROUTE.COIN.PATH,
+        ]
+      }
+      >
+        <MenuBar />
+      </Route>
+    </Switch>
+    <Switch>
+      {RouteComponent}
+    </Switch>
+  </>
 );
 
 export default Router;

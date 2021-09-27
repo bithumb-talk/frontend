@@ -1,6 +1,10 @@
+import CommonLayout from '@/components/@layout/CommonLayout';
+
 const HomeMainPage = () => (
   <>
-    mainpage 입니다.
+    <CommonLayout>
+      여기에 컴포넌트 추가해주세요
+    </CommonLayout>
   </>
 );
 

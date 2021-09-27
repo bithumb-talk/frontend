@@ -11,6 +11,9 @@ const ROUTE = Object.freeze({
   MYPAGE: {
     PATH: '/mypage/:username',
   },
+  COIN: {
+    PATH: '/coin/:coinname',
+  },
 });
 
 export default ROUTE;
