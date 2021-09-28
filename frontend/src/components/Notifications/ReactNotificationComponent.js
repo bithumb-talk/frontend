@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { ToastContainer, toast } from 'react-toastify';
-import '../../App.css';
 
 const ReactNotificationComponent = ({ title, body }) => {
   const hideNotif = title === '';
