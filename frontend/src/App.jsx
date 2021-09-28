@@ -1,4 +1,3 @@
-import './App.css';
 import React, { useState } from 'react';
 import { onMessageListener } from './firebase/firebaseInit';
 import Router from './router/Router';
@@ -24,7 +23,7 @@ function App() {
     .catch((err) => console.log('failed: ', err));
 
   return (
-    <div className="App">
+    <>
       {show ? (
         <ReactNotificationComponent
           title={notification.title}
@@ -36,7 +35,7 @@ function App() {
       <Notifications />
       <Fader text="Hello React" />
       <Router />
-    </div>
+    </>
   );
 }
 
