@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
+import { CoinDetailInfo } from '@/components/index';
 
 const initialOptions = {
   rangeSelector: {
     selected: 1,
-  },
-  title: {
-    text: 'AAPL Stock Price',
   },
 };
 
@@ -18,10 +16,9 @@ function CoinCandleStickChart() {
     const asyncReq = async () => {
       const res = await fetch('https://demo-live-data.highcharts.com/aapl-ohlc.json');
       const data = await res.json();
-
+      console.log(data);
       const series = [{
         type: 'candlestick',
-        name: 'AAPL Stock Price',
         data,
         dataGrouping: {
           units: [
@@ -43,11 +40,11 @@ function CoinCandleStickChart() {
     };
 
     asyncReq();
-    console.log(chartOptions);
   }, []);
 
   return (
     <>
+      <CoinDetailInfo />
       <HighchartsReact
         highcharts={Highcharts}
         options={chartOptions}
