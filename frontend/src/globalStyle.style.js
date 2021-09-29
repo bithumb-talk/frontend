@@ -74,6 +74,15 @@ const GlobalStyle = () => (
         color: inherit;
         text-decoration: none;
       }
+
+      .fade-in {
+        transition: opacity 1s ease;
+      }
+
+      .fade-out {
+        opacity: 0;
+        transition: opacity 1s ease;
+      }
     `}
   />
 );
