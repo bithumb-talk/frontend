@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
-import { CoinDetailInfo } from '@/components/index';
+import CoinDetailInfo from '../CoinDetailInfo/CoinDetailInfo';
 
 const initialOptions = {
   rangeSelector: {

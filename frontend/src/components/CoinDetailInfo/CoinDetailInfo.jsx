@@ -81,7 +81,7 @@ const CoinDetailTitle = styled.p`
   font-size: 12px;
 `;
 
-function CoinInfoDetailInfo() {
+function CoinDetailInfo() {
   return (
     <section>
       <CoinTitleSection>
@@ -130,4 +130,4 @@ function CoinInfoDetailInfo() {
   );
 }
 
-export default CoinInfoDetailInfo;
+export default CoinDetailInfo;
