@@ -7,6 +7,22 @@ const initialOptions = {
   rangeSelector: {
     selected: 1,
   },
+  plotOptions: {
+    candlestick: {
+      color: 'blue',
+      upColor: 'red',
+    },
+  },
+  navigator: {
+    series: {
+      type: 'area',
+      pointRange: null,
+      dataGrouping: {
+        groupPixelWidth: 1,
+      },
+      color: '#000',
+    },
+  },
 };
 
 function CoinCandleStickChart() {
@@ -16,7 +32,7 @@ function CoinCandleStickChart() {
     const asyncReq = async () => {
       const res = await fetch('https://demo-live-data.highcharts.com/aapl-ohlc.json');
       const data = await res.json();
-      console.log(data);
+
       const series = [{
         type: 'candlestick',
         data,
