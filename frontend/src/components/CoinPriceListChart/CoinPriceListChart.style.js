@@ -5,7 +5,7 @@ import StarBorderIcon from '@mui/icons-material/StarBorder';
 
 export const CoinPriceListContainer = styled('article')({
   width: '400px',
-  height: '100vh',
+  height: '95vh',
   padding: '10px',
   boxShadow: '2px 2px 4px #dee1e7',
   border: '1px solid #eee',

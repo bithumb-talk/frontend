@@ -14,7 +14,6 @@ export const CommonMainArticle = styled.article`
 
 export const CommonContentsSection = styled.section`
   width: 100%;
-  height: 1500px;
   backgroundcolor: #eee;
 `;
 
@@ -22,7 +21,7 @@ export const CoinPriceListChartSection = styled.section`
   display: none;
   position: sticky;
   top: 0;
-  right: 0;
+  right: 20px;
   height: 100vh;
   width: 400px;
 

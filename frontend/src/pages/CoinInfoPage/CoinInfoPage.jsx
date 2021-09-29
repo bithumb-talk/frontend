@@ -1,40 +1,23 @@
 import React from 'react';
+import styled from 'styled-components';
 import CommonLayout from '@/components/@layout/CommonLayout';
-// import { styled } from '@mui/material/styles';
-// import { CoinPriceListChart } from '@/components/index';
+import { CoinCandleStickChart } from '@/components/index';
 
-// const CoinInfoArticle = styled('article')({
-//   position: 'relative',
-//   display: 'flex',
-// });
-
-// const CoinCandleStickChartSection = styled('section')({
-//   width: '990px',
-//   height: '1500px',
-// });
-
-// const CoinPriceListChartSection = styled('section')({
-//   position: 'sticky',
-//   top: '0',
-//   height: '100vh',
-// });
-
-/*
-<CoinInfoArticle>
-  <CoinCandleStickChartSection>
-    <p>차트 영역</p>
-  </CoinCandleStickChartSection>
-  <CoinPriceListChartSection>
-    <CoinPriceListChart />
-  </CoinPriceListChartSection>
-</CoinInfoArticle>
-*/
+const CoinInfoSection = styled.article`
+  padding: 16px;
+  box-shadow: 2px 2px 4px #dee1e7;
+  border: 1px solid #eee;
+  background-color: #fff;
+  width: 98%;
+`;
 
 function CoinInfoPage() {
   return (
     <>
       <CommonLayout>
-        <p>제발...!!!</p>
+        <CoinInfoSection>
+          <CoinCandleStickChart />
+        </CoinInfoSection>
       </CommonLayout>
     </>
   );
