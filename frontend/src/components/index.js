@@ -1,5 +1,6 @@
 export { default as PostCard } from './PostCard/PostCard';
 export { default as MenuBar } from './MenuBar/MenuBar';
+export { default as MenuListDrop } from './MenuBar/MenuListDrop';
 export { default as CoinPriceListChart } from './CoinPriceListChart/CoinPriceListChart';
 
 export { default as TextEditor } from './Board/TextEditor';

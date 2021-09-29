@@ -10,6 +10,24 @@ export const MenuBox = styled((props) => <Box {...props} />)({
   bgcolor: '#fff',
 });
 
+export const MenuBoxList = styled((props) => <Box {...props} />)({
+  borderTop: '2px dashed orange',
+  borderBottom: '2px dashed orange',
+  bgcolor: '#fff',
+  display: 'flex',
+  flexDirection: 'row',
+  alignItems: 'center',
+  justifyContent: 'space-evenly',
+  flexWrap: 'wrap',
+  // justifyContent: 'space-evenly',
+  ':focus-visible': {
+    borderBottom: '2px dashed orange',
+  },
+  ':focus-within': {
+    borderBottom: 'none',
+  },
+});
+
 export const MenuTabs = styled((props) => (
   <Tabs {...props} TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }} />
 ))({
