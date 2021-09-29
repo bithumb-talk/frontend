@@ -1,7 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import { Box } from '@mui/material';
 // import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 
 const CoinTitleSection = styled.div`
@@ -34,11 +33,52 @@ const CustomArrowDropUpIcon = styled(ArrowDropUpIcon)`
 
 const CoinPriceSection = styled.div`
   display: flex;
+  align-items: flex-end;
 `;
 
 const CoinDiffPriceSection = styled.div`
   display: flex;
   align-items: center;
+  margin-top: 10px;
+`;
+
+const CoinPrice = styled.p`
+  font-size: 32px;
+  font-weight: bold;
+`;
+
+const CoinUnit = styled.p`
+  font-size: 10px;
+`;
+
+const CoinUnitGap = styled.p`
+  margin-left: 4px;
+`;
+
+const FlexBox = styled.div`
+  display: flex;
+`;
+
+const FlexBoxDirectionColumn = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const FlexBoxBetween = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+`;
+
+const CoinDetailPriceContainer = styled.div`
+  width: 200px;
+  justify-content: space-around;
+  margin-left: 16px;
+`;
+
+const CoinDetailTitle = styled.p`
+  font-size: 12px;
 `;
 
 function CoinInfoDetailInfo() {
@@ -51,44 +91,40 @@ function CoinInfoDetailInfo() {
       <CoinInfoContainer>
         <div>
           <CoinPriceSection>
-            <p>3,500,000</p>
-            <p>KRW</p>
+            <CoinPrice>3,500,000</CoinPrice>
+            <CoinUnitGap>KRW</CoinUnitGap>
           </CoinPriceSection>
           <CoinDiffPriceSection>
-            <p>전일대비</p>
-            <Box
-              sx={{
-                display: 'flex',
-              }}
-            >
-              <p>1.33%</p>
+            <CoinUnit>전일대비</CoinUnit>
+            <FlexBox>
+              <CoinUnitGap>1.33%</CoinUnitGap>
               <CustomArrowDropUpIcon />
-            </Box>
-            <p>90,000</p>
+            </FlexBox>
+            <CoinUnitGap>90,000</CoinUnitGap>
           </CoinDiffPriceSection>
         </div>
-        <CoinPriceSection>
-          <div>
-            <CoinPriceSection>
-              <p>고가</p>
+        <FlexBoxDirectionColumn>
+          <CoinDetailPriceContainer>
+            <FlexBoxBetween>
+              <CoinDetailTitle>고가</CoinDetailTitle>
               <p>3,631,000</p>
-            </CoinPriceSection>
-            <CoinPriceSection>
-              <p>고가</p>
+            </FlexBoxBetween>
+            <FlexBoxBetween>
+              <CoinDetailTitle>저가</CoinDetailTitle>
               <p>3,631,000</p>
-            </CoinPriceSection>
-          </div>
-          <div>
-            <CoinPriceSection>
-              <p>고가</p>
+            </FlexBoxBetween>
+          </CoinDetailPriceContainer>
+          <CoinDetailPriceContainer>
+            <FlexBoxBetween>
+              <CoinDetailTitle>거래량(24H)</CoinDetailTitle>
               <p>3,631,000</p>
-            </CoinPriceSection>
-            <CoinPriceSection>
-              <p>고가</p>
+            </FlexBoxBetween>
+            <FlexBoxBetween>
+              <CoinDetailTitle>거래대금(24H)</CoinDetailTitle>
               <p>3,631,000</p>
-            </CoinPriceSection>
-          </div>
-        </CoinPriceSection>
+            </FlexBoxBetween>
+          </CoinDetailPriceContainer>
+        </FlexBoxDirectionColumn>
       </CoinInfoContainer>
     </section>
   );
