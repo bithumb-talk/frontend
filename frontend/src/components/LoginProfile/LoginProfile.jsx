@@ -33,7 +33,7 @@ export default function LoginProfile() {
   };
 
   return (
-    <Box sx={{ display: 'flex' }}>
+    <Box sx={{ display: 'flex', margin: '0px 20px 0px 30px' }}>
       <UserProfile nickname={userInfo.nickname} />
 
       <UserInfo>
