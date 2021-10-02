@@ -19,8 +19,8 @@ function CoinPriceListTab() {
   const { tabIndex } = useSelector((state) => state.coinPrice);
   const dispatch = useDispatch();
 
-  const handleChange = (event, newValue) => {
-    dispatch(setTabIndex(newValue));
+  const handleChange = (event, value) => {
+    dispatch(setTabIndex({ value }));
   };
 
   return (
