@@ -18,13 +18,13 @@ export function stringToColor(string) {
   return color;
 }
 
-export function stringAvatar(name) {
+export function stringAvatar(name = 'default') {
   return {
     sx: {
       bgcolor: stringToColor(name),
       width: '70px',
       height: '70px',
     },
-    children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+    children: `${name.slice(0, 2)}`,
   };
 }

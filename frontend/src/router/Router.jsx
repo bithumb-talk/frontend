@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import {
   HomeMainPage, SignInPage, SignUpPage, MyPage, NotFound, CoinInfoPage,
 } from '@/pages/index';
-import { MenuBar, LoginProfile } from '@/components/index';
+import { MenuBar, BranchProfile } from '@/components/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
@@ -62,7 +62,7 @@ const Router = () => (
         }}
         >
           <MenuBar />
-          <LoginProfile />
+          <BranchProfile />
         </Box>
       </Route>
     </Switch>

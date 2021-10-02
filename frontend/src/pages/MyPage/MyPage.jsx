@@ -24,7 +24,7 @@ export default function MyPage() {
 
   const [changeToggle, setchangeToggle] = useState(true);
   const [errorStatus, seterrorStatus] = useState(false);
-  const [newNickname, setnewNickname] = useState(userInfo.nickname);
+  const [newNickname, setnewNickname] = useState(nickname);
 
   const handleInput = async (e) => {
     const newValue = e.target.value;
@@ -60,7 +60,7 @@ export default function MyPage() {
               onChange={handleInput}
             />
             <ChangeButton onClick={clickChangeButton}>
-              {nickname} 변경
+              변경
             </ChangeButton>
           </NicknameBox>
           <PWChangeButton onClick={clickChangeButton}>

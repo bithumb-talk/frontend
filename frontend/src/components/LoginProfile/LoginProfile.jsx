@@ -4,8 +4,8 @@ import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 import { ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+// import { orange } from '@mui/material/colors';
 import { theme } from '../../constants/newColor';
-// import UserAlertModal from './UserAlertModal';
 import {
   UserProfile,
   UserInfo,
@@ -20,10 +20,14 @@ import {
 
 export default function LoginProfile() {
   const [isLogined, setisLogined] = useState(true);
+  const localStorageData = JSON.parse(window.localStorage.getItem('user'));
+
+  const { userId, nickname, profileUrl } = localStorageData;
 
   const userInfo = {
     id: 8,
-    userId: 'bithumb',
+    userId,
+    profileUrl,
     nickname: '빗썸 관리자',
     authority: 'ROLE_USER',
     notifications: 3,
@@ -35,11 +39,11 @@ export default function LoginProfile() {
 
   return (
     <Box sx={{ display: 'flex', margin: '0px 20px 0px 30px' }}>
-      <UserProfile nickname={userInfo.nickname} />
+      <UserProfile nickname={nickname} />
 
       <UserInfo>
         <UserNickname>
-          {userInfo.nickname}
+          {nickname}
         </UserNickname>
         <ThemeProvider theme={theme}>
           <LoginButton
@@ -54,9 +58,9 @@ export default function LoginProfile() {
       </UserInfo>
 
       <UserIcons>
-        <Tooltip title={`${userInfo.nickname}님에게 온 알림`}>
+        <Tooltip title={`${nickname}님에게 온 알림`}>
           <IconWrap size="small">
-            <Badge badgeContent={userInfo.notifications} color="secondary">
+            <Badge badgeContent={userInfo.notifications} color="action">
               { userInfo.notifications > 0 ? <Notifications color="action" /> : <NotificationsNone color="action" />}
             </Badge>
             {/* <UserAlertModal /> */}

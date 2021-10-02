@@ -51,7 +51,9 @@ export default function MenuBar() {
           <MenuTab label="커뮤니티" />
           <MenuTab label="시세 조회" />
           <MenuTab />
-          <MenuTab label="마이페이지" />
+          <Link to="/mypage">
+            <MenuTab label="마이페이지" />
+          </Link>
         </MenuTabs>
       </MenuBox>
     </Box>
