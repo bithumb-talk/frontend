@@ -1,8 +1,9 @@
 import { Route, Switch } from 'react-router-dom';
+import Box from '@mui/material/Box';
 import {
   HomeMainPage, SignInPage, SignUpPage, MyPage, NotFound, CoinInfoPage,
 } from '@/pages/index';
-import { MenuBar } from '@/components/index';
+import { MenuBar, LoginProfile } from '@/components/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
@@ -56,7 +57,13 @@ const Router = () => (
         ]
       }
       >
-        <MenuBar />
+        <Box sx={{
+          display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between',
+        }}
+        >
+          <MenuBar />
+          <LoginProfile />
+        </Box>
       </Route>
     </Switch>
     <Switch>

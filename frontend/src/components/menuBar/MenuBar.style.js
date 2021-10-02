@@ -8,6 +8,17 @@ export const MenuBox = styled((props) => <Box {...props} />)({
   borderTop: '2px dashed orange',
   borderBottom: '2px dashed orange',
   bgcolor: '#fff',
+  boxShadow: '0 2px 12px rgb(53 60 73 / 10%), 0 2px 5px rgb(53 60 73 / 5%)',
+});
+
+export const MenuBoxList = styled((props) => <Box {...props} />)({
+  bgcolor: '#fff',
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  width: '150px',
+  paddingLeft: '15px',
+  position: 'absolute',
 });
 
 export const MenuTabs = styled((props) => (

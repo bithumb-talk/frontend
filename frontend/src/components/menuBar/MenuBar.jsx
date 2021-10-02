@@ -1,20 +1,53 @@
+/* eslint-disable object-curly-newline */
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
-import { MenuBox, MenuTabs, MenuTab } from './MenuBar.style';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import { Link } from 'react-router-dom';
+import { MenuBox, MenuTabs, MenuTab, MenuBoxList } from './MenuBar.style';
 
 export default function MenuBar() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState('');
+  const [open, setOpen] = React.useState(false);
 
-  const handleChange = (event, newValue) => {
+  const expandClick = () => {
+    setOpen(!open);
+    setValue(0);
+  };
+
+  const menuChange = (event, newValue) => {
+    if (newValue === 0) {
+      setOpen(!open);
+    } else {
+      setOpen(false);
+    }
     if (newValue !== 2) {
       setValue(newValue);
     }
   };
 
   return (
-    <Box sx={{ width: '60%' }}>
-      <MenuBox sx={{ width: '100%' }}>
-        <MenuTabs value={value} onChange={handleChange}>
+    <Box sx={{}}>
+      <MenuBox sx={{ width: '540px' }}>
+        <MenuBoxList sx={{ width: '150px' }}>
+          <MenuTab label="-" style={{ zIndex: '-1' }} />
+          <span style={{ zIndex: '10' }}>
+            {open ? <ExpandLess onClick={expandClick} /> : <ExpandMore onClick={expandClick} />}
+          </span>
+          <Collapse style={{ zIndex: '10', background: '#fff' }} in={open} timeout="auto" unmountOnExit>
+            <Link to="/board/all">
+              <MenuTab onClick={expandClick} label="전체" />
+            </Link>
+            <Link to="/board">
+              <MenuTab onClick={expandClick} label="자유게시판" />
+            </Link>
+            <Link to="/board">
+              <MenuTab onClick={expandClick} label="코인초보" />
+            </Link>
+          </Collapse>
+        </MenuBoxList>
+        <MenuTabs value={value} onChange={menuChange}>
           <MenuTab label="커뮤니티" />
           <MenuTab label="시세 조회" />
           <MenuTab />

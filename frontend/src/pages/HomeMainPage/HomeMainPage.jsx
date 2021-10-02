@@ -3,7 +3,7 @@ import CommonLayout from '@/components/@layout/CommonLayout';
 const HomeMainPage = () => (
   <>
     <CommonLayout>
-      <h1>여기에 컴포넌트 추가해주세요</h1>
+      {/* 여기다 추가! */}
     </CommonLayout>
   </>
 );
