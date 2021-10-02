@@ -1,10 +1,10 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import styled from 'styled-components';
 import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
-import { debounce } from 'lodash';
 import { setSearchedCoin } from '@/redux/coinPriceSlice';
+import useDebounce from '@/hooks/useDebounce';
 
 const CoinSearchContainer = styled.div`
   position: relative;
@@ -27,10 +27,11 @@ function CoinSearchSection() {
 
   const dispatchSearchedCoin = (value) => dispatch(setSearchedCoin({ value }));
 
-  const setSearchValueDebounced = useRef(debounce(dispatchSearchedCoin, 300));
+  const setSearchValueDebounce = useDebounce(dispatchSearchedCoin, 300);
+  // const setSearchValueDebounced = useRef(debounce(dispatchSearchedCoin, 300));
 
   const onKeyUpSearchCoin = ({ target: { value } }) => {
-    setSearchValueDebounced.current(value);
+    setSearchValueDebounce.current(value);
   };
   return (
     <section>

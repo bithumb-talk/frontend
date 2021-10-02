@@ -23,8 +23,7 @@ const initialState = {
 export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', async () => {
   // const res = await api.getCoinList();
   const [priceRes, interestsRes] = await Promise.all([await testGetCoinPriceList(), await testGetCoinInterestsList()]);
-  // console.log(priceRes);
-  // console.log(interestsRes);
+
   const newCoinPriceList = priceRes.data.map((coin) => {
     const { korean } = coin;
 
@@ -49,6 +48,12 @@ export const coinPriceSlice = createSlice({
     setTabIndex: (state, action) => {
       const { value } = action.payload;
       state.tabIndex = value;
+
+      if (value === 1) {
+        state.filteredCoinPriceList.data = state.filteredCoinPriceList.data.filter(({ isInterest }) => isInterest);
+        return;
+      }
+      state.filteredCoinPriceList.data = state.coinPriceList.data;
     },
     setSordStatus: (state, action) => {
       const { isSortByDescending, statusName } = state.nameStatus;
@@ -86,6 +91,29 @@ export const coinPriceSlice = createSlice({
 
       state.filteredCoinPriceList.data = filteredNewData;
     },
+    editInterestCoin: (state, action) => {
+      const { symbol: payloadSymbol, isInterest: payloadIsInterest } = action.payload;
+
+      const selectedCoin = state.filteredCoinPriceList.data.find(({ symbol }) => payloadSymbol === symbol);
+
+      const newSelectedCoin = {
+        ...selectedCoin,
+        isInterest: !payloadIsInterest,
+      };
+
+      const newData = state.filteredCoinPriceList.data.map((coin) => {
+        if (payloadSymbol === coin.symbol) {
+          return {
+            ...newSelectedCoin,
+          };
+        }
+        return {
+          ...coin,
+        };
+      });
+
+      state.filteredCoinPriceList.data = [...newData];
+    },
   },
   extraReducers: {
     [getCoinPriceList.pending]: (state) => {
@@ -117,6 +145,6 @@ export const coinPriceSlice = createSlice({
   },
 });
 
-export const { setTabIndex, setSordStatus, setSearchedCoin } = coinPriceSlice.actions;
+export const { setTabIndex, setSordStatus, setSearchedCoin, editInterestCoin } = coinPriceSlice.actions;
 
 export default coinPriceSlice.reducer;

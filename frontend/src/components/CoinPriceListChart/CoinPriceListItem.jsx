@@ -1,11 +1,13 @@
 import React from 'react';
 import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
-// import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
+import { useDispatch } from 'react-redux';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
+import { editInterestCoin } from '@/redux/coinPriceSlice';
+import useDebounce from '@/hooks/useDebounce';
 import {
   CoinListItem,
   TableGrid,
@@ -18,13 +20,25 @@ const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
 function CoinPriceListItem({
   korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest,
 }) {
+  const dispatch = useDispatch();
   const fontColor = Number(chgRate) > 0 ? COLOR.RED : COLOR.BLUE;
+  const dispatchInterestCoin = (currentIsInterst) => dispatch(editInterestCoin({
+    symbol,
+    isInterest: currentIsInterst,
+  }));
+  const editInterestDebounce = useDebounce(dispatchInterestCoin, 100);
+  const onClickStar = () => {
+    editInterestDebounce.current(isInterest);
+  };
   return (
     <CoinListItem>
       <TableGrid
         width="30"
       >
-        <CustomStarBorderIcon sx={{ color: isInterest ? COLOR.MAIN : grey[600] }} />
+        <CustomStarBorderIcon
+          sx={{ color: isInterest ? COLOR.MAIN : grey[600] }}
+          onClick={() => onClickStar()}
+        />
       </TableGrid>
       <TableGrid
         width="94"
