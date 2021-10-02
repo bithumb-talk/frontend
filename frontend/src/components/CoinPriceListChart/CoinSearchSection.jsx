@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import styled from 'styled-components';
 import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
+import { useDispatch } from 'react-redux';
+import { debounce } from 'lodash';
+import { setSearchedCoin } from '@/redux/coinPriceSlice';
 
 const CoinSearchContainer = styled.div`
   position: relative;
@@ -20,6 +23,15 @@ const CustomCloseIcon = styled(CloseIcon)`
 `;
 
 function CoinSearchSection() {
+  const dispatch = useDispatch();
+
+  const dispatchSearchedCoin = (value) => dispatch(setSearchedCoin({ value }));
+
+  const setSearchValueDebounced = useRef(debounce(dispatchSearchedCoin, 300));
+
+  const onKeyUpSearchCoin = ({ target: { value } }) => {
+    setSearchValueDebounced.current(value);
+  };
   return (
     <section>
       <CoinSearchContainer>
@@ -28,6 +40,7 @@ function CoinSearchSection() {
           label="코인명/심볼 검색"
           variant="outlined"
           size="small"
+          onKeyUp={(event) => onKeyUpSearchCoin(event)}
         />
         <CustomCloseIcon />
       </CoinSearchContainer>

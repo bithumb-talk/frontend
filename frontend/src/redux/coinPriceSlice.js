@@ -3,7 +3,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import api from '@/api/api';
 import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
 import { testGetCoinPriceList } from '@/mock/coinListMockData';
-import { copy } from '@/utils/utils';
+import { copy, includeKor, includeEng } from '@/utils/utils';
 
 const initialState = {
   tabIndex: 0,
@@ -54,6 +54,22 @@ export const coinPriceSlice = createSlice({
       });
       state.filteredCoinPriceList.data = newData;
     },
+    setSearchedCoin: (state, action) => {
+      const { value } = action.payload;
+
+      console.log(value);
+
+      if (value === '') {
+        state.filteredCoinPriceList.data = state.coinPriceList.data;
+        return;
+      }
+
+      const filteredNewData = state.coinPriceList.data.filter(
+        ({ korean, symbol }) => includeKor(korean, value) || includeEng(symbol, value),
+      );
+
+      state.filteredCoinPriceList.data = filteredNewData;
+    },
   },
   extraReducers: {
     [getCoinPriceList.pending]: (state) => {
@@ -85,6 +101,6 @@ export const coinPriceSlice = createSlice({
   },
 });
 
-export const { setTabIndex, setSordStatus } = coinPriceSlice.actions;
+export const { setTabIndex, setSordStatus, setSearchedCoin } = coinPriceSlice.actions;
 
 export default coinPriceSlice.reducer;

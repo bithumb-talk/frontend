@@ -7,3 +7,7 @@ export const numberToUnit = (price) => String(price).slice();
 export const copy = (data) => JSON.parse(JSON.stringify(data));
 
 export const stringToUnitPrice = (price) => priceToString(String(price).slice(0, -6));
+
+export const includeKor = (pivot, word) => pivot.includes(word);
+
+export const includeEng = (pivot, word) => pivot.toLowerCase().includes(word.toLowerCase());
