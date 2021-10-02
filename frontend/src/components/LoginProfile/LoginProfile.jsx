@@ -3,6 +3,7 @@ import Box from '@mui/material/Box';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 import { ThemeProvider } from '@mui/material/styles';
+import { Link } from 'react-router-dom';
 import { theme } from '../../constants/newColor';
 // import UserAlertModal from './UserAlertModal';
 import {
@@ -61,9 +62,11 @@ export default function LoginProfile() {
             {/* <UserAlertModal /> */}
           </IconWrap>
         </Tooltip>
-        <IconWrap size="small">
-          <ArrowDropDown color="action" />
-        </IconWrap>
+        <Link to="/mypage">
+          <IconWrap size="small">
+            <ArrowDropDown color="action" />
+          </IconWrap>
+        </Link>
       </UserIcons>
     </Box>
   );

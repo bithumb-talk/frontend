@@ -1,17 +1,25 @@
 import { Box, Button, Typography } from '@mui/material';
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import {
+  useDispatch,
+} from 'react-redux';
+import api from '@/api/api';
+import { setToken } from '@/redux/userInfoSlice';
 import { LockIcon, SignInForm, LoginButton } from './SignInPage.style';
 
 export default function SignInPage() {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
   const [userInput, setUserInput] = useState({
-    userID: '',
-    userPW: '',
+    userId: '',
+    password: '',
   });
 
   const [errorStatus, setErrorStatus] = useState(false);
 
-  const { userID, userPW } = userInput;
+  const { userId, password } = userInput;
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -19,6 +27,18 @@ export default function SignInPage() {
       ...userInput,
       [name]: value,
     });
+  };
+
+  const getSignin = async () => {
+    const res = await api.postSignin(userInput);
+    const userInfo = res.data;
+
+    if (userInfo.status === 'SUCCESS') {
+      history.push('/');
+      dispatch(setToken(userInfo.data.accessToken));
+    } else {
+      setErrorStatus(true);
+    }
   };
 
   return (
@@ -54,19 +74,19 @@ export default function SignInPage() {
         <SignInForm
           required
           fullWidth
-          name="userID"
+          name="userId"
           label="사용자ID"
-          value={userID}
+          value={userId}
           onChange={onChange}
           error={errorStatus}
         />
         <SignInForm
           required
           fullWidth
-          name="userPW"
+          name="password"
           label="비밀번호"
           type="password"
-          value={userPW}
+          value={password}
           onChange={onChange}
           error={errorStatus}
         />
@@ -79,7 +99,14 @@ export default function SignInPage() {
         )
           : <></>}
 
-        <LoginButton fullWidth variant="contained" onClick={() => setErrorStatus(!errorStatus)}>로그인</LoginButton>
+        <LoginButton
+          fullWidth
+          variant="contained"
+          onClick={getSignin}
+        >
+          로그인
+        </LoginButton>
+
         <Box sx={{
           display: 'flex',
           flexDirection: 'row',
