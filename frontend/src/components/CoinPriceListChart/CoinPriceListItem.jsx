@@ -30,6 +30,13 @@ function CoinPriceListItem({
   const onClickStar = () => {
     editInterestDebounce.current(isInterest);
   };
+
+  const setCommaChgAmt = () => (
+    Number(chgAmt) > 1 || Number(chgAmt) < -1
+      ? priceToString(Math.floor(Number(chgAmt)))
+      : chgAmt
+  );
+
   return (
     <CoinListItem>
       <TableGrid
@@ -61,7 +68,7 @@ function CoinPriceListItem({
       >
         <div>
           <CoinFont size="12" color={fontColor}>{chgRate}%</CoinFont>
-          <CoinFont size="12" color={fontColor}>{chgAmt}</CoinFont>
+          <CoinFont size="12" color={fontColor}>{setCommaChgAmt()}</CoinFont>
         </div>
       </TableGrid>
       <TableGrid>
