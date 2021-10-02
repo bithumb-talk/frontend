@@ -1,37 +1,40 @@
-import React from 'react';
-import styled from 'styled-components';
-import { TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { styled, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 import { useDispatch } from 'react-redux';
 import { setSearchedCoin } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
+import { CoinSearchContainer } from './CoinPriceListChart.style';
 
-const CoinSearchContainer = styled.div`
-  position: relative;
-`;
+const CoinSearchInput = styled((props) => <TextField {...props} />)({
+  width: '100%',
+});
 
-const CoinSearchInput = styled((props) => <TextField {...props} />)`
-  width: 100%;
-`;
-
-const CustomCloseIcon = styled(CloseIcon)`
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  fontSize: 16px;
-`;
+const CustomCloseIcon = styled(CloseIcon)({
+  position: 'absolute',
+  right: '10px',
+  top: '50%',
+  transform: 'translateY(-50%)',
+  fontSize: '16px',
+  cursor: 'pointer',
+});
 
 function CoinSearchSection() {
   const dispatch = useDispatch();
+  const [searchCoin, setSearchCoin] = useState('');
 
   const dispatchSearchedCoin = (value) => dispatch(setSearchedCoin({ value }));
 
-  const setSearchValueDebounce = useDebounce(dispatchSearchedCoin, 300);
-  // const setSearchValueDebounced = useRef(debounce(dispatchSearchedCoin, 300));
+  const setSearchValueDebounce = useDebounce(dispatchSearchedCoin, 200);
 
-  const onKeyUpSearchCoin = ({ target: { value } }) => {
-    setSearchValueDebounce.current(value);
+  const onKeyUpSearchCoin = ({ target }) => {
+    setSearchCoin(target.value);
+    setSearchValueDebounce.current(target.value);
+  };
+
+  const onClickResetValue = () => {
+    setSearchValueDebounce.current('');
+    setSearchCoin('');
   };
   return (
     <section>
@@ -41,9 +44,12 @@ function CoinSearchSection() {
           label="코인명/심볼 검색"
           variant="outlined"
           size="small"
-          onKeyUp={(event) => onKeyUpSearchCoin(event)}
+          value={searchCoin}
+          onChange={(event) => onKeyUpSearchCoin(event)}
         />
-        <CustomCloseIcon />
+        <CustomCloseIcon
+          onClick={() => onClickResetValue()}
+        />
       </CoinSearchContainer>
     </section>
   );
