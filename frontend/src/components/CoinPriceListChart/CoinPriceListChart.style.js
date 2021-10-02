@@ -9,10 +9,6 @@ export const CoinPriceListContainer = styled.article`
   background-color: #fff;
 `;
 
-export const CoinSearchContainer = styled.div`
-  position: relative;
-`;
-
 export const CoinPriceInfoTab = styled.div`
   display: flex;
   font-size: 12px;
@@ -49,4 +45,8 @@ export const CoinFont = styled.p`
 export const CoinPriceListSection = styled.section`
   overflow: auto;
   max-height: 60vh;
+`;
+
+export const CoinSearchContainer = styled.div`
+  position: relative;
 `;

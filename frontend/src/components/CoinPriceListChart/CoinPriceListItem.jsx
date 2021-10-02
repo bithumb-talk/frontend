@@ -1,28 +1,51 @@
 import React from 'react';
 import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
-import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import { grey } from '@mui/material/colors';
+import { useDispatch } from 'react-redux';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
+import { editInterestCoin } from '@/redux/coinPriceSlice';
+import useDebounce from '@/hooks/useDebounce';
 import {
   CoinListItem,
   TableGrid,
   CoinFont,
 } from './CoinPriceListChart.style';
 
-const CustomStarBorderIcon = styled((props) => <StarBorderIcon {...props} />)({
+const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
   fontSize: '16px',
 });
 function CoinPriceListItem({
-  korean, symbol, closePrice, chgRate, chgAmt, accTradeValue,
+  korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest,
 }) {
+  const dispatch = useDispatch();
   const fontColor = Number(chgRate) > 0 ? COLOR.RED : COLOR.BLUE;
+  const dispatchInterestCoin = (currentIsInterst) => dispatch(editInterestCoin({
+    symbol,
+    isInterest: currentIsInterst,
+  }));
+  const editInterestDebounce = useDebounce(dispatchInterestCoin, 100);
+  const onClickStar = () => {
+    editInterestDebounce.current(isInterest);
+  };
+
+  const setCommaChgAmt = () => (
+    Number(chgAmt) > 1 || Number(chgAmt) < -1
+      ? priceToString(Math.floor(Number(chgAmt)))
+      : chgAmt
+  );
+
   return (
     <CoinListItem>
       <TableGrid
         width="30"
       >
-        <CustomStarBorderIcon sx={{ color: true ? COLOR.MAIN : '#000' }} />
+        <CustomStarBorderIcon
+          sx={{ color: isInterest ? COLOR.MAIN : grey[600] }}
+          onClick={() => onClickStar()}
+        />
       </TableGrid>
       <TableGrid
         width="94"
@@ -45,7 +68,7 @@ function CoinPriceListItem({
       >
         <div>
           <CoinFont size="12" color={fontColor}>{chgRate}%</CoinFont>
-          <CoinFont size="12" color={fontColor}>{chgAmt}</CoinFont>
+          <CoinFont size="12" color={fontColor}>{setCommaChgAmt()}</CoinFont>
         </div>
       </TableGrid>
       <TableGrid>
@@ -62,6 +85,7 @@ CoinPriceListItem.propTypes = {
   chgRate: PropTypes.string.isRequired,
   chgAmt: PropTypes.string.isRequired,
   accTradeValue: PropTypes.string.isRequired,
+  isInterest: PropTypes.bool.isRequired,
 };
 
 export default CoinPriceListItem;

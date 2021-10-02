@@ -326,7 +326,49 @@ const coinList = {
   ],
 };
 
+const interestsList = {
+  status: 'SUCCESS',
+  message: 'FIND ALL INTEREST SUCCESS',
+  data: [
+    {
+      id: {
+        timestamp: 1632043513,
+        date: '2021-09-19T09:25:13.000+00:00',
+      },
+      symbol: 'LTC',
+      korean: '라이트코인',
+      market: 'LTC_KRW',
+      userId: 1,
+    },
+    {
+      id: {
+        timestamp: 1632043517,
+        date: '2021-09-19T09:25:17.000+00:00',
+      },
+      symbol: 'BTC',
+      korean: '비트코인',
+      market: 'BTC_KRW',
+      userId: 1,
+    },
+    {
+      id: {
+        timestamp: 1632043521,
+        date: '2021-09-19T09:25:21.000+00:00',
+      },
+      symbol: 'ETH',
+      korean: '이더리움',
+      market: 'ETH_KRW',
+      userId: 1,
+    },
+  ],
+};
+
 export const testGetCoinPriceList = async () => {
-  await delay(500);
+  await delay(1000);
   return coinList;
+};
+
+export const testGetCoinInterestsList = async () => {
+  await delay(300);
+  return interestsList;
 };

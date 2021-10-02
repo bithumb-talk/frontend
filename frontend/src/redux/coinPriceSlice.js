@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import { createSlice } from '@reduxjs/toolkit';
 // import api from '@/api/api';
 import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
-import { testGetCoinPriceList } from '@/mock/coinListMockData';
+import { testGetCoinInterestsList, testGetCoinPriceList } from '@/mock/coinListMockData';
 import { copy, includeKor, includeEng } from '@/utils/utils';
 
 const initialState = {
@@ -19,10 +19,26 @@ const initialState = {
   },
 };
 
+/* eslint max-len: ["error", { "code": 150 }] */
 export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', async () => {
   // const res = await api.getCoinList();
-  const res = await testGetCoinPriceList();
-  return res;
+  const [priceRes, interestsRes] = await Promise.all([await testGetCoinPriceList(), await testGetCoinInterestsList()]);
+
+  const newCoinPriceList = priceRes.data.map((coin) => {
+    const { korean } = coin;
+
+    const isEqual = interestsRes.data.some(({ korean: interestKorean }) => korean === interestKorean);
+
+    return {
+      ...coin,
+      isInterest: isEqual,
+    };
+  });
+
+  return {
+    ...priceRes,
+    data: [...newCoinPriceList],
+  };
 });
 
 export const coinPriceSlice = createSlice({
@@ -30,7 +46,14 @@ export const coinPriceSlice = createSlice({
   initialState,
   reducers: {
     setTabIndex: (state, action) => {
-      state.tabIndex = action.payload;
+      const { value } = action.payload;
+      state.tabIndex = value;
+
+      if (value === 1) {
+        state.filteredCoinPriceList.data = state.filteredCoinPriceList.data.filter(({ isInterest }) => isInterest);
+        return;
+      }
+      state.filteredCoinPriceList.data = state.coinPriceList.data;
     },
     setSordStatus: (state, action) => {
       const { isSortByDescending, statusName } = state.nameStatus;
@@ -57,8 +80,6 @@ export const coinPriceSlice = createSlice({
     setSearchedCoin: (state, action) => {
       const { value } = action.payload;
 
-      console.log(value);
-
       if (value === '') {
         state.filteredCoinPriceList.data = state.coinPriceList.data;
         return;
@@ -69,6 +90,29 @@ export const coinPriceSlice = createSlice({
       );
 
       state.filteredCoinPriceList.data = filteredNewData;
+    },
+    editInterestCoin: (state, action) => {
+      const { symbol: payloadSymbol, isInterest: payloadIsInterest } = action.payload;
+
+      const selectedCoin = state.filteredCoinPriceList.data.find(({ symbol }) => payloadSymbol === symbol);
+
+      const newSelectedCoin = {
+        ...selectedCoin,
+        isInterest: !payloadIsInterest,
+      };
+
+      const newData = state.filteredCoinPriceList.data.map((coin) => {
+        if (payloadSymbol === coin.symbol) {
+          return {
+            ...newSelectedCoin,
+          };
+        }
+        return {
+          ...coin,
+        };
+      });
+
+      state.filteredCoinPriceList.data = [...newData];
     },
   },
   extraReducers: {
@@ -101,6 +145,6 @@ export const coinPriceSlice = createSlice({
   },
 });
 
-export const { setTabIndex, setSordStatus, setSearchedCoin } = coinPriceSlice.actions;
+export const { setTabIndex, setSordStatus, setSearchedCoin, editInterestCoin } = coinPriceSlice.actions;
 
 export default coinPriceSlice.reducer;
