@@ -1,7 +1,11 @@
+import { createTheme } from '@mui/material/styles';
+
 export const COLOR = Object.freeze({
   MAIN: '#F37321',
   POINT: '#D53126',
   TYPO: '#444444',
+  RED: '#d60000',
+  BLUE: '#0051c7',
 });
 
 export const ORAGNE = Object.freeze({
@@ -23,4 +27,15 @@ export const BREAK_POINT = Object.freeze({
   MD: 768,
   LG: 992,
   XL: 1200,
+});
+
+export const theme = createTheme({
+  status: {
+    danger: '#e53e3e',
+  },
+  palette: {
+    primary: {
+      main: COLOR.MAIN,
+    },
+  },
 });

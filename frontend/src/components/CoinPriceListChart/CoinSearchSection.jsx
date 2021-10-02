@@ -1,9 +1,4 @@
 import React from 'react';
-// import {
-//   CoinSearchContainer,
-//   CoinSearchInput,
-//   CustomCloseIcon,
-// } from './CoinPriceListChart.style';
 import styled from 'styled-components';
 import { TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
@@ -14,10 +9,6 @@ const CoinSearchContainer = styled.div`
 
 const CoinSearchInput = styled((props) => <TextField {...props} />)`
   width: 100%;
-
-  label {
-    font-size: 10px;
-  }
 `;
 
 const CustomCloseIcon = styled(CloseIcon)`
@@ -33,7 +24,7 @@ function CoinSearchSection() {
     <section>
       <CoinSearchContainer>
         <CoinSearchInput
-          id="outlined-basic"
+          id="outlined-size-small"
           label="코인명/심볼 검색"
           variant="outlined"
           size="small"

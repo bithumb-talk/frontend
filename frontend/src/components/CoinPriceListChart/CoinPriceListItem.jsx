@@ -1,42 +1,67 @@
 import React from 'react';
-import { Box } from '@mui/material';
+import { styled } from '@mui/material';
+import PropTypes from 'prop-types';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
+import { COLOR } from '@/constants/style';
 import {
   CoinListItem,
-  CustomStarBorderIcon,
+  TableGrid,
+  CoinFont,
 } from './CoinPriceListChart.style';
 
-function CoinPriceListItem() {
+const CustomStarBorderIcon = styled((props) => <StarBorderIcon {...props} />)({
+  fontSize: '16px',
+});
+function CoinPriceListItem({
+  korean, symbol, closePrice, chgRate, chgAmt, accTradeValue,
+}) {
+  const fontColor = Number(chgRate) > 0 ? COLOR.RED : COLOR.BLUE;
   return (
     <CoinListItem>
-      <Box sx={{
-        width: 30,
-      }}
+      <TableGrid
+        width="30"
       >
-        <CustomStarBorderIcon />
-      </Box>
-      <Box sx={{
-        width: 94,
-      }}
+        <CustomStarBorderIcon sx={{ color: true ? COLOR.MAIN : '#000' }} />
+      </TableGrid>
+      <TableGrid
+        width="94"
       >
-        <p>비트코인</p>
-      </Box>
-      <Box sx={{
-        width: 88,
-      }}
+        <div>
+          <CoinFont weight="bold">{korean}</CoinFont>
+          <CoinFont size="12" color={COLOR.TYPO}>{symbol}</CoinFont>
+        </div>
+      </TableGrid>
+      <TableGrid
+        width="88"
       >
-        <p>53,612,000</p>
-      </Box>
-      <Box sx={{
-        width: 78,
-      }}
+        <CoinFont
+          color={fontColor}
+        >{priceToString(closePrice)}
+        </CoinFont>
+      </TableGrid>
+      <TableGrid
+        width="78"
       >
-        <p>0.65</p>
-      </Box>
-      <Box>
-        <p>133,831백만</p>
-      </Box>
+        <div>
+          <CoinFont size="12" color={fontColor}>{chgRate}%</CoinFont>
+          <CoinFont size="12" color={fontColor}>{chgAmt}</CoinFont>
+        </div>
+      </TableGrid>
+      <TableGrid>
+        <CoinFont>{stringToUnitPrice(stringToNumber(accTradeValue))}백만</CoinFont>
+      </TableGrid>
     </CoinListItem>
   );
 }
+
+CoinPriceListItem.propTypes = {
+  korean: PropTypes.string.isRequired,
+  symbol: PropTypes.string.isRequired,
+  closePrice: PropTypes.string.isRequired,
+  chgRate: PropTypes.string.isRequired,
+  chgAmt: PropTypes.string.isRequired,
+  accTradeValue: PropTypes.string.isRequired,
+};
 
 export default CoinPriceListItem;

@@ -1,86 +1,39 @@
 import React from 'react';
-import { Box } from '@mui/material';
+// import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import {
-  CoinPriceInfoTab,
-  CoinListItem,
-  CustomStarBorderIcon,
-} from './CoinPriceListChart.style';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { getCoinPriceList } from '@/redux/coinPriceSlice';
 import CoinPriceListItem from './CoinPriceListItem';
+import CoinPriceListSkeleton from './CoinPriceListSkeleton';
+import { CoinPriceListSection } from './CoinPriceListChart.style';
 
 function CoinPriceList() {
-  const tabIndex = useSelector((state) => state.coinPrice.tabIndex);
+  // const tabIndex = useSelector((state) => state.coinPrice.tabIndex);
+  // const dispatch = useDispatch();
+  const { coinPriceList: { isLoading } } = useSelector((state) => state.coinPrice);
+  const { filteredCoinPriceList: { data: coins } } = useSelector((state) => state.coinPrice);
+
+  // const coinListView = coins.map((coin) => (<CoinPriceListItem key={coin.symbol} />));
+
+  if (isLoading) {
+    return (
+      <CoinPriceListSkeleton />
+    );
+  }
+
+  if (!coins) return null;
 
   return (
-    <section>
-      <CoinPriceInfoTab>
-        <Box sx={{
-          width: 30,
-        }}
-        />
-        <Box sx={{
-          width: 94,
-        }}
-        >
-          <p>자산</p>
-        </Box>
-        <Box sx={{
-          width: 88,
-        }}
-        >
-          <p>현재가</p>
-        </Box>
-        <Box sx={{
-          width: 78,
-        }}
-        >
-          <p>변동률</p>
-        </Box>
-        <Box>
-          <p>거래금액</p>
-        </Box>
-      </CoinPriceInfoTab>
-
-      <div>
-        {
-          tabIndex === 0
-            ? (
-              <CoinPriceListItem />
-            )
-            : (
-              <CoinListItem>
-                <Box sx={{
-                  width: 30,
-                }}
-                >
-                  <CustomStarBorderIcon />
-                </Box>
-                <Box sx={{
-                  width: 94,
-                }}
-                >
-                  <p>이더리움</p>
-                </Box>
-                <Box sx={{
-                  width: 88,
-                }}
-                >
-                  <p>53,612,000</p>
-                </Box>
-                <Box sx={{
-                  width: 78,
-                }}
-                >
-                  <p>0.65</p>
-                </Box>
-                <Box>
-                  <p>133,831백만</p>
-                </Box>
-              </CoinListItem>
-            )
-        }
-      </div>
-    </section>
+    <CoinPriceListSection>
+      {
+        coins.map((coin) => (
+          <CoinPriceListItem
+            key={coin.symbol}
+            {...coin}
+          />
+        ))
+      }
+    </CoinPriceListSection>
   );
 }
 
