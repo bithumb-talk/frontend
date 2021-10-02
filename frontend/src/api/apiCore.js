@@ -1,6 +1,8 @@
 import axios from 'axios';
 
 class Core {
+  // getAxios() { return axios; }
+
   async get(url, config = null) {
     try {
       const res = await axios.get(url, config);

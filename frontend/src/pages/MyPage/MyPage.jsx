@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Typography, Box } from '@mui/material';
+import { useSelector } from 'react-redux';
 import {
   UserProfileBox,
   ProfileImage,
@@ -11,6 +12,7 @@ import {
   ContentTitle,
   ContentWrap,
   DivideLine,
+  QuitButton,
 } from './MyPage.style';
 
 export default function MyPage() {
@@ -18,11 +20,13 @@ export default function MyPage() {
     nickname: '솔솔',
   };
 
+  const nickname = useSelector((state) => state.userInfo.token);
+
   const [changeToggle, setchangeToggle] = useState(true);
   const [errorStatus, seterrorStatus] = useState(false);
   const [newNickname, setnewNickname] = useState(userInfo.nickname);
 
-  const handleInput = (e) => {
+  const handleInput = async (e) => {
     const newValue = e.target.value;
     const checkStatus = newValue.length > 10;
 
@@ -56,7 +60,7 @@ export default function MyPage() {
               onChange={handleInput}
             />
             <ChangeButton onClick={clickChangeButton}>
-              변경
+              {nickname} 변경
             </ChangeButton>
           </NicknameBox>
           <PWChangeButton onClick={clickChangeButton}>
@@ -64,7 +68,10 @@ export default function MyPage() {
           </PWChangeButton>
         </UserProfileBox>
 
-        <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
+        <Box sx={{
+          display: 'flex', flexDirection: 'column', width: '100%', marginLeft: '390px', marginRight: '30px',
+        }}
+        >
           <UserContentBox>
             <ContentWrap>
               <ContentTitle>내가 구독한 사람</ContentTitle>
@@ -81,10 +88,11 @@ export default function MyPage() {
 
           <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
             <DivideLine />
-            <Box sx={{ display: 'flex', flexDirection: 'column', width: '100%' }}>
-              <Typography>회원 탈퇴</Typography>
+            <Box sx={{ display: 'flex', width: '100%' }}>
+              <Typography variant="h6"><b>회원 탈퇴</b></Typography>
+              <QuitButton>회원 탈퇴</QuitButton>
             </Box>
-            <Typography sx={{ padding: '20px' }}>탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.</Typography>
+            <Typography color="gray" variant="body2" sx={{ paddingTop: '20px' }}>탈퇴 시 작성하신 포스트 및 댓글이 모두 삭제되며 복구되지 않습니다.</Typography>
           </Box>
         </Box>
       </Box>
