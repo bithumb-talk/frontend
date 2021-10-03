@@ -12,7 +12,7 @@ const ROUTE = Object.freeze({
     PATH: '/mypage',
   },
   COIN: {
-    PATH: '/coin/:coinname',
+    PATH: '/coin/:coinname?',
   },
 });
 

@@ -10,40 +10,40 @@ import PrivateRoute from './PrivateRoute';
 const routes = [
   {
     path: ROUTE.MAIN.PATH,
-    component: <HomeMainPage />,
+    component: (props) => <HomeMainPage {...props} />,
     isPrivate: false,
   },
   {
     path: ROUTE.SIGNIN.PATH,
-    component: <SignInPage />,
+    component: (props) => <SignInPage {...props} />,
     isPrivate: false,
   },
   {
     path: ROUTE.SIGNUP.PATH,
-    component: <SignUpPage />,
+    component: (props) => <SignUpPage {...props} />,
     isPrivate: false,
   },
   {
     path: ROUTE.MYPAGE.PATH,
-    component: <MyPage />,
+    component: (props) => <MyPage {...props} />,
     isPrivate: true,
   },
   {
     path: ROUTE.COIN.PATH,
-    component: <CoinInfoPage />,
+    component: (props) => <CoinInfoPage {...props} />,
     isPrivate: false,
   },
   {
     path: '*',
-    component: <NotFound />,
+    component: (props) => <NotFound {...props} />,
     isPrivate: false,
   },
 ];
 
 const RouteComponent = routes.map(({ path, component, isPrivate }) => (
   isPrivate
-    ? <Route key={path} exact path={path}>{component}</Route>
-    : <PrivateRoute key={path} exact path={path}>{component}</PrivateRoute>));
+    ? <Route key={path} exact path={path} render={(props) => { component(props); }} />
+    : <PrivateRoute key={path} exact path={path} render={(props) => { component(props); }} />));
 
 const Router = () => (
   <>
