@@ -1,4 +1,5 @@
 export { default as PostCard } from './PostCard/PostCard';
+export { default as PostGrid } from './PostGrid/PostGrid';
 export { default as MenuBar } from './MenuBar/MenuBar';
 export { default as BranchProfile } from './LoginProfile/BranchProfile';
 export { default as CoinPriceListChart } from './CoinPriceListChart/CoinPriceListChart';

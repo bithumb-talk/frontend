@@ -4,7 +4,7 @@ import 'react-quill/dist/quill.snow.css';
 // eslint-disable-next-line object-curly-newline
 import { TextEditor, TextTitle, ComboBox, BoardBottom } from '@/components/index';
 
-export default function BoardWrite() {
+export default function BoardWritePage() {
   const [content] = useState('');
   return (
     <div className="board">

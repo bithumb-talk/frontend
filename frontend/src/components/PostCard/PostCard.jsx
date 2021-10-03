@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import proptypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -7,9 +8,10 @@ import {
   CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap,
 } from './PostCard.style';
 
-function PostCard() {
+function PostCard(props) {
+  const { user } = props;
   const content = {
-    board_created_date: '2O21-09-19',
+    board_created_date: user,
     board_content: 'Add 1 cup of frozen peas along with the mussels, if you like Add 1 cup of frozen peas',
     board_img: 'https://source.unsplash.com/random',
     user_nickname: '빗썸',
@@ -21,8 +23,8 @@ function PostCard() {
   };
 
   return (
-    <CardWrap sx={{ maxWidth: 250 }}>
-      <CardMedia component="img" width="250" height="154" image={content.board_img} alt="img" />
+    <CardWrap sx={{}}>
+      <CardMedia component="img" width="225" height="134" image={content.board_img} alt="img" />
       <CardContent height="100">
         <Typography variant="body2" height="100px">
           {content.board_content.length >= 150 ? `${content.board_content.substr(0, 150)}...` : content.board_content}
@@ -54,3 +56,8 @@ function PostCard() {
 }
 
 export default PostCard;
+
+PostCard.propTypes = {
+  // props: PropTypes.elementType.isRequired,
+  user: proptypes.elementType.isRequired,
+};
