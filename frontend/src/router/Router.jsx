@@ -64,10 +64,15 @@ const routes = [
   },
 ];
 
-const RouteComponent = routes.map(({ path, component, isPrivate }) => (
-  isPrivate
-    ? <Route key={path} exact path={path}>{component}</Route>
-    : <PrivateRoute key={path} exact path={path}>{component}</PrivateRoute>));
+const RouteComponent = routes.map(({ path, component, isPrivate }) => (isPrivate ? (
+  <Route key={path} exact path={path}>
+    {component}
+  </Route>
+) : (
+  <PrivateRoute key={path} exact path={path}>
+    {component}
+  </PrivateRoute>
+)));
 
 const Router = () => (
   <>
@@ -76,17 +81,20 @@ const Router = () => (
         exact
         path={[ROUTE.MAIN.PATH, ROUTE.COIN.PATH, ROUTE.BOARDALL.PATH, ROUTE.BOARDWRITE.PATH, ROUTE.BOARDDETAIL.PATH]}
       >
-        <Box sx={{
-          display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
         >
           <Header />
         </Box>
       </Route>
     </Switch>
-    <Switch>
-      {RouteComponent}
-    </Switch>
+    <Switch>{RouteComponent}</Switch>
   </>
 );
 
