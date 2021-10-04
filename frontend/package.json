@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "sybong",
+  "version": "1.22.15",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.3.0",
@@ -81,11 +81,15 @@
     "@storybook/node-logger": "^6.3.8",
     "@storybook/preset-create-react-app": "^3.2.0",
     "@storybook/react": "^6.3.8",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^7.32.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-import": "^2.24.2"
   },
   "resolutions": {
     "babel-loader": "8.1.0"
-  }
+  },
+  "main": "index.js",
+  "license": "MIT"
 }

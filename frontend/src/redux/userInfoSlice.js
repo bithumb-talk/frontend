@@ -1,27 +1,31 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  token: 0,
+  token: '',
+  id: '',
   userId: '',
   nickname: '',
+  profileUrl: '',
+  deviceToken: '',
 };
 
 export const userInfoSlice = createSlice({
   name: 'userInfo',
   initialState,
   reducers: {
-    setToken: (state, action) => {
-      state.token = action.payload;
+    setDeviceToken: (state, action) => {
+      state.deviceToken = action.payload;
     },
-    setUserId: (state, action) => {
-      state.userId = action.payload;
-    },
-    setNickname: (state, action) => {
-      state.nickname = action.payload;
+    setUserInfo: (state, action) => {
+      state.token = action.payload.accessToken;
+      state.userId = action.payload.userId;
+      state.nickname = action.payload.nickname;
+      state.id = action.payload.id;
+      state.profileUrl = action.payload.profileUrl;
     },
   },
 });
 
-export const { setToken, setUserId, setNickname } = userInfoSlice.actions;
+export const { setUserInfo, setDeviceToken } = userInfoSlice.actions;
 
 export default userInfoSlice.reducer;

@@ -31,7 +31,7 @@ export default function MenuBar() {
     <Box sx={{}}>
       <MenuBox sx={{ width: '540px' }}>
         <MenuBoxList sx={{ width: '150px' }}>
-          <MenuTab label="-" style={{ zIndex: '-1' }} />
+          <MenuTab label="" style={{ zIndex: '-1' }} />
           <span style={{ zIndex: '10' }}>
             {open ? <ExpandLess onClick={expandClick} /> : <ExpandMore onClick={expandClick} />}
           </span>
@@ -39,10 +39,10 @@ export default function MenuBar() {
             <Link to="/board/all">
               <MenuTab onClick={expandClick} label="전체" />
             </Link>
-            <Link to="/board">
+            <Link to="/boardwrite">
               <MenuTab onClick={expandClick} label="자유게시판" />
             </Link>
-            <Link to="/board">
+            <Link to="/boardetail">
               <MenuTab onClick={expandClick} label="코인초보" />
             </Link>
           </Collapse>
@@ -51,7 +51,9 @@ export default function MenuBar() {
           <MenuTab label="커뮤니티" />
           <MenuTab label="시세 조회" />
           <MenuTab />
-          <MenuTab label="마이페이지" />
+          <Link to="/mypage">
+            <MenuTab label="마이페이지" />
+          </Link>
         </MenuTabs>
       </MenuBox>
     </Box>

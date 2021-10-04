@@ -33,8 +33,8 @@ function App() {
         <></>
       )}
       <Notifications />
-      <Fader text="Hello React" />
       <Router />
+      <Fader text="Hello React" />
     </>
   );
 }

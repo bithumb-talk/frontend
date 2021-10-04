@@ -12,6 +12,13 @@ export const CardProfile = styled((props) => <Avatar {...props} />)({
 });
 
 export const CardWrap = styled((props) => <Card {...props} />)({
+  width: 'calc(100%)',
+  background: 'white',
+  borderRadius: '4px',
+  margin: '1rem',
+  display: 'flex',
+  flexDirection: 'column',
+  overflow: 'hidden',
   '&:hover': {
     boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',
     transform: 'scale(1.04)',

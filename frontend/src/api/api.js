@@ -1,4 +1,5 @@
 import Core from './apiCore';
+import { authHeader } from './auth-header';
 
 const BASE_URL = '';
 const USER_BASE_URL = 'http://3.38.23.41';
@@ -63,9 +64,21 @@ class Api {
 
     try {
       res = await this.api.post(`${END_POINT.SIGNIN}`, data, null);
-      // const axios = this.api.getAxios;
-      // axios.defaults.withCredentials = true;
-      // axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+
+    return res;
+  }
+
+  async putChangeNickname(data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.put(`${END_POINT.SIGNIN}`, data, ...authHeader);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);

@@ -1,9 +1,18 @@
+/* eslint-disable max-len */
 import { Route, Switch } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import {
-  HomeMainPage, SignInPage, SignUpPage, MyPage, NotFound, CoinInfoPage,
+  HomeMainPage,
+  SignInPage,
+  SignUpPage,
+  MyPage,
+  NotFound,
+  CoinInfoPage,
+  BoardListPage,
+  BoardDetailPage,
+  BoardWritePage,
+  Header,
 } from '@/pages/index';
-import { MenuBar, LoginProfile } from '@/components/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
@@ -34,6 +43,21 @@ const routes = [
     isPrivate: false,
   },
   {
+    path: ROUTE.BOARDALL.PATH,
+    component: <BoardListPage />,
+    isPrivate: false,
+  },
+  {
+    path: ROUTE.BOARDWRITE.PATH,
+    component: <BoardWritePage />,
+    isPrivate: false,
+  },
+  {
+    path: ROUTE.BOARDDETAIL.PATH,
+    component: <BoardDetailPage />,
+    isPrivate: false,
+  },
+  {
     path: '*',
     component: (props) => <NotFound {...props} />,
     isPrivate: false,
@@ -50,25 +74,22 @@ const Router = () => (
     <Switch>
       <Route
         exact
-        path={
-        [
-          ROUTE.MAIN.PATH,
-          ROUTE.COIN.PATH,
-        ]
-      }
+        path={[ROUTE.MAIN.PATH, ROUTE.COIN.PATH, ROUTE.BOARDALL.PATH, ROUTE.BOARDWRITE.PATH, ROUTE.BOARDDETAIL.PATH]}
       >
-        <Box sx={{
-          display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between',
-        }}
+        <Box
+          sx={{
+            display: 'flex',
+            flexDirection: 'row',
+            width: '100%',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+          }}
         >
-          <MenuBar />
-          <LoginProfile />
+          <Header />
         </Box>
       </Route>
     </Switch>
-    <Switch>
-      {RouteComponent}
-    </Switch>
+    <Switch>{RouteComponent}</Switch>
   </>
 );
 
