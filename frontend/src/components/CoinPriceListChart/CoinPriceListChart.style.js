@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
 export const CoinPriceListContainer = styled.article`
   width: 400px;
@@ -49,4 +50,16 @@ export const CoinPriceListSection = styled.section`
 
 export const CoinSearchContainer = styled.div`
   position: relative;
+`;
+
+export const CoinLink = styled(Link)`
+  :hover {
+    text-decoration: underline;
+  }
+`;
+
+export const CoinFontSpan = styled.span`
+  color: ${({ color }) => color};
+  font-weight: ${({ weight }) => weight};
+  font-size: ${({ size }) => `${size}px`};
 `;

@@ -1,127 +1,106 @@
-import React from 'react';
+// import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-// import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
+// import { priceToString } from '@/utils/utils';
+import CoinDetailInfoSkeleton from './CoinDetailInfoSkeleton';
 
-const CoinTitleSection = styled.div`
-  display: flex;
-  align-items: flex-end;
-  border-bottom: .5px solid #eee;
-  padding-bottom: 10px;
-`;
-
-const CoinTitle = styled.h1`
-  font-size: 20px;
-  font-weight: bold;
-`;
-
-const CoinSymbol = styled.p`
-  font-size: 12px;
-  margin-left: 4px;
-`;
-
-const CoinInfoContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  margin: 20px 0;
-`;
+import {
+  CoinTitleSection,
+  CoinTitle,
+  CoinSymbol,
+  CoinInfoContainer,
+  CoinPriceSection,
+  CoinDiffPriceSection,
+  CoinPrice,
+  CoinUnit,
+  CoinUnitGap,
+  FlexBox,
+  FlexBoxDirectionColumn,
+  FlexBoxBetween,
+  CoinDetailPriceContainer,
+  CoinDetailTitle,
+} from './CoinDetailInfo.style';
 
 const CustomArrowDropUpIcon = styled(ArrowDropUpIcon)`
-  font-size: 15px;
+  font-size: 20px;
+  color: red;
+`;
+const CustomArrowDropDownIcon = styled(ArrowDropDownIcon)`
+  font-size: 20px;
   color: blue;
 `;
 
-const CoinPriceSection = styled.div`
-  display: flex;
-  align-items: flex-end;
-`;
+function CoinDetailInfo({ symbol: paylodSymbol }) {
+  const [coinInfo, setCoinInfo] = useState({});
+  const {
+    coinPriceList: { data, isLoading },
+  } = useSelector((state) => state.coinPrice);
 
-const CoinDiffPriceSection = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-`;
+  useEffect(() => {
+    const filterData = () => {
+      const coinDetailInfo = data.find(({ symbol }) => symbol === paylodSymbol);
+      setCoinInfo({ ...coinDetailInfo });
+    };
 
-const CoinPrice = styled.p`
-  font-size: 32px;
-  font-weight: bold;
-`;
+    if (data) {
+      filterData();
+    }
+  }, [paylodSymbol, data]);
 
-const CoinUnit = styled.p`
-  font-size: 10px;
-`;
+  if (isLoading) {
+    return <CoinDetailInfoSkeleton />;
+  }
 
-const CoinUnitGap = styled.p`
-  margin-left: 4px;
-`;
+  if (!data) {
+    return null;
+  }
 
-const FlexBox = styled.div`
-  display: flex;
-`;
-
-const FlexBoxDirectionColumn = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const FlexBoxBetween = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 16px;
-`;
-
-const CoinDetailPriceContainer = styled.div`
-  width: 200px;
-  justify-content: space-around;
-  margin-left: 16px;
-`;
-
-const CoinDetailTitle = styled.p`
-  font-size: 12px;
-`;
-
-function CoinDetailInfo() {
   return (
     <section>
       <CoinTitleSection>
-        <CoinTitle>이더리움</CoinTitle>
-        <CoinSymbol>ETH</CoinSymbol>
+        <CoinTitle>{coinInfo.korean}</CoinTitle>
+        <CoinSymbol>{coinInfo.symbol}</CoinSymbol>
       </CoinTitleSection>
       <CoinInfoContainer>
         <div>
           <CoinPriceSection>
-            <CoinPrice>3,500,000</CoinPrice>
+            <CoinPrice>{coinInfo.closePrice}</CoinPrice>
             <CoinUnitGap>KRW</CoinUnitGap>
           </CoinPriceSection>
           <CoinDiffPriceSection>
             <CoinUnit>전일대비</CoinUnit>
             <FlexBox>
-              <CoinUnitGap>1.33%</CoinUnitGap>
-              <CustomArrowDropUpIcon />
+              <CoinUnitGap>{coinInfo.chgRate}%</CoinUnitGap>
+              {
+                coinInfo.chgRate > 0 ? <CustomArrowDropUpIcon /> : <CustomArrowDropDownIcon />
+              }
             </FlexBox>
-            <CoinUnitGap>90,000</CoinUnitGap>
+            <CoinUnitGap>{coinInfo.chgAmt}</CoinUnitGap>
           </CoinDiffPriceSection>
         </div>
         <FlexBoxDirectionColumn>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>
               <CoinDetailTitle>고가</CoinDetailTitle>
-              <p>3,631,000</p>
+              <p>{coinInfo.maxPrice}</p>
             </FlexBoxBetween>
             <FlexBoxBetween>
               <CoinDetailTitle>저가</CoinDetailTitle>
-              <p>3,631,000</p>
+              <p>{coinInfo.minPrice}</p>
             </FlexBoxBetween>
           </CoinDetailPriceContainer>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>
               <CoinDetailTitle>거래량(24H)</CoinDetailTitle>
-              <p>3,631,000</p>
+              <p>{coinInfo.unitsTraded}</p>
             </FlexBoxBetween>
             <FlexBoxBetween>
               <CoinDetailTitle>거래대금(24H)</CoinDetailTitle>
-              <p>3,631,000</p>
+              <p>{coinInfo.accTradeValue}</p>
             </FlexBoxBetween>
           </CoinDetailPriceContainer>
         </FlexBoxDirectionColumn>
@@ -129,5 +108,9 @@ function CoinDetailInfo() {
     </section>
   );
 }
+
+CoinDetailInfo.propTypes = {
+  symbol: PropTypes.string.isRequired,
+};
 
 export default CoinDetailInfo;

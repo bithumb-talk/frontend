@@ -4,14 +4,18 @@ import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
+// import { Link } from 'react-router-dom';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
 import { editInterestCoin } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
+// import ROUTE from '@/router/routePath';
 import {
   CoinListItem,
   TableGrid,
   CoinFont,
+  CoinLink,
+  CoinFontSpan,
 } from './CoinPriceListChart.style';
 
 const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
@@ -51,7 +55,10 @@ function CoinPriceListItem({
         width="94"
       >
         <div>
-          <CoinFont weight="bold">{korean}</CoinFont>
+          <CoinLink to={`/coin/${symbol}`}>
+            <CoinFontSpan weight="bold">{korean}</CoinFontSpan>
+          </CoinLink>
+          {/* <CoinFont weight="bold"></CoinFont> */}
           <CoinFont size="12" color={COLOR.TYPO}>{symbol}</CoinFont>
         </div>
       </TableGrid>

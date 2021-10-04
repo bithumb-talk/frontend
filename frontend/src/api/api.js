@@ -3,6 +3,7 @@ import { authHeader } from './auth-header';
 
 const BASE_URL = '';
 const USER_BASE_URL = 'http://3.38.23.41';
+const COIN_BASE_URL = 'http://3.35.67.138:5020';
 
 const END_POINT = Object.freeze({
   INTEREST: `${BASE_URL}/interest`,
@@ -11,6 +12,8 @@ const END_POINT = Object.freeze({
   SIGNIN: `${USER_BASE_URL}/auth/login`,
   CHECK_DUPLICATE_USERID: `${USER_BASE_URL}/auth/check-duplicate-user-id`,
   CHECK_DUPLICATE_NICKNAME: `${USER_BASE_URL}/auth/check-duplicate-nickname`,
+  CANDLE_STICK: `${COIN_BASE_URL}/candlestick`,
+  POPULAR_COIN: `${COIN_BASE_URL}/changerate`,
 });
 
 class Api {
@@ -82,6 +85,16 @@ class Api {
     }
 
     console.log(res);
+    return res;
+  }
+
+  async getCandleStick({ symbol, gap }) {
+    const res = await this.api.get(`${END_POINT.CANDLE_STICK}/${symbol}/${gap}`);
+    return res;
+  }
+
+  async getPopularCoin() {
+    const res = await this.api.get(`${END_POINT.POPULAR_COIN}`);
     return res;
   }
 }

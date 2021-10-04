@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCoinPriceList } from '@/redux/coinPriceSlice';
 import CoinSearchSection from './CoinSearchSection';
 import CoinPriceListTab from './CoinPriceListTab';
@@ -11,6 +11,7 @@ import CoinPriceFilterTab from './CoinPriceFilterTab';
 
 function CoinPriceListChart() {
   const dispatch = useDispatch();
+  const { tabIndex } = useSelector((state) => state.coinPrice);
 
   useEffect(() => {
     dispatch(getCoinPriceList());
@@ -22,7 +23,9 @@ function CoinPriceListChart() {
         <section>
           <CoinSearchSection />
           <CoinPriceListTab />
-          <CoinPriceFilterTab />
+          {
+            tabIndex !== 2 && <CoinPriceFilterTab />
+          }
         </section>
         <CoinPriceList />
       </CoinPriceListContainer>
