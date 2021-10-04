@@ -44,17 +44,17 @@ const routes = [
   },
   {
     path: ROUTE.BOARDALL.PATH,
-    component: <BoardListPage />,
+    component: (props) => <BoardListPage {...props} />,
     isPrivate: false,
   },
   {
     path: ROUTE.BOARDWRITE.PATH,
-    component: <BoardWritePage />,
+    component: (props) => <BoardWritePage {...props} />,
     isPrivate: false,
   },
   {
     path: ROUTE.BOARDDETAIL.PATH,
-    component: <BoardDetailPage />,
+    component: (props) => <BoardDetailPage {...props} />,
     isPrivate: false,
   },
   {
