@@ -1,33 +1,12 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-key */
-/* eslint-disable react/no-array-index-key */
-// import Grid from '@mui/material/Grid';
 import React from 'react';
+import PropTypes from 'prop-types';
 import Grid from '@mui/material/Grid';
 import PostCard from '../PostCard/PostCard';
 
-// export default function PostGrid() {
 function PostGrid(props) {
-  console.log(props);
-  const postSample = [
-    {
-      id: 1,
-    },
-    {
-      id: 2,
-    },
-    {
-      id: 3,
-    },
-    {
-      id: 4,
-    },
-    {
-      id: 5,
-    },
-    {
-      id: 6,
-    },
-  ];
+  const postSample = props.postItem;
 
   return (
     <div
@@ -44,7 +23,13 @@ function PostGrid(props) {
       <Grid container spacing={3}>
         {postSample.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12}>
-            <PostCard user={item.id} />
+            <PostCard
+              boardCreatedDate={item.boardCreatedDate}
+              boardImg={item.boardImg}
+              boardContent={item.boardContent}
+              nickname={item.nickname}
+              links={item.links[0].href}
+            />
           </Grid>
         ))}
       </Grid>
@@ -53,3 +38,7 @@ function PostGrid(props) {
 }
 
 export default PostGrid;
+
+PostGrid.propTypes = {
+  postItem: PropTypes.elementType.isRequired,
+};

@@ -15,7 +15,7 @@ const ROUTE = Object.freeze({
     PATH: '/coin/:coinname?',
   },
   BOARDALL: {
-    PATH: '/board/all',
+    PATH: '/board/:name',
   },
   BOARDWRITE: {
     PATH: '/boardwrite',

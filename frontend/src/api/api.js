@@ -4,6 +4,7 @@ import { authHeader } from './auth-header';
 const BASE_URL = '';
 const USER_BASE_URL = 'http://3.38.23.41';
 const COIN_BASE_URL = 'http://3.35.67.138:5020';
+const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
   INTEREST: `${BASE_URL}/interest`,
@@ -14,6 +15,8 @@ const END_POINT = Object.freeze({
   CHECK_DUPLICATE_NICKNAME: `${USER_BASE_URL}/auth/check-duplicate-nickname`,
   CANDLE_STICK: `${COIN_BASE_URL}/candlestick`,
   POPULAR_COIN: `${COIN_BASE_URL}/changerate`,
+  BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
+  BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
 });
 
 class Api {
@@ -95,6 +98,16 @@ class Api {
 
   async getPopularCoin() {
     const res = await this.api.get(`${END_POINT.POPULAR_COIN}`);
+    return res;
+  }
+
+  async getBoardAll() {
+    const res = await this.api.get(`${END_POINT.BOARD_ALL}`);
+    return res;
+  }
+
+  async getBoardCategory(category) {
+    const res = await this.api.get(`${END_POINT.BOARD_CATEGORY}/${category}`);
     return res;
   }
 }

@@ -1,21 +1,21 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import proptypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import {
-  CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap,
-} from './PostCard.style';
+import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
-function PostCard(props) {
-  const { user } = props;
+function PostCard({ boardCreatedDate, boardImg, boardContent, nickname, links }) {
   const content = {
-    board_created_date: user,
-    board_content: 'Add 1 cup of frozen peas along with the mussels, if you like Add 1 cup of frozen peas',
-    board_img: 'https://source.unsplash.com/random',
-    user_nickname: '빗썸',
+    board_created_date: boardCreatedDate,
+    board_content: boardContent,
+    board_img: boardImg,
+    user_nickname: nickname,
+    links,
   };
+  console.log(content.links);
   const [isChecked, setisChecked] = useState(0);
 
   const onClick = () => {
@@ -59,5 +59,5 @@ export default PostCard;
 
 PostCard.propTypes = {
   // props: PropTypes.elementType.isRequired,
-  user: proptypes.elementType.isRequired,
+  boardCreatedDate: proptypes.elementType.isRequired,
 };

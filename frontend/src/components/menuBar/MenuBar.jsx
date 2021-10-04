@@ -1,4 +1,4 @@
-/* eslint-disable object-curly-newline */
+/* eslint-disable max-len */
 import React, { useState } from 'react';
 import Box from '@mui/material/Box';
 import Collapse from '@mui/material/Collapse';
@@ -9,12 +9,19 @@ import { MenuBox, MenuTabs, MenuTab, MenuBoxList } from './MenuBar.style';
 
 export default function MenuBar() {
   const [value, setValue] = useState('');
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   const expandClick = () => {
     setOpen(!open);
     setValue(0);
   };
+
+  const menuData = [
+    { id: 1, link: '/board/all', title: '전체' },
+    { id: 2, link: '/board/talk', title: '자유게시판' },
+    { id: 3, link: '/board/cointalk', title: '코인잡담' },
+    { id: 4, link: '/board/coinBeginner', title: '코인초보' },
+  ];
 
   const menuChange = (event, newValue) => {
     if (newValue === 0) {
@@ -36,15 +43,11 @@ export default function MenuBar() {
             {open ? <ExpandLess onClick={expandClick} /> : <ExpandMore onClick={expandClick} />}
           </span>
           <Collapse style={{ zIndex: '10', background: '#fff' }} in={open} timeout="auto" unmountOnExit>
-            <Link to="/board/all">
-              <MenuTab onClick={expandClick} label="전체" />
-            </Link>
-            <Link to="/boardwrite">
-              <MenuTab onClick={expandClick} label="자유게시판" />
-            </Link>
-            <Link to="/boardetail">
-              <MenuTab onClick={expandClick} label="코인초보" />
-            </Link>
+            {menuData.map((item) => (
+              <Link to={{ pathname: item.link, state: { name: item.title, url: item.link } }} key={item.id}>
+                <MenuTab key={item.id} label={item.title} onClick={expandClick} />
+              </Link>
+            ))}
           </Collapse>
         </MenuBoxList>
         <MenuTabs value={value} onChange={menuChange}>
