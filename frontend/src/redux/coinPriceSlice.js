@@ -4,9 +4,11 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
 import { testGetCoinInterestsList, testGetCoinPriceList } from '@/mock/coinListMockData';
 import { copy, includeKor, includeEng } from '@/utils/utils';
+import api from '@/api/api';
 
 const initialState = {
   tabIndex: 0,
+  selectedCoin: '',
   coinPriceList: {
     data: null,
     ...INITIAL_STATUS,
@@ -16,6 +18,13 @@ const initialState = {
   },
   nameStatus: {
     ...SORT_STATUS,
+  },
+  candleStickTimeDataList: {
+    data: null,
+    ...INITIAL_STATUS,
+  },
+  coinPriceDetailInfo: {
+    data: null,
   },
 };
 
@@ -41,6 +50,30 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
   };
 });
 
+export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async ({ symbol, gap }) => {
+  const { data: originalData } = await api.getCandleStick({ symbol, gap });
+
+  const newData = originalData.data.map(({ baseTime, openPrice, closePrice, highPrice, lowPrice }) => [
+    Number(baseTime),
+    Number(openPrice),
+    Number(highPrice),
+    Number(lowPrice),
+    Number(closePrice),
+  ]);
+
+  console.log(newData);
+
+  return {
+    ...originalData,
+    data: newData,
+  };
+});
+
+export const getPopularCoin = createAsyncThunk('coinPrice/getPopularCoin', async () => {
+  const { data } = await api.getPopularCoin();
+  console.log(data);
+});
+
 export const coinPriceSlice = createSlice({
   name: 'coinPrice',
   initialState,
@@ -53,7 +86,7 @@ export const coinPriceSlice = createSlice({
         state.filteredCoinPriceList.data = state.filteredCoinPriceList.data.filter(({ isInterest }) => isInterest);
         return;
       }
-      state.filteredCoinPriceList.data = state.coinPriceList.data;
+      state.filteredCoinPriceList.data = [...state.coinPriceList.data];
     },
     setSordStatus: (state, action) => {
       const { isSortByDescending, statusName } = state.nameStatus;
@@ -81,7 +114,7 @@ export const coinPriceSlice = createSlice({
       const { value } = action.payload;
 
       if (value === '') {
-        state.filteredCoinPriceList.data = state.coinPriceList.data;
+        state.filteredCoinPriceList.data = [...state.coinPriceList.data];
         return;
       }
 
@@ -89,7 +122,7 @@ export const coinPriceSlice = createSlice({
         ({ korean, symbol }) => includeKor(korean, value) || includeEng(symbol, value),
       );
 
-      state.filteredCoinPriceList.data = filteredNewData;
+      state.filteredCoinPriceList.data = [...filteredNewData];
     },
     editInterestCoin: (state, action) => {
       const { symbol: payloadSymbol, isInterest: payloadIsInterest } = action.payload;
@@ -114,6 +147,12 @@ export const coinPriceSlice = createSlice({
 
       state.filteredCoinPriceList.data = [...newData];
     },
+    // setSelectedCoin: (state, action) => {
+    //   const { symbol: payloadSymbol } = action.payload;
+    //   state.selectedCoin = payloadSymbol;
+    //   // const tmp = state.coinPriceList.data.filter(({ symbol }) => symbol === payloadSymbol);
+    //   // console.log(tmp);
+    // },
   },
   extraReducers: {
     [getCoinPriceList.pending]: (state) => {
@@ -132,6 +171,7 @@ export const coinPriceSlice = createSlice({
         isError: false,
         status: 'success',
       };
+
       state.filteredCoinPriceList.data = action.payload.data;
     },
     [getCoinPriceList.rejected]: (state) => {
@@ -142,9 +182,25 @@ export const coinPriceSlice = createSlice({
         status: 'fail',
       };
     },
+
+    [getCandleStick.fulfilled]: (state, action) => {
+      state.candleStickTimeDataList = {
+        ...state.candleStickTimeDataList,
+        data: action.payload.data,
+        isLoading: false,
+        isError: false,
+        status: 'success',
+      };
+    },
   },
 });
 
-export const { setTabIndex, setSordStatus, setSearchedCoin, editInterestCoin } = coinPriceSlice.actions;
+export const {
+  setTabIndex,
+  setSordStatus,
+  setSearchedCoin,
+  editInterestCoin,
+  setSelectedCoin,
+} = coinPriceSlice.actions;
 
 export default coinPriceSlice.reducer;
