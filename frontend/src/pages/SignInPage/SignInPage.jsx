@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import api from '@/api/api';
-import { setUserInfo } from '@/redux/userInfoSlice';
+import { actLogIn } from '@/redux/userInfoSlice';
 import { LockIcon, SignInForm, LoginButton } from './SignInPage.style';
 
 export default function SignInPage() {
@@ -36,10 +36,7 @@ export default function SignInPage() {
     if (userInfo.status === 'SUCCESS') {
       history.push('/');
 
-      dispatch(setUserInfo(userInfo.data));
-
-      window.localStorage.setItem('user', JSON.stringify(userInfo.data));
-      window.localStorage.setItem('token', userInfo.data.accessToken);
+      dispatch(actLogIn(userInfo.data));
     } else {
       setErrorStatus(true);
     }

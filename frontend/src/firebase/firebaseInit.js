@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getMessaging, getToken, onMessage } from 'firebase/messaging';
+// import api from '@/api/api';
 
 const firebaseConfig = initializeApp({
   apiKey: process.env.REACT_APP_API_KEY,
@@ -21,6 +22,7 @@ export const getCurToken = async (setTokenFound) => {
   try {
     currentToken = await getToken(messaging, { vapidKey: publicKey });
     if (currentToken) {
+      // await postSetDeviceToken()
       setTokenFound(true);
     } else {
       setTokenFound(false);
@@ -31,6 +33,21 @@ export const getCurToken = async (setTokenFound) => {
 
   return currentToken;
 };
+
+// messaging.onTokenRefresh(() => {
+//   getToken(messaging, { vapidKey: publicKey })
+//     .then((refreshedToken) => {
+//       console.log('Token refreshed.');
+//       // Indicate that the new Instance ID token has not yet been sent to the
+//       // app server.
+//       setTokenSentToServer(false);
+//       // Send Instance ID token to app server.
+//       sendTokenToServer(refreshedToken);
+//     // ...
+//     }).catch((err) => {
+//       console.log('Unable to retrieve refreshed token ', err);
+//     });
+// });
 
 export const onMessageListener = () => new Promise((resolve) => {
   onMessage(messaging, (payload) => {

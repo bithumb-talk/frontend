@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 import { ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-// import { orange } from '@mui/material/colors';
+import { useDispatch } from 'react-redux';
+import { actLogOut } from '@/redux/userInfoSlice';
 import { theme } from '../../constants/newColor';
 import {
   UserProfile,
@@ -19,10 +20,14 @@ import {
 } from './LoginProfile.style';
 
 export default function LoginProfile() {
-  const [isLogined, setisLogined] = useState(true);
   const localStorageData = JSON.parse(window.localStorage.getItem('user'));
+  const dispatch = useDispatch();
 
-  const { userId, nickname, profileUrl } = localStorageData;
+  const { userId, nickname, profileUrl } = localStorageData || {
+    userId: '',
+    nickname: '',
+    profileUrl: '',
+  };
 
   const userInfo = {
     id: 8,
@@ -33,8 +38,8 @@ export default function LoginProfile() {
     notifications: 3,
   };
 
-  const loginBtnClick = () => {
-    setisLogined(!isLogined);
+  const loginOutBtnClick = () => {
+    dispatch(actLogOut());
   };
 
   return (
@@ -50,17 +55,17 @@ export default function LoginProfile() {
             color="orange_500"
             size="small"
             variant="contained"
-            onClick={loginBtnClick}
+            onClick={loginOutBtnClick}
           >
-            {isLogined ? 'logout' : 'login'}
+            LOGOUT
           </LoginButton>
         </ThemeProvider>
       </UserInfo>
 
       <UserIcons>
         <Tooltip title={`${nickname}님에게 온 알림`}>
-          <IconWrap size="small">
-            <Badge badgeContent={userInfo.notifications} color="action">
+          <IconWrap size="small" color="action">
+            <Badge badgeContent={userInfo.notifications} color="success">
               { userInfo.notifications > 0 ? <Notifications color="action" /> : <NotificationsNone color="action" />}
             </Badge>
             {/* <UserAlertModal /> */}
