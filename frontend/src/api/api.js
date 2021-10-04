@@ -1,13 +1,13 @@
 import Core from './apiCore';
 import { authHeader } from './auth-header';
 
-const BASE_URL = '';
+// const BASE_URL = '';
 const USER_BASE_URL = 'http://3.38.23.41';
 const COIN_BASE_URL = 'http://3.35.67.138:5020';
 
 const END_POINT = Object.freeze({
-  INTEREST: `${BASE_URL}/interest`,
-  COIN: `${BASE_URL}/quote_init`,
+  INTEREST: `${COIN_BASE_URL}/interest`,
+  COIN: `${COIN_BASE_URL}/quote_init`,
   SIGNUP: `${USER_BASE_URL}/auth/signup`,
   SIGNIN: `${USER_BASE_URL}/auth/login`,
   CHECK_DUPLICATE_USERID: `${USER_BASE_URL}/auth/check-duplicate-user-id`,

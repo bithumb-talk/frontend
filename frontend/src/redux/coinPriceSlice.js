@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import { createSlice } from '@reduxjs/toolkit';
 // import api from '@/api/api';
 import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
-import { testGetCoinInterestsList, testGetCoinPriceList } from '@/mock/coinListMockData';
+import { testGetCoinInterestsList } from '@/mock/coinListMockData';
 import { copy, includeKor, includeEng } from '@/utils/utils';
 import api from '@/api/api';
 
@@ -30,10 +30,11 @@ const initialState = {
 
 /* eslint max-len: ["error", { "code": 150 }] */
 export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', async () => {
-  // const res = await api.getCoinList();
-  const [priceRes, interestsRes] = await Promise.all([await testGetCoinPriceList(), await testGetCoinInterestsList()]);
+  const [priceRes, interestsRes] = await Promise.all([await api.getCoinList(), await testGetCoinInterestsList()]);
 
-  const newCoinPriceList = priceRes.data.map((coin) => {
+  console.log(priceRes);
+
+  const newCoinPriceList = priceRes.data.data.map((coin) => {
     const { korean } = coin;
 
     const isEqual = interestsRes.data.some(({ korean: interestKorean }) => korean === interestKorean);
@@ -67,10 +68,10 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
   };
 });
 
-export const getPopularCoin = createAsyncThunk('coinPrice/getPopularCoin', async () => {
-  const { data } = await api.getPopularCoin();
-  console.log(data);
-});
+// export const getPopularCoin = createAsyncThunk('coinPrice/getPopularCoin', async () => {
+//   const { data } = await api.getPopularCoin();
+//   console.log(data);
+// });
 
 export const coinPriceSlice = createSlice({
   name: 'coinPrice',
@@ -151,6 +152,10 @@ export const coinPriceSlice = createSlice({
     //   // const tmp = state.coinPriceList.data.filter(({ symbol }) => symbol === payloadSymbol);
     //   // console.log(tmp);
     // },
+    updateCoinList: (state, action) => {
+      console.log(1);
+      console.log(action.payload.data);
+    },
   },
   extraReducers: {
     [getCoinPriceList.pending]: (state) => {
@@ -199,6 +204,7 @@ export const {
   setSearchedCoin,
   editInterestCoin,
   setSelectedCoin,
+  updateCoinList,
 } = coinPriceSlice.actions;
 
 export default coinPriceSlice.reducer;
