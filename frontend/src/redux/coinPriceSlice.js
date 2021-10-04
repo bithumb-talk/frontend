@@ -61,8 +61,6 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
     Number(closePrice),
   ]);
 
-  console.log(newData);
-
   return {
     ...originalData,
     data: newData,
