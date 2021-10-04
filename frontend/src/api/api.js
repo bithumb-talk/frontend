@@ -17,6 +17,7 @@ const END_POINT = Object.freeze({
   POPULAR_COIN: `${COIN_BASE_URL}/changerate`,
   BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
   BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
+  BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
 });
 
 class Api {
@@ -108,6 +109,11 @@ class Api {
 
   async getBoardCategory(category) {
     const res = await this.api.get(`${END_POINT.BOARD_CATEGORY}/${category}`);
+    return res;
+  }
+
+  async getBoardDetail(boardNo) {
+    const res = await this.api.get(`${END_POINT.BOARD_DETAIL}/${boardNo}`);
     return res;
   }
 }

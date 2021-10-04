@@ -24,6 +24,7 @@ function PostGrid(props) {
         {postSample.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12}>
             <PostCard
+              boardNo={item.boardNo}
               boardCreatedDate={item.boardCreatedDate}
               boardImg={item.boardImg}
               boardContent={item.boardContent}

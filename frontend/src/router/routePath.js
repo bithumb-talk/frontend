@@ -21,7 +21,7 @@ const ROUTE = Object.freeze({
     PATH: '/boardwrite',
   },
   BOARDDETAIL: {
-    PATH: '/boarddetail',
+    PATH: '/boarddetail/:no',
   },
 });
 

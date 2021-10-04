@@ -4,18 +4,20 @@ import proptypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
+import { Link } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
-function PostCard({ boardCreatedDate, boardImg, boardContent, nickname, links }) {
+function PostCard({ boardNo, boardCreatedDate, boardImg, boardContent, nickname, links }) {
   const content = {
     board_created_date: boardCreatedDate,
     board_content: boardContent,
     board_img: boardImg,
     user_nickname: nickname,
+    linkUrl: `/boarddetail/${boardNo}`,
     links,
   };
-  console.log(content.links);
+
   const [isChecked, setisChecked] = useState(0);
 
   const onClick = () => {
@@ -23,16 +25,17 @@ function PostCard({ boardCreatedDate, boardImg, boardContent, nickname, links })
   };
 
   return (
-    <CardWrap sx={{}}>
-      <CardMedia component="img" width="225" height="134" image={content.board_img} alt="img" />
-      <CardContent height="100">
-        <Typography variant="body2" height="100px">
-          {content.board_content.length >= 150 ? `${content.board_content.substr(0, 150)}...` : content.board_content}
-        </Typography>
-      </CardContent>
+    <CardWrap>
+      <Link to={content.linkUrl}>
+        <CardMedia component="img" width="225" height="134" image={content.board_img} alt="img" />
+        <CardContent height="100">
+          <Typography variant="body2" height="100px">
+            {content.board_content.length >= 150 ? `${content.board_content.substr(0, 150)}...` : content.board_content}
+          </Typography>
+        </CardContent>
+      </Link>
       <CardBottom height="100">
-        <hr />
-        <Grid container spacing={0} alignItems="center">
+        <Grid container spacing={0} alignItems=" center">
           <Grid item xs={2}>
             <CardProfile />
           </Grid>
