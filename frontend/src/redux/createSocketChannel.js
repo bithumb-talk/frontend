@@ -10,6 +10,7 @@ export function createSocketChannel(eventType, buffer, matcher) {
       const emitter = (coin) => emit(coin);
       const webSocket = new SockJs('http://3.35.67.138:5020/subscribe');
       const stompClient = Stomp.over(webSocket);
+      stompClient.debug = () => null;
 
       stompClient.connect({}, () => {
         stompClient.subscribe(eventType, emitter);
