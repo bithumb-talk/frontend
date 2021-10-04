@@ -11,7 +11,7 @@ import { theme } from './constants/style';
 ReactDOM.render(
   <React.StrictMode>
     <ThemeProvider theme={theme}>
-      <Provider store={store}>
+      <Provider store={store()}>
         <BrowserRouter>
           <GlobalStyle />
           <App />
