@@ -12,7 +12,12 @@ export const store = () => {
       coinPrice: coinPriceReducer,
       userInfo: userInfoSlice,
     },
-    middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), sagaMiddleware],
+    middleware: (getDefaultMiddleware) => [
+      ...getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+      sagaMiddleware,
+    ],
   });
 
   sagaMiddleware.run(rootSaga);
