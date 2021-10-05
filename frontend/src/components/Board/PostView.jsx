@@ -1,19 +1,22 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable object-curly-newline */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
 import { ContentLikeButton, ContentLikeIcon, ContentLikeEmptyIcon, ContentLikeEmptyButton } from './Board.style';
 import './BoardDetail.style.css';
 
-export default function PostView() {
-  const title = useState('제목');
-  const [postContent] = useState(
-    '<b> Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. </b>Override the digital divide with additional clickthroughs from DevOps.<br /> Nanotechnology immersion along the information highway will close the loop on focusing solely on the bottom line.',
-  );
-  const [postCatagory] = useState('자유게시판');
-  const [viewCount] = useState(0);
-  const [likeCount] = useState(0);
+export default function PostView(props) {
+  const { postItem } = props;
+  const [title, setTitle] = useState(postItem.boardTitle);
+  const [postName, setName] = useState(postItem.nickname);
+  const [postDate, setDate] = useState(postItem.boardCreatedDate);
+  const [postContent, setContent] = useState(postItem.boardContent);
+  const [postCatagory, setCatagory] = useState(postItem.boardCategory);
+  const [cataogryUrl, setCatagoryUrl] = useState(`/board/${postItem.boardCategory}`);
+  const [viewCount, setViewCnt] = useState(postItem.boardViews);
+  const [likeCount, setLikeCnt] = useState(postItem.boardRecommend);
   const [contentCheck, setContentCheck] = useState(0);
   const [contentCount, setContentCount] = useState(0);
 
@@ -22,16 +25,26 @@ export default function PostView() {
     setContentCount(1 - contentCount);
   };
 
+  useEffect(() => {
+    setTitle(postItem.boardTitle);
+    setName(postItem.nickname);
+    setDate(postItem.boardCreatedDate);
+    setContent(postItem.boardContent);
+    setCatagory(postItem.boardCategory);
+    setCatagoryUrl(`/board/${postItem.boardCategory}`);
+    setViewCnt(postItem.boardViews);
+    setLikeCnt(postItem.boardRecommend);
+  }, [postItem]);
   return (
     <div>
       <div>
-        커뮤니티 <Link href=" ">{postCatagory}</Link>
+        커뮤니티 <Link href={cataogryUrl}>{postCatagory}</Link>
       </div>
       <div className="postTitle">
         <span className="titleText">{title}</span>
         <Grid container spacing={0} alignItems="center">
           <Grid item xs={6} className="postTopInfo">
-            <span>닉네임</span> | <span>2021.10.21</span>
+            <span>{postName}</span> | <span>{postDate}</span>
           </Grid>
           <Grid item xs={6} className="postTopInfo_right">
             <span>조회 {viewCount}</span> | <span>추천 {likeCount}</span>

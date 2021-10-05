@@ -2,32 +2,68 @@ import Core from './apiCore';
 import { authHeader } from './auth-header';
 
 // const BASE_URL = '';
-const USER_BASE_URL = 'http://3.38.23.41';
+const USER_BASE_URL = 'http://3.38.23.41:6030';
 const COIN_BASE_URL = 'http://3.35.67.138:5020';
+const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
   INTEREST: `${COIN_BASE_URL}/interest`,
   COIN: `${COIN_BASE_URL}/quote_init`,
-  SIGNUP: `${USER_BASE_URL}/auth/signup`,
-  SIGNIN: `${USER_BASE_URL}/auth/login`,
-  CHECK_DUPLICATE_USERID: `${USER_BASE_URL}/auth/check-duplicate-user-id`,
-  CHECK_DUPLICATE_NICKNAME: `${USER_BASE_URL}/auth/check-duplicate-nickname`,
   CANDLE_STICK: `${COIN_BASE_URL}/candlestick`,
   POPULAR_COIN: `${COIN_BASE_URL}/changerate`,
+  BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
+  BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
+  BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
+  SIGNUP: `${USER_BASE_URL}/auth/signup`,
+  SIGNIN: `${USER_BASE_URL}/auth/login`,
+  GET_USERINFO: `${USER_BASE_URL}/users/1/info`,
+  CHECK_DUPLICATE_USERID: `${USER_BASE_URL}/auth/check-duplicate-user-id`,
+  CHECK_DUPLICATE_NICKNAME: `${USER_BASE_URL}/auth/check-duplicate-nickname`,
+  CHANGE_NICKNAME: `${USER_BASE_URL}/users/nickname`,
+  CHANGE_PASSWORD: `${USER_BASE_URL}/users/password`,
+  USER_WITHDRAWAL: `${USER_BASE_URL}/users`,
+  SET_DEVICE_TOKEN: `${USER_BASE_URL}/users/device/`,
+  // SIGNUP: '/auth/signup',
+  // SIGNIN: '/auth/login',
+  // GET_USERINFO: '/users/1/info',
+  // CHECK_DUPLICATE_USERID: '/auth/check-duplicate-user-id',
+  // CHECK_DUPLICATE_NICKNAME: '/auth/check-duplicate-nickname',
+  // CHANGE_NICKNAME: '/users/nickname',
+  // CHANGE_PASSWORD: '/users/password',
+  // USER_WITHDRAWAL: '/users',
+  // SET_DEVICE_TOKEN: '/users/device/',
 });
 
 class Api {
   constructor() {
     this.api = new Core();
+    this.config = {
+      headers: {
+        ...authHeader(),
+      },
+    };
   }
 
   async getInterest(userId) {
     const res = await this.api.get(`${END_POINT.INTEREST}/${userId}`);
+
+    // if (res.data.message === 'token') {
+    //   const newRes = await this.api.get(`${END_POINT.INTEREST}/${userId}`);
+    //   // 로컬스토리지로 토큰 바꿔~~~
+    //   // newRes.data.token
+    //   return getInterest(userId);
+    // }
+
     return res;
   }
 
   async getCoinList() {
     const res = await this.api.get(`${END_POINT.COIN}`);
+    return res;
+  }
+
+  async getUserInfo(id) {
+    const res = await this.api.get(`users/${id}/info`);
     return res;
   }
 
@@ -57,6 +93,28 @@ class Api {
     return res;
   }
 
+  async postSetDeviceToken(id, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.SET_DEVICE_TOKEN}/${id}`, data, null);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+
+    console.log(res);
+    return res;
+  }
+
+  async deleteUser(id, password) {
+    const res = await this.api.delete(`${END_POINT.USER_WITHDRAWAL}/${id}/info`, password, this.config, true);
+
+    return res;
+  }
+
   async postSignin(data) {
     let res = {
       data: {},
@@ -72,13 +130,47 @@ class Api {
     return res;
   }
 
-  async putChangeNickname(data) {
+  async putChangePassword(id, password) {
     let res = {
       data: {},
     };
 
     try {
-      res = await this.api.put(`${END_POINT.SIGNIN}`, data, ...authHeader);
+      res = await this.api.put(
+        `${END_POINT.CHANGE_PASSWORD}/${id}`,
+        password,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+
+    console.log(res);
+    return res;
+  }
+
+  async putChangeNickname(id, nickname) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.put(
+        `${END_POINT.CHANGE_NICKNAME}/${id}`,
+        nickname,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -95,6 +187,21 @@ class Api {
 
   async getPopularCoin() {
     const res = await this.api.get(`${END_POINT.POPULAR_COIN}`);
+    return res;
+  }
+
+  async getBoardAll() {
+    const res = await this.api.get(`${END_POINT.BOARD_ALL}`);
+    return res;
+  }
+
+  async getBoardCategory(category) {
+    const res = await this.api.get(`${END_POINT.BOARD_CATEGORY}/${category}`);
+    return res;
+  }
+
+  async getBoardDetail(boardNo) {
+    const res = await this.api.get(`${END_POINT.BOARD_DETAIL}/${boardNo}`);
     return res;
   }
 }

@@ -43,6 +43,7 @@ export const CardBottom = styled((props) => <Box {...props} />)({
   paddingRight: '16px',
   paddingLeft: '16px',
   paddingBottom: '8px',
+  borderTop: '2px dashed orange',
 });
 
 // MuiCardContent-root css-46bh2p-MuiCardContent-root

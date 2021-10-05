@@ -1,16 +1,28 @@
 /* eslint-disable react/no-array-index-key */
-// import Grid from '@mui/material/Grid';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CommonLayout from '@/components/@layout/CommonLayout';
-import { PostGrid } from '@/components/index';
+import PostGrid from '@/components/PostGrid/PostGrid';
+import api from '@/api/api';
 
-const HomeMainPage = () => (
-  <>
+function HomeMainPage() {
+  const [item, setItem] = useState([]);
+
+  const getboardList = async () => {
+    const res = await api.getBoardAll();
+    if (res.data.status === 'SUCCESS') {
+      setItem(res.data.data.content);
+    }
+  };
+
+  useEffect(() => {
+    getboardList();
+  }, []);
+
+  return (
     <CommonLayout>
-      {/* 여기다 추가! */}
-      <PostGrid />
+      <PostGrid postItem={item} />
     </CommonLayout>
-  </>
-);
+  );
+}
 
 export default HomeMainPage;

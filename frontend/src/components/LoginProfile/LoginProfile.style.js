@@ -7,9 +7,18 @@ import { styled } from '@mui/material/styles';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import { stringAvatar } from '../../utils/index';
+// import { stringAvatar } from '../../utils/index';
 
-export const UserProfile = styled((props) => <Avatar {...stringAvatar(props.nickname)} />)({});
+// export const UserProfile = styled((props) => <Avatar {...stringAvatar(props.nickname)} />)({});
+export const UserProfile = styled((props) => (
+  <Avatar
+    sx={{
+      width: '70px',
+      height: '70px',
+    }}
+    {...props}
+  />
+))({});
 
 export const UserInfo = styled((props) => <Box {...props} />)({
   display: 'flex',
