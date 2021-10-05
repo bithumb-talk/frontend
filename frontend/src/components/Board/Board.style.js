@@ -105,7 +105,7 @@ export const SendButtonIcon = styled((props) => <SendIcon {...props} />)({
 export const OutIcon = styled((props) => <ArrowBackIcon {...props} />)({
   width: '0.6em',
 });
-export const CssTextField = styled(TextField)({
+export const CssTextField = styled((props) => <TextField {...props} />)({
   width: '100%',
   '& MuiFormControl-root': {
     width: '100%',

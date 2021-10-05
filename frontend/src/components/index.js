@@ -5,7 +5,7 @@ export { default as BranchProfile } from './LoginProfile/BranchProfile';
 export { default as CoinPriceListChart } from './CoinPriceListChart/CoinPriceListChart';
 export { default as TextEditor } from './Board/TextEditor';
 export { default as TextTitle } from './Board/TextTitle';
-export { default as ComboBox } from './Board/BoardCategory';
+export { default as BoardCategory } from './Board/BoardCategory';
 export { default as BoardBottom } from './Board/BoardBottom';
 export { default as CoinCandleStickChart } from './CoinCandleStickChart/CoinCandleStickChart';
 export { default as CoinDetailInfo } from './CoinDetailInfo/CoinDetailInfo';

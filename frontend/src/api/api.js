@@ -204,6 +204,20 @@ class Api {
     const res = await this.api.get(`${END_POINT.BOARD_DETAIL}/${boardNo}`);
     return res;
   }
+
+  async postBoard(userId, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
 }
 
 const api = new Api();

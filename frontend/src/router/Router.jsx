@@ -10,8 +10,8 @@ import {
   CoinInfoPage,
   BoardListPage,
   BoardDetailPage,
-  BoardWritePage,
   Header,
+  BoardWritePage,
 } from '@/pages/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
