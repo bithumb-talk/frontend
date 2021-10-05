@@ -5,6 +5,7 @@ import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
 import { testGetCoinInterestsList } from '@/mock/coinListMockData';
 import { copy, includeKor, includeEng } from '@/utils/utils';
 import api from '@/api/api';
+import { setNewDataWithSymbol } from '@/utils/reduxUtils';
 
 const initialState = {
   tabIndex: 0,
@@ -31,8 +32,6 @@ const initialState = {
 /* eslint max-len: ["error", { "code": 150 }] */
 export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', async () => {
   const [priceRes, interestsRes] = await Promise.all([await api.getCoinList(), await testGetCoinInterestsList()]);
-
-  console.log(priceRes);
 
   const newCoinPriceList = priceRes.data.data.map((coin) => {
     const { korean } = coin;
@@ -67,11 +66,6 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
     data: newData,
   };
 });
-
-// export const getPopularCoin = createAsyncThunk('coinPrice/getPopularCoin', async () => {
-//   const { data } = await api.getPopularCoin();
-//   console.log(data);
-// });
 
 export const coinPriceSlice = createSlice({
   name: 'coinPrice',
@@ -153,8 +147,42 @@ export const coinPriceSlice = createSlice({
     //   // console.log(tmp);
     // },
     updateCoinList: (state, action) => {
-      console.log(1);
-      console.log(action.payload.data);
+      const { data: payloadData } = action.payload;
+      const { data } = state.coinPriceList;
+      if (!data) return;
+      const copiedData = copy(data);
+      const newData = setNewDataWithSymbol({ payloadData, copiedData });
+      state.coinPriceList.data = [...newData];
+      // console.log(newData);
+      const { data: filteredData } = state.filteredCoinPriceList;
+      if (!filteredData) return;
+      const filteredCopiedData = copy(filteredData);
+      const newFilteredData = setNewDataWithSymbol({
+        payloadData,
+        copiedData: filteredCopiedData,
+      });
+      // console.log(newFilteredData);
+      state.filteredCoinPriceList.data = [...newFilteredData];
+      // const newData = copiedData.map((coin) => {
+      //   const findData = payloadData.find(({ symbol: payloadSymbol }) => `${coin.symbol}_KRW` === payloadSymbol);
+
+      //   if (findData) {
+      //     const { lowPrice, highPrice, value, volume, chgRate, chgAmt, closePrice } = findData;
+      //     return {
+      //       ...coin,
+      //       closePrice,
+      //       chgRate,
+      //       chgAmt,
+      //       accTradeValue: value,
+      //       unitsTraded: volume,
+      //       minPrice: lowPrice,
+      //       maxPrice: highPrice,
+      //     };
+      //   }
+      //   return {
+      //     ...coin,
+      //   };
+      // });
     },
   },
   extraReducers: {
