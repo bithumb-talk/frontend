@@ -2,16 +2,24 @@ import { Route, Redirect } from 'react-router-dom';
 import PropsTypes from 'prop-types';
 import ROUTE from './routePath';
 
-const PrivateRoute = ({ children, ...props }) => {
+const PrivateRoute = ({ component, path }) => {
   const userFlag = true;
 
   return (
-    <Route {...props}>{userFlag ? children : <Redirect to={ROUTE.LOGIN.PATH} />}</Route>
+    <>
+      {
+        userFlag
+          ? <Route path={path} render={(props) => component(props)} />
+          : <Redirect to={ROUTE.LOGIN.PATH} />
+      }
+    </>
+
   );
 };
 
 PrivateRoute.propTypes = {
-  children: PropsTypes.node.isRequired,
+  component: PropsTypes.func.isRequired,
+  path: PropsTypes.string.isRequired,
 };
 
 export default PrivateRoute;
