@@ -10,7 +10,7 @@ import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
 
 export default function BoardWritePage() {
-  const userId = useState(1);
+  const userId = 1;
   const history = useHistory();
   const inputRef = React.useRef();
   const titleRef = React.useRef();
@@ -51,7 +51,6 @@ export default function BoardWritePage() {
   const postSubmit = async () => {
     console.log(postContent);
     const res = await api.postBoard(userId, postContent);
-    console.log(res);
     if (res.data.status === 'SUCCESS') {
       console.log('성공');
     }

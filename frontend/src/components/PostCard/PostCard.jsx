@@ -5,6 +5,7 @@ import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser';
 import Grid from '@mui/material/Grid';
 import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
@@ -18,10 +19,10 @@ function PostCard({ boardNo, boardCreatedDate, boardImg, boardContent, nickname,
     links,
   };
 
-  const [isChecked, setisChecked] = useState(0);
+  const [isChecked, setisChecked] = useState(false);
 
   const onClick = () => {
-    setisChecked(1 - isChecked);
+    setisChecked(!isChecked);
   };
 
   return (
@@ -30,7 +31,9 @@ function PostCard({ boardNo, boardCreatedDate, boardImg, boardContent, nickname,
         <CardMedia component="img" width="225" height="134" image={content.board_img} alt="img" />
         <CardContent height="100">
           <Typography variant="body2" height="100px">
-            {content.board_content.length >= 150 ? `${content.board_content.substr(0, 150)}...` : content.board_content}
+            {content.board_content.length >= 150
+              ? `${ReactHtmlParser(content.board_content.substr(0, 150))}...`
+              : ReactHtmlParser(content.board_content)}
           </Typography>
         </CardContent>
       </Link>
@@ -46,7 +49,7 @@ function PostCard({ boardNo, boardCreatedDate, boardImg, boardContent, nickname,
             <CardInfo>by {content.user_nickname}</CardInfo>
           </Grid>
           <Grid item xs={2}>
-            {isChecked === 0 ? (
+            {isChecked ? (
               <Like className="button red" onClick={onClick} />
             ) : (
               <LikeEmpty className="button" onClick={onClick} />
