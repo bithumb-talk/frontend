@@ -1,5 +1,9 @@
 import styled from 'styled-components';
 
+const FontColor = styled.p`
+  color: ${({ color }) => color};
+`;
+
 export const CoinTitleSection = styled.div`
   display: flex;
   align-items: flex-end;
@@ -34,7 +38,7 @@ export const CoinDiffPriceSection = styled.div`
   margin-top: 10px;
 `;
 
-export const CoinPrice = styled.p`
+export const CoinPrice = styled(FontColor)`
   font-size: 32px;
   font-weight: bold;
 `;
@@ -43,12 +47,17 @@ export const CoinUnit = styled.p`
   font-size: 10px;
 `;
 
-export const CoinUnitGap = styled.p`
+export const CoinDetailPrice = styled(FontColor)`
+  font-size: 14px;
+`;
+
+export const CoinUnitGap = styled(FontColor)`
   margin-left: 4px;
 `;
 
 export const FlexBox = styled.div`
   display: flex;
+  align-items: center;
 `;
 
 export const FlexBoxDirectionColumn = styled.div`
@@ -64,11 +73,17 @@ export const FlexBoxBetween = styled.div`
 `;
 
 export const CoinDetailPriceContainer = styled.div`
-  width: 200px;
+  width: 250px;
   justify-content: space-around;
   margin-left: 16px;
 `;
 
-export const CoinDetailTitle = styled.p`
+export const CoinDetailTitle = styled(FontColor)`
   font-size: 12px;
+`;
+
+export const CoinDetailUnit = styled.span`
+  margin-left: 4px;
+  font-size: 10px;
+  color: #999999;
 `;

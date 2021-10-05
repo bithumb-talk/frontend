@@ -12,6 +12,7 @@ const CoinInfoSection = styled.article`
   border: 1px solid #eee;
   background-color: #fff;
   width: 98%;
+  border-radius: 10px;
 `;
 
 function CoinInfoPage({ match }) {

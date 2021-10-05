@@ -8,6 +8,7 @@ export const CoinPriceListContainer = styled.article`
   box-shadow: 2px 2px 4px #dee1e7;
   border: 1px solid #eee;
   background-color: #fff;
+  border-radius: 10px;
 `;
 
 export const CoinPriceInfoTab = styled.div`
