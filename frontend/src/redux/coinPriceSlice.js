@@ -2,9 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 // import { createSlice } from '@reduxjs/toolkit';
 // import api from '@/api/api';
 import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
-import { testGetCoinInterestsList, testGetCoinPriceList } from '@/mock/coinListMockData';
+import { testGetCoinInterestsList } from '@/mock/coinListMockData';
 import { copy, includeKor, includeEng } from '@/utils/utils';
 import api from '@/api/api';
+import { setNewDataWithSymbol } from '@/utils/reduxUtils';
 
 const initialState = {
   tabIndex: 0,
@@ -30,10 +31,9 @@ const initialState = {
 
 /* eslint max-len: ["error", { "code": 150 }] */
 export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', async () => {
-  // const res = await api.getCoinList();
-  const [priceRes, interestsRes] = await Promise.all([await testGetCoinPriceList(), await testGetCoinInterestsList()]);
+  const [priceRes, interestsRes] = await Promise.all([await api.getCoinList(), await testGetCoinInterestsList()]);
 
-  const newCoinPriceList = priceRes.data.map((coin) => {
+  const newCoinPriceList = priceRes.data.data.map((coin) => {
     const { korean } = coin;
 
     const isEqual = interestsRes.data.some(({ korean: interestKorean }) => korean === interestKorean);
@@ -65,11 +65,6 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
     ...originalData,
     data: newData,
   };
-});
-
-export const getPopularCoin = createAsyncThunk('coinPrice/getPopularCoin', async () => {
-  const { data } = await api.getPopularCoin();
-  console.log(data);
 });
 
 export const coinPriceSlice = createSlice({
@@ -151,6 +146,44 @@ export const coinPriceSlice = createSlice({
     //   // const tmp = state.coinPriceList.data.filter(({ symbol }) => symbol === payloadSymbol);
     //   // console.log(tmp);
     // },
+    updateCoinList: (state, action) => {
+      const { data: payloadData } = action.payload;
+      const { data } = state.coinPriceList;
+      if (!data) return;
+      const copiedData = copy(data);
+      const newData = setNewDataWithSymbol({ payloadData, copiedData });
+      state.coinPriceList.data = [...newData];
+      // console.log(newData);
+      const { data: filteredData } = state.filteredCoinPriceList;
+      if (!filteredData) return;
+      const filteredCopiedData = copy(filteredData);
+      const newFilteredData = setNewDataWithSymbol({
+        payloadData,
+        copiedData: filteredCopiedData,
+      });
+      // console.log(newFilteredData);
+      state.filteredCoinPriceList.data = [...newFilteredData];
+      // const newData = copiedData.map((coin) => {
+      //   const findData = payloadData.find(({ symbol: payloadSymbol }) => `${coin.symbol}_KRW` === payloadSymbol);
+
+      //   if (findData) {
+      //     const { lowPrice, highPrice, value, volume, chgRate, chgAmt, closePrice } = findData;
+      //     return {
+      //       ...coin,
+      //       closePrice,
+      //       chgRate,
+      //       chgAmt,
+      //       accTradeValue: value,
+      //       unitsTraded: volume,
+      //       minPrice: lowPrice,
+      //       maxPrice: highPrice,
+      //     };
+      //   }
+      //   return {
+      //     ...coin,
+      //   };
+      // });
+    },
   },
   extraReducers: {
     [getCoinPriceList.pending]: (state) => {
@@ -199,6 +232,7 @@ export const {
   setSearchedCoin,
   editInterestCoin,
   setSelectedCoin,
+  updateCoinList,
 } = coinPriceSlice.actions;
 
 export default coinPriceSlice.reducer;

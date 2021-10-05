@@ -1,28 +1,33 @@
 import { configureStore } from '@reduxjs/toolkit';
+import createSagaMiddleware from 'redux-saga';
 import coinPriceReducer from './coinPriceSlice';
 import userInfoSlice from './userInfoSlice';
-// import createSagaMiddleware from 'redux-saga';
-// import rootSaga from './coinPriceSaga';
+import rootSaga from './coinPriceSaga';
 
-// const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
-// export const store = () => {
-//   const setStore = configureStore({
-//     reducer: {
-//       coinPrice: coinPriceReducer,
-//       userInfo: userInfoSlice,
-//     },
-//     middleware: (getDefaultMiddleware) => [...getDefaultMiddleware(), sagaMiddleware],
-//   });
+export const store = () => {
+  const setStore = configureStore({
+    reducer: {
+      coinPrice: coinPriceReducer,
+      userInfo: userInfoSlice,
+    },
+    middleware: (getDefaultMiddleware) => [
+      ...getDefaultMiddleware({
+        serializableCheck: false,
+      }),
+      sagaMiddleware,
+    ],
+  });
 
-//   sagaMiddleware.run(rootSaga);
+  sagaMiddleware.run(rootSaga);
 
-//   return setStore;
-// };
+  return setStore;
+};
 
-export const store = configureStore({
-  reducer: {
-    coinPrice: coinPriceReducer,
-    userInfo: userInfoSlice,
-  },
-});
+// export const store = configureStore({
+//   reducer: {
+//     coinPrice: coinPriceReducer,
+//     userInfo: userInfoSlice,
+//   },
+// });

@@ -1,14 +1,14 @@
 import Core from './apiCore';
 import { authHeader } from './auth-header';
 
-const BASE_URL = '';
+// const BASE_URL = '';
 const USER_BASE_URL = 'http://3.38.23.41:6030';
 const COIN_BASE_URL = 'http://3.35.67.138:5020';
 const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
-  INTEREST: `${BASE_URL}/interest`,
-  COIN: `${BASE_URL}/quote_init`,
+  INTEREST: `${COIN_BASE_URL}/interest`,
+  COIN: `${COIN_BASE_URL}/quote_init`,
   CANDLE_STICK: `${COIN_BASE_URL}/candlestick`,
   POPULAR_COIN: `${COIN_BASE_URL}/changerate`,
   BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
@@ -37,11 +37,11 @@ const END_POINT = Object.freeze({
 class Api {
   constructor() {
     this.api = new Core();
-    this.config = ({
+    this.config = {
       headers: {
         ...authHeader(),
       },
-    });
+    };
   }
 
   async getInterest(userId) {
@@ -136,11 +136,16 @@ class Api {
     };
 
     try {
-      res = await this.api.put(`${END_POINT.CHANGE_PASSWORD}/${id}`, password, {
-        headers: {
-          ...authHeader(),
+      res = await this.api.put(
+        `${END_POINT.CHANGE_PASSWORD}/${id}`,
+        password,
+        {
+          headers: {
+            ...authHeader(),
+          },
         },
-      }, true);
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -156,11 +161,16 @@ class Api {
     };
 
     try {
-      res = await this.api.put(`${END_POINT.CHANGE_NICKNAME}/${id}`, nickname, {
-        headers: {
-          ...authHeader(),
+      res = await this.api.put(
+        `${END_POINT.CHANGE_NICKNAME}/${id}`,
+        nickname,
+        {
+          headers: {
+            ...authHeader(),
+          },
         },
-      }, true);
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);

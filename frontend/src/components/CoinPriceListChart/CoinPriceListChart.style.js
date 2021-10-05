@@ -1,3 +1,4 @@
+// import styled, { keyframes } from 'styled-components';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 
@@ -8,6 +9,7 @@ export const CoinPriceListContainer = styled.article`
   box-shadow: 2px 2px 4px #dee1e7;
   border: 1px solid #eee;
   background-color: #fff;
+  border-radius: 10px;
 `;
 
 export const CoinPriceInfoTab = styled.div`
@@ -16,6 +18,12 @@ export const CoinPriceInfoTab = styled.div`
   margin: 10px 0;
 `;
 
+// const blinkBorder = keyframes`
+//   50% {
+//     border: .5px solid #000;
+//   }
+// `;
+
 export const CoinListItem = styled.div`
   display: flex;
   align-items: center;
@@ -23,6 +31,7 @@ export const CoinListItem = styled.div`
   border-top: 0.5px solid #cbcbcb;
   height: 50px;
 `;
+// ${(props) => props.active && `animation: ${blinkBorder} 1s step-end infinite;`}
 
 export const TableGrid = styled.div`
   display: flex;

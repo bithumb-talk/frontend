@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
@@ -24,6 +24,7 @@ const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
 function CoinPriceListItem({
   korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest,
 }) {
+  const [borderColor, setBorderColor] = useState({ flag: false, color: COLOR.TYPO });
   const dispatch = useDispatch();
   const fontColor = Number(chgRate) > 0 ? COLOR.RED : COLOR.BLUE;
   const dispatchInterestCoin = (currentIsInterst) => dispatch(editInterestCoin({
@@ -41,8 +42,20 @@ function CoinPriceListItem({
       : chgAmt
   );
 
+  useEffect(() => {
+    if (chgAmt > 0) {
+      setBorderColor({ flag: true, color: COLOR.RED });
+    } else {
+      setBorderColor({ flag: true, color: COLOR.BLUE });
+    }
+
+    return () => {
+      setBorderColor({ flag: false, color: 'none' });
+    };
+  }, [chgAmt]);
+
   return (
-    <CoinListItem>
+    <CoinListItem active={borderColor.flag} color={borderColor.color}>
       <TableGrid
         width="30"
       >

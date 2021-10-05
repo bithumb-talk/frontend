@@ -7,14 +7,10 @@ const defaultMatcher = () => true;
 export function createSocketChannel(eventType, buffer, matcher) {
   return eventChannel(
     (emit) => {
-      // const emitter = message => emit(message);
-      const emitter = (coin) => {
-        console.log(JSON.parse(coin.body));
-        return emit(coin);
-      };
-
+      const emitter = (coin) => emit(coin);
       const webSocket = new SockJs('http://3.35.67.138:5020/subscribe');
       const stompClient = Stomp.over(webSocket);
+      stompClient.debug = () => null;
 
       stompClient.connect({}, () => {
         stompClient.subscribe(eventType, emitter);

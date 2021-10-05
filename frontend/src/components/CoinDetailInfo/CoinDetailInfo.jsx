@@ -5,7 +5,8 @@ import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-// import { priceToString } from '@/utils/utils';
+import { priceToString, fixNumberDigit } from '@/utils/utils';
+import { COLOR } from '@/constants/style';
 import CoinDetailInfoSkeleton from './CoinDetailInfoSkeleton';
 
 import {
@@ -23,6 +24,8 @@ import {
   FlexBoxBetween,
   CoinDetailPriceContainer,
   CoinDetailTitle,
+  CoinDetailPrice,
+  CoinDetailUnit,
 } from './CoinDetailInfo.style';
 
 const CustomArrowDropUpIcon = styled(ArrowDropUpIcon)`
@@ -35,7 +38,8 @@ const CustomArrowDropDownIcon = styled(ArrowDropDownIcon)`
 `;
 
 function CoinDetailInfo({ symbol: paylodSymbol }) {
-  const [coinInfo, setCoinInfo] = useState({});
+  const [coinInfo, setCoinInfo] = useState(null);
+  const [coinColor, setCoinColor] = useState(COLOR.TYPO);
   const {
     coinPriceList: { data, isLoading },
   } = useSelector((state) => state.coinPrice);
@@ -44,6 +48,7 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
     const filterData = () => {
       const coinDetailInfo = data.find(({ symbol }) => symbol === paylodSymbol);
       setCoinInfo({ ...coinDetailInfo });
+      setCoinColor(coinDetailInfo.chgRate > 0 ? COLOR.RED : COLOR.BLUE);
     };
 
     if (data) {
@@ -55,7 +60,7 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
     return <CoinDetailInfoSkeleton />;
   }
 
-  if (!data) {
+  if (!data || !coinInfo) {
     return null;
   }
 
@@ -68,39 +73,53 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
       <CoinInfoContainer>
         <div>
           <CoinPriceSection>
-            <CoinPrice>{coinInfo.closePrice}</CoinPrice>
-            <CoinUnitGap>KRW</CoinUnitGap>
+            <CoinPrice color={coinColor}>
+              {priceToString(coinInfo.closePrice)}
+            </CoinPrice>
+            <CoinUnitGap color={coinColor}>KRW</CoinUnitGap>
           </CoinPriceSection>
           <CoinDiffPriceSection>
             <CoinUnit>전일대비</CoinUnit>
             <FlexBox>
-              <CoinUnitGap>{coinInfo.chgRate}%</CoinUnitGap>
+              <CoinUnitGap color={coinColor}>{coinInfo.chgRate}%</CoinUnitGap>
               {
                 coinInfo.chgRate > 0 ? <CustomArrowDropUpIcon /> : <CustomArrowDropDownIcon />
               }
             </FlexBox>
-            <CoinUnitGap>{coinInfo.chgAmt}</CoinUnitGap>
+            <CoinUnitGap color={coinColor}>{priceToString(coinInfo.chgAmt)}</CoinUnitGap>
           </CoinDiffPriceSection>
         </div>
         <FlexBoxDirectionColumn>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>
               <CoinDetailTitle>고가</CoinDetailTitle>
-              <p>{coinInfo.maxPrice}</p>
+              <CoinDetailPrice color={COLOR.RED}>
+                {priceToString(coinInfo.maxPrice)}
+                <CoinDetailUnit>KRW</CoinDetailUnit>
+              </CoinDetailPrice>
             </FlexBoxBetween>
             <FlexBoxBetween>
               <CoinDetailTitle>저가</CoinDetailTitle>
-              <p>{coinInfo.minPrice}</p>
+              <CoinDetailPrice color={COLOR.BLUE}>
+                {priceToString(coinInfo.minPrice)}
+                <CoinDetailUnit>KRW</CoinDetailUnit>
+              </CoinDetailPrice>
             </FlexBoxBetween>
           </CoinDetailPriceContainer>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>
               <CoinDetailTitle>거래량(24H)</CoinDetailTitle>
-              <p>{coinInfo.unitsTraded}</p>
+              <CoinDetailPrice>
+                {priceToString(fixNumberDigit(coinInfo.unitsTraded, 3))}
+                <CoinDetailUnit>{coinInfo.symbol}</CoinDetailUnit>
+              </CoinDetailPrice>
             </FlexBoxBetween>
             <FlexBoxBetween>
               <CoinDetailTitle>거래대금(24H)</CoinDetailTitle>
-              <p>{coinInfo.accTradeValue}</p>
+              <CoinDetailPrice>
+                {priceToString(Math.floor(coinInfo.accTradeValue))}
+                <CoinDetailUnit>KRW</CoinDetailUnit>
+              </CoinDetailPrice>
             </FlexBoxBetween>
           </CoinDetailPriceContainer>
         </FlexBoxDirectionColumn>

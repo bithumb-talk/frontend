@@ -12,6 +12,7 @@ const CoinInfoSection = styled.article`
   border: 1px solid #eee;
   background-color: #fff;
   width: 98%;
+  border-radius: 10px;
 `;
 
 function CoinInfoPage({ match }) {
@@ -47,7 +48,9 @@ function CoinInfoPage({ match }) {
 }
 
 CoinInfoPage.propTypes = {
-  match: PropTypes.objectOf(PropTypes.string).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.objectOf(PropTypes.string),
+  }).isRequired,
 };
 
 export default CoinInfoPage;

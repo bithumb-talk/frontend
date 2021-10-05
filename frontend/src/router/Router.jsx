@@ -67,7 +67,7 @@ const routes = [
 const RouteComponent = routes.map(({ path, component, isPrivate }) => (
   isPrivate
     ? <Route key={path} exact path={path} render={(props) => component(props)} />
-    : <PrivateRoute key={path} exact path={path} render={(props) => component(props)} />));
+    : <PrivateRoute key={path} exact path={path} component={component} />));
 
 const Router = () => (
   <>
