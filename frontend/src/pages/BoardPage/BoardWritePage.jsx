@@ -1,16 +1,17 @@
 /* eslint-disable no-unused-vars */
-import React, { useState } from 'react';
 // eslint-disable-next-line object-curly-newline
+import React, { useState } from 'react';
 import Grid from '@mui/material/Grid';
+import { useHistory } from 'react-router-dom';
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
 import { TextEditor, TextTitle, BoardCategory } from '@/components/index';
-// eslint-disable-next-line object-curly-newline
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
 
 export default function BoardWritePage() {
   const userId = useState(1);
+  const history = useHistory();
   const inputRef = React.useRef();
   const titleRef = React.useRef();
   const [postContent, setPostContent] = useState({
@@ -64,6 +65,10 @@ export default function BoardWritePage() {
     await postSubmit();
   };
 
+  const goBack = () => {
+    history.goBack();
+  };
+
   React.useEffect(() => {}, [inputRef]);
 
   return (
@@ -75,7 +80,7 @@ export default function BoardWritePage() {
       <div>
         <Grid container spacing={0} alignItems="center">
           <Grid item xs={6}>
-            <OutButton type="input">
+            <OutButton type="input" onClick={goBack}>
               <OutIcon />
               나가기
             </OutButton>

@@ -82,7 +82,7 @@ const Router = () => (
             flexDirection: 'row',
             width: '100%',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
           }}
         >
           <Header />

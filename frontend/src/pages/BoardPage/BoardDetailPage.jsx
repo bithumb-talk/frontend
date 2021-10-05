@@ -18,11 +18,10 @@ export default function BoardReadDetail() {
 
   useEffect(() => {
     getboardContent(pathname.split('/')[2]);
-    console.log(item, pathname.split('/')[2]);
   }, []);
 
   return (
-    <Grid item xs={12} md={8}>
+    <Grid item xs={12} md={10}>
       <PostContentBody>
         <div style={{ width: '100%' }}>
           <PostView postItem={item} />
