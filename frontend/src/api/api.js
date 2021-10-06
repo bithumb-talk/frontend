@@ -54,12 +54,15 @@ class Api {
   }
 
   async getUserInfo(id) {
-    const res = await this.api.get(`${BASE_URL}/users/${id}/info`,
+    const res = await this.api.get(
+      `${BASE_URL}/users/${id}/info`,
       {
         headers: {
           ...authHeader(),
         },
-      }, true);
+      },
+      true,
+    );
     return res;
   }
 
@@ -95,13 +98,16 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.IMAGE_UPLOAD}/${id}`,
+      res = await this.api.post(
+        `${END_POINT.IMAGE_UPLOAD}/${id}`,
         data,
         {
           headers: {
             ...authHeader(),
           },
-        }, true);
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -235,6 +241,20 @@ class Api {
 
     try {
       res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async postComment(boardNo, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_COMMENT}/${boardNo}/comments`, data);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
