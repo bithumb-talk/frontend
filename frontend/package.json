@@ -1,6 +1,6 @@
 {
-  "name": "sybong",
-  "version": "1.22.15",
+  "name": "youngcha",
+  "version": "0.0.0",
   "private": true,
   "dependencies": {
     "@craco/craco": "^6.3.0",
