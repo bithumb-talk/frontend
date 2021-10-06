@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import { priceToString, fixNumberDigit } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
+import { COIN_UNIT } from '@/constants/coin';
 import CoinDetailInfoSkeleton from './CoinDetailInfoSkeleton';
 
 import {
@@ -26,6 +27,7 @@ import {
   CoinDetailTitle,
   CoinDetailPrice,
   CoinDetailUnit,
+  CoinPriceContainer,
 } from './CoinDetailInfo.style';
 
 const CustomArrowDropUpIcon = styled(ArrowDropUpIcon)`
@@ -71,15 +73,15 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
         <CoinSymbol>{coinInfo.symbol}</CoinSymbol>
       </CoinTitleSection>
       <CoinInfoContainer>
-        <div>
+        <CoinPriceContainer>
           <CoinPriceSection>
             <CoinPrice color={coinColor}>
               {priceToString(coinInfo.closePrice)}
             </CoinPrice>
-            <CoinUnitGap color={coinColor}>KRW</CoinUnitGap>
+            <CoinUnitGap color={coinColor}>{COIN_UNIT.KRW}</CoinUnitGap>
           </CoinPriceSection>
           <CoinDiffPriceSection>
-            <CoinUnit>전일대비</CoinUnit>
+            <CoinUnit>{COIN_UNIT.PREVIOUS_GAP}</CoinUnit>
             <FlexBox>
               <CoinUnitGap color={coinColor}>{coinInfo.chgRate}%</CoinUnitGap>
               {
@@ -88,37 +90,37 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
             </FlexBox>
             <CoinUnitGap color={coinColor}>{priceToString(coinInfo.chgAmt)}</CoinUnitGap>
           </CoinDiffPriceSection>
-        </div>
+        </CoinPriceContainer>
         <FlexBoxDirectionColumn>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>
-              <CoinDetailTitle>고가</CoinDetailTitle>
+              <CoinDetailTitle>{COIN_UNIT.HIGH_PRICE}</CoinDetailTitle>
               <CoinDetailPrice color={COLOR.RED}>
                 {priceToString(coinInfo.maxPrice)}
                 <CoinDetailUnit>KRW</CoinDetailUnit>
               </CoinDetailPrice>
             </FlexBoxBetween>
             <FlexBoxBetween>
-              <CoinDetailTitle>저가</CoinDetailTitle>
+              <CoinDetailTitle>{COIN_UNIT.LOW_PRICE}</CoinDetailTitle>
               <CoinDetailPrice color={COLOR.BLUE}>
                 {priceToString(coinInfo.minPrice)}
-                <CoinDetailUnit>KRW</CoinDetailUnit>
+                <CoinDetailUnit>{COIN_UNIT.KRW}</CoinDetailUnit>
               </CoinDetailPrice>
             </FlexBoxBetween>
           </CoinDetailPriceContainer>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>
-              <CoinDetailTitle>거래량(24H)</CoinDetailTitle>
+              <CoinDetailTitle>{COIN_UNIT.TRADING_VOLUME}(24H)</CoinDetailTitle>
               <CoinDetailPrice>
                 {priceToString(fixNumberDigit(coinInfo.unitsTraded, 3))}
                 <CoinDetailUnit>{coinInfo.symbol}</CoinDetailUnit>
               </CoinDetailPrice>
             </FlexBoxBetween>
             <FlexBoxBetween>
-              <CoinDetailTitle>거래대금(24H)</CoinDetailTitle>
+              <CoinDetailTitle>{COIN_UNIT.TRADING_PRICE}(24H)</CoinDetailTitle>
               <CoinDetailPrice>
                 {priceToString(Math.floor(coinInfo.accTradeValue))}
-                <CoinDetailUnit>KRW</CoinDetailUnit>
+                <CoinDetailUnit>{COIN_UNIT.KRW}</CoinDetailUnit>
               </CoinDetailPrice>
             </FlexBoxBetween>
           </CoinDetailPriceContainer>

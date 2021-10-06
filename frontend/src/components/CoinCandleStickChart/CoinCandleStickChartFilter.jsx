@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import { Button, ButtonGroup } from '@mui/material';
 import { getCandleStick } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
-// import styled from 'styled-components';
+import { COIN_CHART_GAP } from '@/constants/coin';
 
 function CoinCandleStickChartFilter({ symbol }) {
   const dispatch = useDispatch();
@@ -14,12 +15,12 @@ function CoinCandleStickChartFilter({ symbol }) {
   };
 
   return (
-    <div>
-      <button type="button" onClick={() => onClickButton('10m')}>10분</button>
-      <button type="button" onClick={() => onClickButton('30m')}>30분</button>
-      <button type="button" onClick={() => onClickButton('1h')}>1시간</button>
-      <button type="button" onClick={() => onClickButton('24h')}>1일</button>
-    </div>
+    <ButtonGroup color="primary" size="small" aria-label="small button group">
+      <Button key="10m" type="button" onClick={() => onClickButton(COIN_CHART_GAP.TEN.UNIT)}>{COIN_CHART_GAP.TEN.TITLE}</Button>
+      <Button key="30m" type="button" onClick={() => onClickButton(COIN_CHART_GAP.THIRTY.UNIT)}>{COIN_CHART_GAP.THIRTY.TITLE}</Button>
+      <Button key="1h" type="button" onClick={() => onClickButton(COIN_CHART_GAP.HOUR.UNIT)}>{COIN_CHART_GAP.HOUR.TITLE}</Button>
+      <Button key="24h" type="button" onClick={() => onClickButton(COIN_CHART_GAP.DAY.UNIT)}>{COIN_CHART_GAP.DAY.TITLE}</Button>
+    </ButtonGroup>
   );
 }
 

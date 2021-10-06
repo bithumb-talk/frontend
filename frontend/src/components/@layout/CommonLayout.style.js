@@ -3,12 +3,14 @@ import { BREAK_POINT } from '@/constants/style';
 
 export const CommonMainArticle = styled.article`
   position: relative;
-  display: block;
+  display: flex;
   width: 1400px;
   margin: 20px auto 0;
 
-  @media only screen and (min-width: ${BREAK_POINT.LG}px) {
-    display: flex;
+  @media only screen and (max-width: ${BREAK_POINT.LG}px) {
+    display: block;
+    width: 100%;
+    padding: 0 22px;
   }
 `;
 

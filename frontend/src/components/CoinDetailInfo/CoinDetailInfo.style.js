@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { BREAK_POINT } from '@/constants/style';
 
 const FontColor = styled.p`
   color: ${({ color }) => color};
@@ -25,6 +26,16 @@ export const CoinInfoContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 20px 0;
+
+  @media only screen and (max-width: ${BREAK_POINT.XS}px) {
+    flex-direction: column;
+  }
+`;
+
+export const CoinPriceContainer = styled.div`
+  @media only screen and (max-width: ${BREAK_POINT.XS}px) {
+    margin-bottom: 50px;
+  }
 `;
 
 export const CoinPriceSection = styled.div`
@@ -76,6 +87,11 @@ export const CoinDetailPriceContainer = styled.div`
   width: 250px;
   justify-content: space-around;
   margin-left: 16px;
+
+  @media only screen and (max-width: ${BREAK_POINT.XS}px) {
+    width: 100%;
+    margin-left: 0;
+  }
 `;
 
 export const CoinDetailTitle = styled(FontColor)`

@@ -23,6 +23,7 @@ export const ORAGNE = Object.freeze({
 });
 
 export const BREAK_POINT = Object.freeze({
+  XS: 414,
   SM: 600,
   MD: 768,
   LG: 992,

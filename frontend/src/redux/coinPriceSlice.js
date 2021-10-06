@@ -52,6 +52,8 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
 
 export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async ({ symbol, gap }) => {
   const { data: originalData } = await api.getCandleStick({ symbol, gap });
+  // console.log(1);
+  // console.log(originalData);
 
   const newData = originalData.data.map(({ baseTime, openPrice, closePrice, highPrice, lowPrice }) => [
     Number(baseTime),
@@ -60,6 +62,9 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
     Number(lowPrice),
     Number(closePrice),
   ]);
+
+  // console.log(2);
+  // console.log(newData);
 
   return {
     ...originalData,
@@ -214,6 +219,14 @@ export const coinPriceSlice = createSlice({
       };
     },
 
+    [getCandleStick.pending]: (state) => {
+      state.candleStickTimeDataList = {
+        ...state.candleStickTimeDataList,
+        isLoading: true,
+        isError: false,
+        status: 'loading',
+      };
+    },
     [getCandleStick.fulfilled]: (state, action) => {
       state.candleStickTimeDataList = {
         ...state.candleStickTimeDataList,
@@ -221,6 +234,14 @@ export const coinPriceSlice = createSlice({
         isLoading: false,
         isError: false,
         status: 'success',
+      };
+    },
+    [getCandleStick.rejected]: (state) => {
+      state.candleStickTimeDataList = {
+        ...state.candleStickTimeDataList,
+        isLoading: false,
+        isError: true,
+        status: 'fail',
       };
     },
   },
