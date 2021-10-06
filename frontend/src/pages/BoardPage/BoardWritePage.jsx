@@ -32,17 +32,24 @@ export default function BoardWritePage() {
 
   const onCategoryChange = (e) => {
     const { innerText } = e.target;
-    const categoryList = [
-      { name: 'talk', label: '자유게시판' },
-      { name: 'cointalk', label: '코인잡담' },
-      { name: 'coinBeginner', label: '코인초보' },
-    ];
+    if (innerText) {
+      const categoryList = [
+        { name: 'talk', label: '자유게시판' },
+        { name: 'cointalk', label: '코인잡담' },
+        { name: 'coinBeginner', label: '코인초보' },
+      ];
 
-    const pick = categoryList.filter((item) => item.label === innerText)[0].name;
-    setPostContent({
-      ...postContent,
-      boardCategory: pick,
-    });
+      const pick = categoryList.filter((item) => item.label === innerText)[0].name;
+      setPostContent({
+        ...postContent,
+        boardCategory: pick,
+      });
+    } else {
+      setPostContent({
+        ...postContent,
+        boardCategory: '',
+      });
+    }
   };
 
   const postSubmit = async () => {
@@ -60,7 +67,7 @@ export default function BoardWritePage() {
     const editorContent = inputRef.current.state.value;
 
     let imgUrl = '';
-    if (editorContent.indexOf('<img') !== -1) {
+    if (!!editorContent && editorContent.indexOf('<img') !== -1) {
       const textGroup = ReactHtmlParser(editorContent)[0].props.children;
       textGroup.forEach((item) => {
         if (typeof item === 'object' && item.type === 'img' && item.key === '1') {
@@ -75,8 +82,16 @@ export default function BoardWritePage() {
       boardTitle: titleRef.current.value,
       boardImg: postContent.boardImg.concat(imgUrl),
     });
-
-    setIsSend(true);
+    if (postContent.boardCategory === '') {
+      alert('카테고리를 선택해주세요');
+    } else if (titleRef.current.value === '') {
+      console.log(postContent.boardCategory);
+      alert('제목을 작성해주세요');
+    } else if (editorContent === '<p><br></p>') {
+      alert('내용을 작성해주세요');
+    } else {
+      setIsSend(true);
+    }
   };
 
   useEffect(() => {
