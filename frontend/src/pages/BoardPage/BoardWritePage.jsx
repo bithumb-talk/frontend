@@ -1,9 +1,9 @@
-// eslint-disable-next-line object-curly-newline
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
-import { TextEditor, BoardCategory, TextTitle } from '@/components/index';
+import { TextEditor, BoardCategory } from '@/components/index';
+import TextTitle from '@/components/Board/TextTitle';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
@@ -36,10 +36,11 @@ export default function BoardWritePage() {
       { name: 'cointalk', label: '코인잡담' },
       { name: 'coinBeginner', label: '코인초보' },
     ];
-    const value = categoryList.filter((item) => item.label === innerText)[0].name;
+
+    const pick = categoryList.filter((item) => item.label === innerText)[0].name;
     setPostContent({
       ...postContent,
-      boardCategory: value,
+      boardCategory: pick,
     });
   };
 
@@ -56,17 +57,13 @@ export default function BoardWritePage() {
     setPostContent({
       ...postContent,
       boardContent: inputRef.current.state.value,
-      boardTitle: titleRef.current.state.value,
+      boardTitle: titleRef.current.value,
     });
     setIsSend(true);
   };
 
   useEffect(() => {
-    console.log('타이틀 입력중...');
-    console.log(titleRef);
-  }, [postContent.boardTitle]);
-
-  useEffect(() => {
+    console.log(isSend);
     if (isSend === true) postSubmit();
   }, [isSend]);
 
