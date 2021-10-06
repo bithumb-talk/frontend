@@ -1,3 +1,5 @@
+/* eslint-disable max-len */
+/* eslint-disable no-unused-vars */
 import React, { useState } from 'react';
 import proptypes from 'prop-types';
 import Button from '@mui/material/Button';
@@ -29,6 +31,7 @@ export default function Comment(props) {
     };
     setComments(Comments.concat(variables));
     setSend(true);
+    setWrite('');
   };
 
   return (
@@ -47,7 +50,11 @@ export default function Comment(props) {
           댓글 작성
         </Button>
       </div>
-      {isSend ? <CommentView commentItem={Comments} /> : <CommentView commentItem={commentItem} />}
+      <div>
+        {isSend
+          ? Comments.map((item) => <CommentView key={item.CommentNo} item={item} />)
+          : commentItem.map((item) => <CommentView key={item.CommentNo} item={item} />)}
+      </div>
     </div>
   );
 }

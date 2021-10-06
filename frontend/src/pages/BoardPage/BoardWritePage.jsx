@@ -85,7 +85,6 @@ export default function BoardWritePage() {
     if (postContent.boardCategory === '') {
       alert('카테고리를 선택해주세요');
     } else if (titleRef.current.value === '') {
-      console.log(postContent.boardCategory);
       alert('제목을 작성해주세요');
     } else if (editorContent === '<p><br></p>') {
       alert('내용을 작성해주세요');
