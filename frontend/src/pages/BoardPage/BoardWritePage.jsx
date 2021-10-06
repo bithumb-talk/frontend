@@ -19,7 +19,7 @@ export default function BoardWritePage() {
     boardTitle: '',
     boardContent: '',
     boardCreatedDate: '', // `${new Date()}`,
-    boardImg: ['https://i.ibb.co/HdZH5HP/image.png'],
+    boardImg: [''],
     boardRecommend: 0,
     boardViews: 0,
     nickname: 'USER1',

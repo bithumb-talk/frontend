@@ -51,7 +51,7 @@ export default function MenuBar() {
           </Collapse>
         </MenuBoxList>
         <MenuTabs value={value} onChange={menuChange}>
-          <MenuTab label="커뮤니티" />
+          <MenuTab label="커뮤니티" onClick={expandClick} />
           <MenuTab label="시세 조회" />
           <MenuTab />
           <Link to="/mypage">

@@ -7,17 +7,27 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import Grid from '@mui/material/Grid';
+import defaultImg from '@/assets/image/defaultImg.png';
 import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
 function PostCard({ boardNo, boardCreatedDate, boardImg, boardContent, nickname, links }) {
-  const content = {
+  const [content, setcontent] = useState({
     board_created_date: boardCreatedDate,
     board_content: boardContent,
     board_img: boardImg,
     user_nickname: nickname,
     linkUrl: `/boarddetail/${boardNo}`,
     links,
-  };
+  });
+
+  React.useEffect(() => {
+    if (content.board_img.indexOf('http') === -1) {
+      setcontent({
+        ...content,
+        board_img: defaultImg,
+      });
+    }
+  }, [boardImg]);
 
   const [isChecked, setisChecked] = useState(false);
 
