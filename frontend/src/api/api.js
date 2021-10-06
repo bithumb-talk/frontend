@@ -7,6 +7,7 @@ const USER_BASE_URL = 'http://3.38.23.41:6030';
 const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
+  INTERESTS: `${BASE_URL}/interests`,
   INTEREST: `${BASE_URL}/interest`,
   COIN: `${BASE_URL}/quote_init`,
   CANDLE_STICK: `${BASE_URL}/candlestick`,
@@ -46,7 +47,7 @@ class Api {
   }
 
   async getInterest(userId) {
-    const res = await this.api.get(`${END_POINT.INTEREST}/${userId}`);
+    const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, this.config, true);
     return res;
   }
 
@@ -214,6 +215,17 @@ class Api {
       res.data.status = 'FAIL';
       console.log(error);
     }
+    return res;
+  }
+
+  async postInterestCoin({ symbol, userId }) {
+    const res = await this.api.post(`${END_POINT.INTEREST}/${userId}`, { symbol }, this.config);
+    return res;
+  }
+
+  async deleteInterestCoin({ symbol, userId }) {
+    const res = await this.api.delete(`${END_POINT.INTEREST}/${userId}`, { data: { symbol }, ...this.config });
+
     return res;
   }
 }
