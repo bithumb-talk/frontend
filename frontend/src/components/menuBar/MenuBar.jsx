@@ -35,7 +35,7 @@ export default function MenuBar() {
   };
 
   return (
-    <Box sx={{}}>
+    <Box>
       <MenuBox sx={{ width: '540px' }}>
         <MenuBoxList sx={{ width: '150px' }}>
           <MenuTab label="" style={{ zIndex: '-1' }} />
@@ -52,7 +52,7 @@ export default function MenuBar() {
         </MenuBoxList>
         <MenuTabs value={value} onChange={menuChange}>
           <MenuTab label="커뮤니티" onClick={expandClick} />
-          <MenuTab label="시세 조회" />
+          <MenuTab label="시세조회" />
           <MenuTab />
           <Link to="/mypage">
             <MenuTab label="마이페이지" />

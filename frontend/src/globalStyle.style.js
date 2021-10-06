@@ -4,6 +4,8 @@ const GlobalStyle = () => (
   <Global
     styles={css`
       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Gowun+Batang&family=Jua&display=swap');
 
       * {
         box-sizing: border-box;
@@ -21,9 +23,9 @@ const GlobalStyle = () => (
 
       html,
       body,
-      h1,
-      h2,
-      h3,
+      h1 h2 h3 {
+        font-family: 'Fira Mono';
+      }
       h4,
       h5,
       h6,
