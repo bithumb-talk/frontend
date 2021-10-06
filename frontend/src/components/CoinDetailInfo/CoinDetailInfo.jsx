@@ -26,6 +26,7 @@ import {
   CoinDetailTitle,
   CoinDetailPrice,
   CoinDetailUnit,
+  CoinPriceContainer,
 } from './CoinDetailInfo.style';
 
 const CustomArrowDropUpIcon = styled(ArrowDropUpIcon)`
@@ -71,7 +72,7 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
         <CoinSymbol>{coinInfo.symbol}</CoinSymbol>
       </CoinTitleSection>
       <CoinInfoContainer>
-        <div>
+        <CoinPriceContainer>
           <CoinPriceSection>
             <CoinPrice color={coinColor}>
               {priceToString(coinInfo.closePrice)}
@@ -88,7 +89,7 @@ function CoinDetailInfo({ symbol: paylodSymbol }) {
             </FlexBox>
             <CoinUnitGap color={coinColor}>{priceToString(coinInfo.chgAmt)}</CoinUnitGap>
           </CoinDiffPriceSection>
-        </div>
+        </CoinPriceContainer>
         <FlexBoxDirectionColumn>
           <CoinDetailPriceContainer>
             <FlexBoxBetween>

@@ -14,6 +14,8 @@ function CoinCandleStickChart({ symbol }) {
 
   useEffect(() => {
     const asyncReq = async () => {
+      // console.log(3);
+      // console.log(data);
       const options = setCustomChartOptions(data);
 
       setChartOptions({
@@ -25,6 +27,10 @@ function CoinCandleStickChart({ symbol }) {
       asyncReq();
     }
   }, [data]);
+
+  if (!data) {
+    return null;
+  }
 
   return (
     <>

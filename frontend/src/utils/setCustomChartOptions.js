@@ -1,6 +1,25 @@
 import { COLOR } from '@/constants/style';
 
 const setCustomChartOptions = (data) => ({
+  yAxis: [
+    {
+      labels: {
+        align: 'left',
+      },
+      height: '80%',
+      resize: {
+        enabled: true,
+      },
+    },
+    {
+      labels: {
+        align: 'left',
+      },
+      top: '80%',
+      height: '20%',
+      offset: 0,
+    },
+  ],
   plotOptions: {
     candlestick: {
       color: COLOR.BLUE,
@@ -8,6 +27,7 @@ const setCustomChartOptions = (data) => ({
     },
   },
   navigator: {
+    // enabled: false
     series: {
       type: 'area',
       pointRange: null,
@@ -16,9 +36,32 @@ const setCustomChartOptions = (data) => ({
       },
       color: '#000',
     },
+    height: 100,
+  },
+  scrollbar: {
+    // enabled: false,
+    // barBackgroundColor: 'gray',
+    barBorderRadius: 3,
+    barBorderWidth: 0,
+    // buttonBackgroundColor: 'gray',
+    buttonBorderWidth: 0,
+    buttonArrowColor: 'white',
+    buttonBorderRadius: 3,
+    rifleColor: 'white',
+    trackBackgroundColor: 'white',
+    trackBorderWidth: 1,
+    trackBorderColor: 'silver',
+    trackBorderRadius: 3,
+  },
+  mapNavigation: {
+    enabled: true,
+    enableButtons: false,
+    enableMouseWheelZoom: true,
+    zoomType: 'x',
   },
   rangeSelector: {
-    selected: 1,
+    // selected: 1,
+    enabled: false,
     // buttons: [
     //   // {
     //   //   type: 'minute',
