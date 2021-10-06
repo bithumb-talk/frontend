@@ -15,13 +15,6 @@ export default function CommentView(props) {
     check ? setCommentCount(commentCount + 1) : setCommentCount(commentCount - 1);
   };
 
-  /* React.useEffect(() => {
-    effect;
-    return () => {
-      cleanup;
-    };
-  }, [input]); */
-
   return (
     <div>
       {commentItem.map((item) => (

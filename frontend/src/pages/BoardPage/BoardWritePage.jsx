@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
+import ReactHtmlParser from 'react-html-parser';
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
 import { TextEditor, BoardCategory } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
@@ -19,7 +20,7 @@ export default function BoardWritePage() {
     boardTitle: '',
     boardContent: '',
     boardCreatedDate: '', // `${new Date()}`,
-    boardImg: [''],
+    boardImg: [],
     boardRecommend: 0,
     boardViews: 0,
     nickname: 'USER1',
@@ -45,25 +46,38 @@ export default function BoardWritePage() {
   };
 
   const postSubmit = async () => {
-    console.log(postContent);
     const res = await api.postBoard(userId, postContent);
     if (res.data.status === 'SUCCESS') {
-      console.log('성공');
+      alert('저장 성공');
       goBack();
     }
+    setIsSend(false);
   };
 
   const onClick = async () => {
+    const editorContent = inputRef.current.state.value;
+
+    let imgUrl = '';
+    if (editorContent.indexOf('<img') !== -1) {
+      const textGroup = ReactHtmlParser(editorContent)[0].props.children;
+      textGroup.forEach((item) => {
+        if (typeof item === 'object' && item.type === 'img' && item.key === '1') {
+          imgUrl = item.props.src;
+        }
+      });
+    }
+
     setPostContent({
       ...postContent,
-      boardContent: inputRef.current.state.value,
+      boardContent: editorContent,
       boardTitle: titleRef.current.value,
+      boardImg: postContent.boardImg.concat(imgUrl),
     });
+
     setIsSend(true);
   };
 
   useEffect(() => {
-    console.log(isSend);
     if (isSend === true) postSubmit();
   }, [isSend]);
 
