@@ -21,12 +21,12 @@ import {
 
 export default function LoginProfile() {
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfo.userInfo);
 
   useEffect(() => {
-    dispatch(getUserInfo());
+    const id = window.localStorage.getItem('id');
+    if (id) dispatch(getUserInfo());
   }, []);
-
-  const userInfo = useSelector((state) => state.userInfo.userInfo);
 
   const loginOutBtnClick = () => {
     dispatch(actLogOut());

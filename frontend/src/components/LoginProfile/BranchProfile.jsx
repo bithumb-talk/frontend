@@ -4,12 +4,12 @@ import LoginSignupLink from './LoginSignupLink';
 import LoginProfile from './LoginProfile';
 
 export default function BranchProfile() {
-  const userToken = useSelector((state) => state.userInfo.token);
-  const getLocalToken = () => window.localStorage.getItem('token');
+  const userInfo = useSelector((state) => state.userInfo.userInfo);
+  // const getLocalToken = () => window.localStorage.getItem('token');
 
   return (
     <>
-      {userToken || getLocalToken() ? (
+      {userInfo.userId ? (
         <LoginProfile />
       ) : (
         <LoginSignupLink />

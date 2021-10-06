@@ -38,6 +38,7 @@ export const userInfoSlice = createSlice({
     actLogIn: (state, action) => {
       console.log(action.payload);
 
+      state.userInfo = action.payload;
       state.token = action.payload.accessToken;
       state.userId = action.payload.userId;
       state.nickname = action.payload.nickname;
@@ -81,6 +82,25 @@ export const userInfoSlice = createSlice({
     },
     [getUserInfo.fulfilled]: (state, action) => {
       console.log(action.payload.data);
+
+      if (!action.payload.data) { // 토큰 재발급 이슈 해결될 때 까지 일단 이렇게라도 ㅠ
+        window.localStorage.removeItem('user');
+        window.localStorage.removeItem('userId');
+        window.localStorage.removeItem('nickname');
+        window.localStorage.removeItem('id');
+        window.localStorage.removeItem('profileUrl');
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('refreshToken');
+
+        state.userInfo = null;
+        state.token = null;
+        state.userId = null;
+        state.nickname = null;
+        state.id = null;
+        state.profileUrl = null;
+
+        return;
+      }
 
       state.userInfo = {
         ...state.userInfo,

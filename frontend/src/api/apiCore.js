@@ -6,8 +6,10 @@ class Core {
     try {
       const res = await axios.get(url, config);
 
-      if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-        return getNewToken();
+      // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        return newResult;
       }
 
       return res;
@@ -21,8 +23,11 @@ class Core {
     try {
       const res = await axios.post(url, data, config);
 
-      if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-        return getNewToken();
+      // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        console.log(newResult);
+        return newResult;
       }
 
       return res;
@@ -35,8 +40,10 @@ class Core {
     try {
       const res = await axios.put(url, data, config);
 
-      if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-        return getNewToken();
+      // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        return newResult;
       }
 
       return res;
@@ -49,8 +56,10 @@ class Core {
     try {
       const res = await axios.delete(url, config);
 
-      if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-        return getNewToken();
+      // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        return newResult;
       }
 
       return res;
