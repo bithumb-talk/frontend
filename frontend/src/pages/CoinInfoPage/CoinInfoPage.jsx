@@ -17,6 +17,7 @@ function CoinInfoPage({ match }) {
     if (isMounted) {
       dispatch(getCandleStick({ symbol, gap: COIN_CHART_GAP.HOUR.UNIT }));
     }
+
     return () => {
       isMounted = false;
     };

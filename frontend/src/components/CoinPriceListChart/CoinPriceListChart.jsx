@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCoinPriceList } from '@/redux/coinPriceSlice';
+import auth from '@/utils/auth';
 import CoinSearchSection from './CoinSearchSection';
 import CoinPriceListTab from './CoinPriceListTab';
 import CoinPriceList from './CoinPriceList';
@@ -8,6 +9,7 @@ import {
   CoinPriceListContainer,
 } from './CoinPriceListChart.style';
 import CoinPriceFilterTab from './CoinPriceFilterTab';
+import CoinLogin from './CoinLogin';
 
 function CoinPriceListChart() {
   const dispatch = useDispatch();
@@ -23,11 +25,13 @@ function CoinPriceListChart() {
         <section>
           <CoinSearchSection />
           <CoinPriceListTab />
-          {
-            tabIndex !== 2 && <CoinPriceFilterTab />
-          }
+          <CoinPriceFilterTab />
         </section>
-        <CoinPriceList />
+        {
+          tabIndex === 1 && !auth.isLogin()
+            ? <CoinLogin />
+            : <CoinPriceList />
+        }
       </CoinPriceListContainer>
     </>
   );

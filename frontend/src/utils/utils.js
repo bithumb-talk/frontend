@@ -13,3 +13,7 @@ export const includeKor = (pivot, word) => pivot.includes(word);
 export const includeEng = (pivot, word) => pivot.toLowerCase().includes(word.toLowerCase());
 
 export const fixNumberDigit = (number, digit) => Number(number).toFixed(digit);
+
+export const getItem = (key) => window.localStorage.getItem(key);
+
+export const setItem = (key, value) => window.localStorage.setItem(key, value);
