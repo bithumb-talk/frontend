@@ -1,10 +1,9 @@
-/* eslint-disable no-unused-vars */
 // eslint-disable-next-line object-curly-newline
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
-import { TextEditor, TextTitle, BoardCategory } from '@/components/index';
+import { TextEditor, BoardCategory } from '@/components/index';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
@@ -13,7 +12,7 @@ export default function BoardWritePage() {
   const userId = 1;
   const history = useHistory();
   const inputRef = React.useRef();
-  const titleRef = React.useRef();
+  const [isSend, setIsSend] = useState(false);
   const [postContent, setPostContent] = useState({
     boardCategory: '',
     boardTitle: '',
@@ -24,6 +23,10 @@ export default function BoardWritePage() {
     boardViews: 0,
     nickname: 'USER1',
   });
+
+  const goBack = () => {
+    history.goBack();
+  };
 
   const onCategoryChange = (e) => {
     const { innerText } = e.target;
@@ -39,20 +42,20 @@ export default function BoardWritePage() {
     });
   };
 
-  const onChange = (e) => {
+  /*   const onChange = (e) => {
     const { value, name } = e.target;
     setPostContent({
       ...postContent,
       [name]: value,
-      boardContent: inputRef.current.state.value,
     });
-  };
+  }; */
 
   const postSubmit = async () => {
     console.log(postContent);
     const res = await api.postBoard(userId, postContent);
     if (res.data.status === 'SUCCESS') {
       console.log('성공');
+      goBack();
     }
   };
 
@@ -61,20 +64,22 @@ export default function BoardWritePage() {
       ...postContent,
       boardContent: inputRef.current.state.value,
     });
-    await postSubmit();
+    setIsSend(true);
   };
 
-  const goBack = () => {
-    history.goBack();
-  };
+  /*  useEffect(() => {
+    console.log('타이틀 입력중...');
+    console.log(titleRef);
+  }, [postContent.boardTitle]); */
 
-  React.useEffect(() => {}, [inputRef]);
+  useEffect(() => {
+    if (isSend === true) postSubmit();
+  }, [isSend]);
 
   return (
     <div className="board">
       <h3>글쓰기</h3>
       <BoardCategory name="boardCategory" onChange={onCategoryChange} />
-      <TextTitle name="boardTitle" className="css-0" titleRef={titleRef} onChange={onChange} />
       <TextEditor className="ql-editor" inputRef={inputRef} />
       <div>
         <Grid container spacing={0} alignItems="center">

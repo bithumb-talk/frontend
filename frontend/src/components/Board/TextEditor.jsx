@@ -46,7 +46,13 @@ const TextEditor = (props) => {
           const formData = new FormData();
           formData.append('image', file);
 
-          fetch('https://api.imgbb.com/1/upload?key=d36eb6591370ae7f9089d85875e56b22', {
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            console.log('잉');
+            reader.readAsDataURL(file);
+          };
+
+          fetch('https://api.imgbb.com/1/upload?key=cea367bd14d89b37025dadd623500e7e', {
             method: 'POST',
             body: formData,
           })
