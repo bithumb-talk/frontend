@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
-import { TextEditor, BoardCategory } from '@/components/index';
+import { TextEditor, BoardCategory, TextTitle } from '@/components/index';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
@@ -12,6 +12,7 @@ export default function BoardWritePage() {
   const userId = 1;
   const history = useHistory();
   const inputRef = React.useRef();
+  const titleRef = React.useRef();
   const [isSend, setIsSend] = useState(false);
   const [postContent, setPostContent] = useState({
     boardCategory: '',
@@ -42,14 +43,6 @@ export default function BoardWritePage() {
     });
   };
 
-  /*   const onChange = (e) => {
-    const { value, name } = e.target;
-    setPostContent({
-      ...postContent,
-      [name]: value,
-    });
-  }; */
-
   const postSubmit = async () => {
     console.log(postContent);
     const res = await api.postBoard(userId, postContent);
@@ -63,14 +56,15 @@ export default function BoardWritePage() {
     setPostContent({
       ...postContent,
       boardContent: inputRef.current.state.value,
+      boardTitle: titleRef.current.state.value,
     });
     setIsSend(true);
   };
 
-  /*  useEffect(() => {
+  useEffect(() => {
     console.log('타이틀 입력중...');
     console.log(titleRef);
-  }, [postContent.boardTitle]); */
+  }, [postContent.boardTitle]);
 
   useEffect(() => {
     if (isSend === true) postSubmit();
@@ -80,6 +74,7 @@ export default function BoardWritePage() {
     <div className="board">
       <h3>글쓰기</h3>
       <BoardCategory name="boardCategory" onChange={onCategoryChange} />
+      <TextTitle className="css-0" titleRef={titleRef} />
       <TextEditor className="ql-editor" inputRef={inputRef} />
       <div>
         <Grid container spacing={0} alignItems="center">

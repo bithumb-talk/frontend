@@ -1,22 +1,20 @@
-import * as React from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
 import FormControl from '@mui/material/FormControl';
 import { CssTextField } from './Board.style';
 
 export default function TextTitle(props) {
-  const { name, inputRef, onChange } = props;
+  const { titleRef } = props;
 
   return (
     <Box component="form">
-      <FormControl variant="standard" />
-      <CssTextField label="Title" id="custom-css-outlined-input" name={name} ref={inputRef} onChange={onChange} />
+      <FormControl variant="standard" ref={titleRef} />
+      <CssTextField label="Title" id="custom-css-outlined-input" ref={titleRef} />
     </Box>
   );
 }
 
 TextTitle.propTypes = {
-  name: PropTypes.element.isRequired,
-  inputRef: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
+  titleRef: PropTypes.element.isRequired,
 };
