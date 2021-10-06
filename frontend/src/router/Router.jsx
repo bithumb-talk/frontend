@@ -10,8 +10,8 @@ import {
   CoinInfoPage,
   BoardListPage,
   BoardDetailPage,
-  BoardWritePage,
   Header,
+  BoardWritePage,
 } from '@/pages/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
@@ -82,7 +82,7 @@ const Router = () => (
             flexDirection: 'row',
             width: '100%',
             alignItems: 'center',
-            justifyContent: 'space-between',
+            justifyContent: 'space-around',
           }}
         >
           <Header />

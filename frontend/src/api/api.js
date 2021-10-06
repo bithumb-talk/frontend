@@ -14,6 +14,7 @@ const END_POINT = Object.freeze({
   BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
   BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
   BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
+  BOARD_COMMENT: `${BOARD_BASE_URL}/boards/`,
   SIGNUP: `${USER_BASE_URL}/auth/signup`,
   SIGNIN: `${USER_BASE_URL}/auth/login`,
   GET_USERINFO: `${USER_BASE_URL}/users/1/info`,
@@ -194,6 +195,25 @@ class Api {
 
   async getBoardDetail(boardNo) {
     const res = await this.api.get(`${END_POINT.BOARD_DETAIL}/${boardNo}`);
+    return res;
+  }
+
+  async getComment(commentNo) {
+    const res = await this.api.get(`${END_POINT.BOARD_COMMENT}${commentNo}/comments`);
+    return res;
+  }
+
+  async postBoard(userId, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
     return res;
   }
 }

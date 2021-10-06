@@ -1,14 +1,19 @@
 import React, { useState } from 'react';
+import proptypes from 'prop-types';
 import Button from '@mui/material/Button';
 import './BoardDetail.style.css';
-// import { useSelector } from 'react-redux';
 import CommentView from './CommentView';
 
-export default function CommentWrite() {
+export default function Comment(props) {
+  const { commentItem } = props;
   const [isSend, setSend] = useState(false); // 임시변수
   const [isWrite, setWrite] = useState('');
   const [Comments, setComments] = useState([]); // { content: isWrite, postId: '' }
   const user = '나의닉네임'; // useSelector((state) => state.user);
+
+  React.useEffect(() => {
+    setComments(Comments.concat(commentItem));
+  }, [commentItem]);
 
   const commentChange = (event) => {
     setWrite(event.currentTarget.value);
@@ -18,9 +23,9 @@ export default function CommentWrite() {
     event.preventDefault();
 
     const variables = {
-      content: isWrite,
-      writer: user,
-      postId: '',
+      commentContent: isWrite,
+      nickname: user,
+      commentRecommend: 0,
     };
     setComments(Comments.concat(variables));
     setSend(true);
@@ -42,7 +47,11 @@ export default function CommentWrite() {
           댓글 작성
         </Button>
       </div>
-      {isSend ? <CommentView Comments={Comments} /> : <span />}
+      {isSend ? <CommentView commentItem={Comments} /> : <CommentView commentItem={commentItem} />}
     </div>
   );
 }
+
+Comment.propTypes = {
+  commentItem: proptypes.elementType.isRequired,
+};
