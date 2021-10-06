@@ -1,8 +1,36 @@
 import {
   Avatar, Box, Typography, TextField, Button,
 } from '@mui/material';
+import { ArrowBack } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
 import { orange, blueGrey } from '@mui/material/colors';
+
+export const BackArrowBox = styled((props) => (
+  <Box
+    sx={{
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      bgcolor: '#fff',
+      padding: '20px',
+      borderBottom: '1px solid #ddd',
+      position: 'fixed',
+      top: 0,
+    }}
+    {...props}
+  />
+))({});
+
+export const BackArrowIcon = styled((props) => (
+  <ArrowBack
+    sx={{
+      width: '40px',
+      height: '40px',
+      color: '#aaa',
+    }}
+    {...props}
+  />
+))({});
 
 export const UserProfileBox = styled((props) => <Box {...props} />)({
   display: 'flex',
@@ -36,7 +64,9 @@ export const UserIcons = styled((props) => <Box {...props} />)({
   justifyContent: 'center',
 });
 
-export const ProfileImage = styled((props) => <Avatar {...props} />)({});
+export const ProfileImage = styled((props) => <Avatar sx={{ margin: '20px 0px 20px 0px', width: '200px', height: '200px' }} {...props} />)({
+  border: '1px solid #ddd',
+});
 
 export const NicknameBox = styled((props) => <Box {...props} />)({
   display: 'flex',
@@ -99,18 +129,16 @@ export const PWChangeButton = styled((props) => (
 });
 
 export const ImgUploadButton = styled((props) => (
-  <Button
-    variant="contained"
-    size="medium"
-    sx={{
-      color: 'white',
-      bgcolor: blueGrey[800],
-    }}
-    {...props}
-  />
+  <label {...props} />
 ))({
+  padding: '10px 25px',
+  backgroundColor: '#FF6600',
+  borderRadius: '4px',
+  color: 'white',
+  cursor: 'pointer',
   fontSize: '1rem',
   fontWeight: 800,
+  boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
 });
 
 export const ImgDeleteButton = styled((props) => (

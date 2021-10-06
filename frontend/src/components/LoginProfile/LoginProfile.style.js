@@ -15,6 +15,7 @@ export const UserProfile = styled((props) => (
     sx={{
       width: '70px',
       height: '70px',
+      border: '1px solid #eee',
     }}
     {...props}
   />

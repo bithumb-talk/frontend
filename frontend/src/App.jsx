@@ -3,7 +3,7 @@ import { onMessageListener } from './firebase/firebaseInit';
 import Router from './router/Router';
 import ReactNotificationComponent from './components/Notifications/ReactNotificationComponent';
 import Notifications from './components/Notifications/Notifications';
-import Fader from './components/Notifications/Fader';
+// import Fader from './components/Notifications/Fader';
 
 function App() {
   const [show, setShow] = useState(false);
@@ -34,7 +34,7 @@ function App() {
       )}
       <Notifications />
       <Router />
-      <Fader text="Hello React" />
+      {/* <Fader text="Hello React" /> */}
     </>
   );
 }

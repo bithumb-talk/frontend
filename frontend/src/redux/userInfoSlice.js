@@ -1,7 +1,11 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { INITIAL_STATUS } from '@/constants/reduxConstants';
 import api from '@/api/api';
 
 const initialState = {
+  userInfo: {
+    ...INITIAL_STATUS,
+  },
   token: '',
   id: '',
   userId: '',
@@ -10,9 +14,18 @@ const initialState = {
   deviceToken: '',
 };
 
-export const changeNicknameThunk = createAsyncThunk('CHANGE_NICKNAME', async (id, nickname) => {
-  const response = await api.putChangeNickname(id, nickname);
-  return response.data;
+// export const changeNicknameThunk = createAsyncThunk('CHANGE_NICKNAME', async (id, nickname) => {
+//   const response = await api.putChangeNickname(id, nickname);
+//   return response.data;
+// });
+export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => {
+  const id = window.localStorage.getItem('id');
+  const res = await api.getUserInfo(id);
+  const resData = res.data;
+
+  console.log(resData);
+
+  return { ...resData };
 });
 
 export const userInfoSlice = createSlice({
@@ -41,7 +54,12 @@ export const userInfoSlice = createSlice({
     },
     actLogOut: (state) => {
       window.localStorage.removeItem('user');
+      window.localStorage.removeItem('userId');
+      window.localStorage.removeItem('nickname');
+      window.localStorage.removeItem('id');
+      window.localStorage.removeItem('profileUrl');
       window.localStorage.removeItem('token');
+      window.localStorage.removeItem('refreshToken');
 
       state.token = null;
       state.userId = null;
@@ -52,11 +70,44 @@ export const userInfoSlice = createSlice({
       window.location.replace('/');
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(changeNicknameThunk.fulfilled, (state, action) => {
-  //     state.entities.push(action.payload);
-  //   });
-  // },
+  extraReducers: {
+    [getUserInfo.pending]: (state) => {
+      state.userInfo = {
+        ...state.userInfo,
+        isLoading: true,
+        isError: false,
+        status: 'loading',
+      };
+    },
+    [getUserInfo.fulfilled]: (state, action) => {
+      console.log(action.payload.data);
+
+      state.userInfo = {
+        ...state.userInfo,
+        ...action.payload.data,
+        isLoading: false,
+        isError: false,
+        status: 'success',
+      };
+
+      state.nickname = action.payload.data.nickname || '';
+      state.profileUrl = action.payload.data.profileUrl || '';
+
+      window.localStorage.setItem('nickname', action.payload.data.nickname);
+      window.localStorage.setItem('id', action.payload.data.id);
+      window.localStorage.setItem('profileUrl', action.payload.data.profileUrl);
+
+      state.userInfo.data = action.payload.data;
+    },
+    [getUserInfo.rejected]: (state) => {
+      state.userInfo = {
+        ...state.userInfo,
+        isLoading: false,
+        isError: true,
+        status: 'fail',
+      };
+    },
+  },
 });
 
 export const { actLogIn, actLogOut, setDeviceToken } = userInfoSlice.actions;
