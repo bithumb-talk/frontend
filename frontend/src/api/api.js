@@ -1,16 +1,16 @@
 import Core from './apiCore';
 import { authHeader } from './auth-header';
 
-// const BASE_URL = '';
+const BASE_URL = 'http://3.38.23.41:6030';
 const USER_BASE_URL = 'http://3.38.23.41:6030';
-const COIN_BASE_URL = 'http://3.35.67.138:5020';
+// const COIN_BASE_URL = 'http://3.35.67.138:5020';
 const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
-  INTEREST: `${COIN_BASE_URL}/interest`,
-  COIN: `${COIN_BASE_URL}/quote_init`,
-  CANDLE_STICK: `${COIN_BASE_URL}/candlestick`,
-  POPULAR_COIN: `${COIN_BASE_URL}/changerate`,
+  INTEREST: `${BASE_URL}/interest`,
+  COIN: `${BASE_URL}/quote_init`,
+  CANDLE_STICK: `${BASE_URL}/candlestick`,
+  POPULAR_COIN: `${BASE_URL}/changerate`,
   BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
   BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
   BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
@@ -46,14 +46,6 @@ class Api {
 
   async getInterest(userId) {
     const res = await this.api.get(`${END_POINT.INTEREST}/${userId}`);
-
-    // if (res.data.message === 'token') {
-    //   const newRes = await this.api.get(`${END_POINT.INTEREST}/${userId}`);
-    //   // 로컬스토리지로 토큰 바꿔~~~
-    //   // newRes.data.token
-    //   return getInterest(userId);
-    // }
-
     return res;
   }
 
