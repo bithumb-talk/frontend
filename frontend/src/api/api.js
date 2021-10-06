@@ -15,6 +15,7 @@ const END_POINT = Object.freeze({
   BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
   BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
   BOARD_COMMENT: `${BOARD_BASE_URL}/boards/`,
+  BOARD_RANK: `${BOARD_BASE_URL}/all-boards/ranking`,
   SIGNUP: `${BASE_URL}/auth/signup`,
   SIGNIN: `${BASE_URL}/auth/login`,
   GET_USERINFO: `${BASE_URL}/users/1/info`,
@@ -238,6 +239,11 @@ class Api {
       res.data.status = 'FAIL';
       console.log(error);
     }
+    return res;
+  }
+
+  async getRanking() {
+    const res = await this.api.get(`${END_POINT.BOARD_RANK}`);
     return res;
   }
 }

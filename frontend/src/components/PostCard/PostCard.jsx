@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import proptypes from 'prop-types';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
@@ -20,7 +20,19 @@ function PostCard({ boardNo, boardCreatedDate, boardImg, boardContent, nickname,
     links,
   });
 
-  React.useEffect(() => {
+  useEffect(() => {
+    setcontent({
+      ...content,
+      board_created_date: boardCreatedDate,
+      board_content: boardContent,
+      board_img: boardImg,
+      user_nickname: nickname,
+      linkUrl: `/boarddetail/${boardNo}`,
+      links,
+    });
+  }, [boardNo, boardCreatedDate, boardImg, boardContent, nickname, links]);
+
+  useEffect(() => {
     if (content.board_img.indexOf('http') === -1) {
       setcontent({
         ...content,

@@ -50,6 +50,8 @@ export default function BoardWritePage() {
     if (res.data.status === 'SUCCESS') {
       alert('저장 성공');
       goBack();
+    } else {
+      alert('저장 실패');
     }
     setIsSend(false);
   };
