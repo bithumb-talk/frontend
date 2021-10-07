@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { BREAK_POINT } from '@/constants/style';
+import { BREAK_POINT, COLOR } from '@/constants/style';
 
 export const SidebarContainer = styled.section`
   display: flex;
@@ -16,7 +16,7 @@ export const SidebarContainer = styled.section`
 
 export const ToggleButton = styled.button`
   width: 98px;
-  padding: 0;
+  padding: 3px;
   margin: 0;
   top: 50%;
   position: fixed;
@@ -24,4 +24,8 @@ export const ToggleButton = styled.button`
   transform: rotate(-90deg);
   display: ${({ isSidebar }) => (isSidebar ? 'none' : 'block')};
   transition: 0.3s ease;
+  background-color: ${COLOR.MAIN};
+  color: #fff;
+  border: 1px solid #fff;
+  border-radius: 10px 10px 0 0;
 `;
