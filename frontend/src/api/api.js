@@ -1,5 +1,5 @@
 import Core from './apiCore';
-import { authHeader } from './auth-header';
+import { authHeader } from './authHeader';
 
 const BASE_URL = 'http://3.38.23.41:6030';
 const USER_BASE_URL = 'http://3.38.23.41:6030';
