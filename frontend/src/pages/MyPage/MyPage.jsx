@@ -2,8 +2,9 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Typography, Box, Alert, AlertTitle, Snackbar } from '@mui/material';
-import { getUserInfo } from '@/redux/userInfoSlice';
+import { getUserInfo, getMyBoardList } from '@/redux/userInfoSlice';
 import api from '@/api/api';
+// import PostGrid from '@/components/PostGrid/PostGrid';
 import PasswordModal from './PasswordModal';
 import QuitModal from './QuitModal';
 import {
@@ -32,6 +33,7 @@ export default function MyPage() {
 
   const profileUrl = useSelector((state) => state.userInfo.profileUrl);
   const nickname = useSelector((state) => state.userInfo.nickname);
+  // const myBoardList = useSelector((state) => state.userInfo.myBoardList);
 
   const [changeToggle, setchangeToggle] = useState('change');
   const [errorStatus, seterrorStatus] = useState(false);
@@ -49,6 +51,7 @@ export default function MyPage() {
 
   useEffect(() => {
     dispatch(getUserInfo());
+    dispatch(getMyBoardList());
     setnewNickname(nickname);
   }, []);
 
@@ -278,7 +281,8 @@ export default function MyPage() {
           >
             <UserContentBox>
               <ContentWrap>
-                <ContentTitle>내가 구독한 사람</ContentTitle>
+                <ContentTitle>내가 쓴 글</ContentTitle>
+                {/* <PostGrid postItem={myBoardList} /> */}
               </ContentWrap>
 
               <ContentWrap>

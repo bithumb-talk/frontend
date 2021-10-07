@@ -6,6 +6,10 @@ const initialState = {
   userInfo: {
     ...INITIAL_STATUS,
   },
+  myBoardList: {
+    data: null,
+    ...INITIAL_STATUS,
+  },
   token: '',
   id: '',
   userId: '',
@@ -21,6 +25,16 @@ const initialState = {
 export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => {
   const id = window.localStorage.getItem('id');
   const res = await api.getUserInfo(id);
+  const resData = res.data;
+
+  console.log(resData);
+
+  return { ...resData };
+});
+
+export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async () => {
+  const id = window.localStorage.getItem('id');
+  const res = await api.getMyBoardList(id);
   const resData = res.data;
 
   console.log(resData);
@@ -81,8 +95,6 @@ export const userInfoSlice = createSlice({
       };
     },
     [getUserInfo.fulfilled]: (state, action) => {
-      console.log(action.payload.data);
-
       if (!action.payload.data) { // 토큰 재발급 이슈 해결될 때 까지 일단 이렇게라도 ㅠ
         window.localStorage.removeItem('user');
         window.localStorage.removeItem('userId');
@@ -126,6 +138,9 @@ export const userInfoSlice = createSlice({
         isError: true,
         status: 'fail',
       };
+    },
+    [getMyBoardList.fulfilled]: (state, action) => {
+      state.myBoardList.data = action.payload.data;
     },
   },
 });
