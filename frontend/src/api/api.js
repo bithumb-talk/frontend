@@ -3,7 +3,6 @@ import { authHeader } from './auth-header';
 
 const BASE_URL = 'http://3.38.23.41:6030';
 const USER_BASE_URL = 'http://3.38.23.41:6030';
-// const COIN_BASE_URL = 'http://3.35.67.138:5020';
 const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
