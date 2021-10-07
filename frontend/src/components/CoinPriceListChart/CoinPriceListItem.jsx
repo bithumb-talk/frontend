@@ -68,6 +68,10 @@ function CoinPriceListItem({
       setBorderColor({ flag: true, color: COLOR.BLUE });
     }
 
+    setTimeout(() => {
+      setBorderColor({ flag: false, color: 'none' });
+    }, 300);
+
     return () => {
       setBorderColor({ flag: false, color: 'none' });
     };
