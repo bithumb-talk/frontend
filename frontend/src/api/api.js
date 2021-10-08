@@ -276,6 +276,21 @@ class Api {
     return res;
   }
 
+  async postBoardRecommend(boardNo, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      console.log(`${END_POINT.BOARD_DETAIL}/${boardNo}/recommend`, data);
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/recommend`, data);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
   async postCommentRecommend(boardNo, commentNo, data) {
     let res = {
       data: {},

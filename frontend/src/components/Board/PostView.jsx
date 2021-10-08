@@ -1,15 +1,18 @@
+/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable object-curly-newline */
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
+import api from '@/api/api';
 import { ContentLikeButton, ContentLikeIcon, ContentLikeEmptyIcon, ContentLikeEmptyButton } from './Board.style';
 import './BoardDetail.style.css';
 
 export default function PostView(props) {
   const { postItem } = props;
   const [title, setTitle] = useState(postItem.boardTitle);
+  const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
   const [postDate, setDate] = useState(postItem.boardCreatedDate);
   const [postContent, setContent] = useState(postItem.boardContent);
@@ -17,16 +20,33 @@ export default function PostView(props) {
   const [cataogryUrl, setCatagoryUrl] = useState(`/board/${postItem.boardCategory}`);
   const [viewCount, setViewCnt] = useState(postItem.boardViews);
   const [likeCount, setLikeCnt] = useState(postItem.boardRecommend);
-  const [contentCheck, setContentCheck] = useState(0);
-  const [contentCount, setContentCount] = useState(0);
+  const [likeCheck, setLikeCheck] = useState(false);
 
-  const onClickContent = () => {
-    setContentCheck(1 - contentCheck);
-    setContentCount(1 - contentCount);
+  const onClickContent = async () => {
+    setLikeCheck(!likeCheck);
+
+    const data = {
+      boardRecommend: null,
+    };
+
+    if (likeCheck) {
+      data.boardRecommend = 'false';
+    } else {
+      data.boardRecommend = 'true';
+    }
+
+    await api.postBoardRecommend(postNo, data).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        alert('저장 성공');
+      } else {
+        alert('저장 실패');
+      }
+    });
   };
 
   useEffect(() => {
     setTitle(postItem.boardTitle);
+    setNo(postItem.boardNo);
     setName(postItem.nickname);
     setDate(postItem.boardCreatedDate);
     setContent(postItem.boardContent);
@@ -55,19 +75,19 @@ export default function PostView(props) {
         <div>{ReactHtmlParser(postContent)}</div>
       </div>
       <div className="contentLike">
-        {contentCheck === 0 ? (
-          <div>
-            <ContentLikeEmptyButton onClick={onClickContent}>
-              <ContentLikeEmptyIcon />
-              <span> Like Up {contentCount}</span>
-            </ContentLikeEmptyButton>
-          </div>
-        ) : (
+        {likeCheck ? (
           <div>
             <ContentLikeButton onClick={onClickContent}>
               <ContentLikeIcon />
-              <span> Like {contentCount}</span>
+              <span> Like {likeCount + 1}</span>
             </ContentLikeButton>
+          </div>
+        ) : (
+          <div>
+            <ContentLikeEmptyButton onClick={onClickContent}>
+              <ContentLikeEmptyIcon />
+              <span> Like Up {likeCount}</span>
+            </ContentLikeEmptyButton>
           </div>
         )}
       </div>

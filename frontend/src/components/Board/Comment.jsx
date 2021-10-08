@@ -9,9 +9,9 @@ import './BoardDetail.style.css';
 export default function Comment(props) {
   const { commentItem } = props;
   const { pathname } = useLocation();
-  const [isSend, setSend] = useState(false); // 임시변수
+  const [isSend, setSend] = useState(false);
   const [isWrite, setWrite] = useState('');
-  const [Comments, setComments] = useState([]); // { content: isWrite, postId: '' }
+  const [Comments, setComments] = useState([]);
   const [boardNo, setNo] = useState('');
   const user = '나의닉네임'; // useSelector((state) => state.user);
 
