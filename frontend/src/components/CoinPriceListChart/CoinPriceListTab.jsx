@@ -16,17 +16,17 @@ function a11yProps(index) {
 
 function CoinPriceListTab() {
   const { onSetTabIndex } = useCoin();
-  const { tabIndex, coinPriceList: { data } } = useSelector((state) => state.coinPrice);
+  const { tabIndex } = useSelector((state) => state.coinPrice);
 
   const handleChange = useCallback((event, value) => {
     onSetTabIndex({ value });
   }, [onSetTabIndex]);
 
+  // const resetTabIndex = () => data && onSetTabIndex({ value: 0 });
+
   useEffect(() => {
-    if (data) {
-      onSetTabIndex({ value: 0 });
-    }
-  }, [onSetTabIndex, data]);
+    onSetTabIndex({ value: 0 });
+  }, [onSetTabIndex]);
 
   return (
     <section>

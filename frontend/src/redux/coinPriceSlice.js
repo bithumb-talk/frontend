@@ -108,6 +108,8 @@ export const coinPriceSlice = createSlice({
       const { value } = action.payload;
       state.tabIndex = value;
 
+      if (state.coinPriceList.status !== 'success') return;
+
       if (value === 1) {
         state.filteredCoinPriceList.data = state.filteredCoinPriceList.data.filter(({ isInterest }) => isInterest);
         return;
