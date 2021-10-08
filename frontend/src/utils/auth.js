@@ -1,28 +1,9 @@
 import { getItem } from './utils';
 
-class Auth {
-  #userInfo;
+export const isLogin = !!getItem('token');
 
-  constructor() {
-    this.#userInfo = getItem('user') && JSON.parse(getItem('user'));
-  }
+export const userId = getItem('id');
 
-  isLogin() {
-    return !!this.#userInfo;
-  }
+export const token = getItem('token');
 
-  getToken() {
-    return this.#userInfo.accessToken;
-  }
-
-  getUserId() {
-    return this.#userInfo.id;
-  }
-
-  getRefreshToken() {
-    return this.#userInfo.refreshToken;
-  }
-}
-
-const auth = new Auth();
-export default auth;
+export const refreshToken = getItem('refreshToken');

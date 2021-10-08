@@ -17,3 +17,5 @@ export const fixNumberDigit = (number, digit) => Number(number).toFixed(digit);
 export const getItem = (key) => window.localStorage.getItem(key);
 
 export const setItem = (key, value) => window.localStorage.setItem(key, value);
+
+export const isStorage = (key) => !!window.localStorage.getItem(key);

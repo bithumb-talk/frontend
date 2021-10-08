@@ -6,7 +6,7 @@ import { grey } from '@mui/material/colors';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
 import useDebounce from '@/hooks/useDebounce';
-import auth from '@/utils/auth';
+import { isLogin } from '@/utils/auth';
 import useCoin from '@/hooks/useCoin';
 import {
   CoinListItem,
@@ -37,7 +37,7 @@ function CoinPriceListItem({
   const handleClose = useCallback(() => setOpen(false), []);
 
   const onClickStar = () => {
-    if (auth.isLogin()) {
+    if (isLogin) {
       editInterestDebounce.current(isInterest);
       if (!isInterest) {
         onPostInterestCoin({ symbol });

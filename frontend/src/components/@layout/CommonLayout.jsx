@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import PropTypes from 'prop-types';
 import { CoinPriceListChart } from '@/components/index';
 import Sidebar from '@/components/Sidebar/Sidebar';
@@ -30,4 +30,4 @@ CommonLayout.propTypes = {
   children: PropTypes.element.isRequired,
 };
 
-export default CommonLayout;
+export default memo(CommonLayout);

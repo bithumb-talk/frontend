@@ -1,16 +1,15 @@
 import axios from 'axios';
-import auth from '@/utils/auth';
+import { token, refreshToken } from '@/utils/auth';
 import getNewToken from './getNewToken';
 import { authHeader } from './authHeader';
 
 class Core {
   async get(url, config, isToken = false) {
     try {
-      const res = await axios.get(url, config);
+      const res = await axios.get(url, { ...config });
       const { data } = res;
 
       if (isToken && typeof data === 'string' && data.includes('EXPIRED TOKEN IN GATEWAY')) {
-        console.log(1);
         const tokenRes = await this.getNewToken();
         console.log(tokenRes);
         return tokenRes;
@@ -78,8 +77,8 @@ class Core {
       const res = await axios.post(
         'http://3.38.23.41:6030/auth/reissue',
         {
-          accessToken: auth.getToken(),
-          refreshToken: auth.getRefreshToken(),
+          accessToken: token,
+          refreshToken,
         },
         {
           headers: {

@@ -46,9 +46,8 @@ class Api {
     };
   }
 
-  async getInterest(userId) {
-    console.log(this.config);
-    const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, this.config, true);
+  async getInterest(userId, config) {
+    const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, config, true);
     return res;
   }
 

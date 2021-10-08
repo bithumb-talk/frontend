@@ -12,7 +12,7 @@ import CoinLogin from './CoinLogin';
 
 function CoinPriceListChart() {
   const { tabIndex } = useSelector((state) => state.coinPrice);
-  const [isLogin] = useAuth();
+  const { isLogin } = useAuth();
 
   return (
     <>
