@@ -1,4 +1,5 @@
 /* eslint-disable max-len */
+import { lazy, Suspense } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import {
@@ -7,7 +8,6 @@ import {
   SignUpPage,
   MyPage,
   NotFound,
-  CoinInfoPage,
   BoardListPage,
   BoardDetailPage,
   Header,
@@ -15,6 +15,8 @@ import {
 } from '@/pages/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
+
+const CoinInfoPage = lazy(() => import('@/pages/CoinInfoPage/CoinInfoPage'));
 
 const routes = [
   {
@@ -71,25 +73,27 @@ const RouteComponent = routes.map(({ path, component, isPrivate }) => (
 
 const Router = () => (
   <>
-    <Switch>
-      <Route
-        exact
-        path={[ROUTE.MAIN.PATH, ROUTE.COIN.PATH, ROUTE.BOARDALL.PATH, ROUTE.BOARDWRITE.PATH, ROUTE.BOARDDETAIL.PATH]}
-      >
-        <Box
-          sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            width: '100%',
-            alignItems: 'center',
-            justifyContent: 'space-around',
-          }}
+    <Suspense fallback={<div>loading</div>}>
+      <Switch>
+        <Route
+          exact
+          path={[ROUTE.MAIN.PATH, ROUTE.COIN.PATH, ROUTE.BOARDALL.PATH, ROUTE.BOARDWRITE.PATH, ROUTE.BOARDDETAIL.PATH]}
         >
-          <Header />
-        </Box>
-      </Route>
-    </Switch>
-    <Switch>{RouteComponent}</Switch>
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'row',
+              width: '100%',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+            }}
+          >
+            <Header />
+          </Box>
+        </Route>
+      </Switch>
+      <Switch>{RouteComponent}</Switch>
+    </Suspense>
   </>
 );
 

@@ -21,11 +21,15 @@ const GlobalStyle = () => (
         font-size: 16px;
       }
 
-      html,
-      body,
       h1 h2 h3 {
         font-family: 'Fira Mono';
       }
+
+      html,
+      body,
+      h1,
+      h2,
+      h3,
       h4,
       h5,
       h6,

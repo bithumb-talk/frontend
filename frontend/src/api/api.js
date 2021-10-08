@@ -40,9 +40,15 @@ const END_POINT = Object.freeze({
 class Api {
   constructor() {
     this.api = new Core();
+    this.config = {
+      headers: {
+        ...authHeader(),
+      },
+    };
   }
 
   async getInterest(userId) {
+    console.log(this.config);
     const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, this.config, true);
     return res;
   }

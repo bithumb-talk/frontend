@@ -1,5 +1,5 @@
 // import React from 'react';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, memo } from 'react';
 import styled from 'styled-components';
 import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
 import PropTypes from 'prop-types';
@@ -134,4 +134,4 @@ CoinDetailInfo.propTypes = {
   symbol: PropTypes.string.isRequired,
 };
 
-export default CoinDetailInfo;
+export default memo(CoinDetailInfo);

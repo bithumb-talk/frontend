@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useSelector } from 'react-redux';
@@ -8,14 +8,11 @@ import CoinDetailInfo from '../CoinDetailInfo/CoinDetailInfo';
 import CoinCandleStickChartFilter from './CoinCandleStickChartFilter';
 
 function CoinCandleStickChart({ symbol }) {
-  // const dispatch = useDispatch()
   const { candleStickTimeDataList: { data } } = useSelector((state) => state.coinPrice);
   const [chartOptions, setChartOptions] = useState({});
 
   useEffect(() => {
-    const asyncReq = async () => {
-      // console.log(3);
-      // console.log(data);
+    const setOptions = async () => {
       const options = setCustomChartOptions(data);
 
       setChartOptions({
@@ -24,7 +21,7 @@ function CoinCandleStickChart({ symbol }) {
     };
 
     if (data) {
-      asyncReq();
+      setOptions();
     }
   }, [data]);
 
@@ -49,4 +46,4 @@ CoinCandleStickChart.propTypes = {
   symbol: PropTypes.string.isRequired,
 };
 
-export default CoinCandleStickChart;
+export default memo(CoinCandleStickChart);

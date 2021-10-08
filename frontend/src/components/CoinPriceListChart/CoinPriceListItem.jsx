@@ -1,24 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, memo, useCallback } from 'react';
 import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
-import { useDispatch } from 'react-redux';
-import Modal from '@mui/material/Modal';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
-import { deleteInterestCoin, editInterestCoin, postInterestCoin } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
 import auth from '@/utils/auth';
+import useCoin from '@/hooks/useCoin';
 import {
   CoinListItem,
   TableGrid,
   CoinFont,
   CoinLink,
   CoinFontSpan,
-  ModalContainer,
 } from './CoinPriceListChart.style';
-import CoinLogin from './CoinLogin';
+import CoinListModal from './CoinListModal';
 
 const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
   fontSize: '16px',
@@ -26,28 +23,28 @@ const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
 function CoinPriceListItem({
   korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest,
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const [borderColor, setBorderColor] = useState({ flag: false, color: COLOR.TYPO });
-  const dispatch = useDispatch();
+  const { onEditInterestCoin, onPostInterestCoin, onDeleteInterestCoin } = useCoin();
   const fontColor = Number(chgRate) > 0 ? COLOR.RED : COLOR.BLUE;
-  const dispatchInterestCoin = (currentIsInterst) => dispatch(editInterestCoin({
+  const dispatchInterestCoin = (currentIsInterst) => onEditInterestCoin({
     symbol,
     isInterest: currentIsInterst,
-  }));
+  });
 
   const editInterestDebounce = useDebounce(dispatchInterestCoin, 100);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
 
   const onClickStar = () => {
     if (auth.isLogin()) {
       editInterestDebounce.current(isInterest);
       if (!isInterest) {
-        dispatch(postInterestCoin({ symbol }));
+        onPostInterestCoin({ symbol });
       }
 
       if (isInterest) {
-        dispatch(deleteInterestCoin({ symbol }));
+        onDeleteInterestCoin({ symbol });
       }
       return;
     }
@@ -79,7 +76,8 @@ function CoinPriceListItem({
 
   return (
     <>
-      <Modal
+      <CoinListModal open={open} handleClose={() => handleClose()} />
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -88,7 +86,7 @@ function CoinPriceListItem({
         <ModalContainer>
           <CoinLogin />
         </ModalContainer>
-      </Modal>
+      </Modal> */}
       <CoinListItem active={borderColor.flag} color={borderColor.color}>
 
         <TableGrid
@@ -145,4 +143,4 @@ CoinPriceListItem.propTypes = {
   isInterest: PropTypes.bool.isRequired,
 };
 
-export default CoinPriceListItem;
+export default memo(CoinPriceListItem);

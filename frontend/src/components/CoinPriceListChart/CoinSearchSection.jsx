@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { styled, TextField } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
-import { useDispatch } from 'react-redux';
-import { setSearchedCoin } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
+import useCoin from '@/hooks/useCoin';
 import { CoinSearchContainer } from './CoinPriceListChart.style';
 
 const CoinSearchInput = styled((props) => <TextField {...props} />)({
@@ -20,10 +19,10 @@ const CustomCloseIcon = styled(CloseIcon)({
 });
 
 function CoinSearchSection() {
-  const dispatch = useDispatch();
+  const { onSetSearchedCoin } = useCoin();
   const [searchCoin, setSearchCoin] = useState('');
 
-  const dispatchSearchedCoin = (value) => dispatch(setSearchedCoin({ value }));
+  const dispatchSearchedCoin = (value) => onSetSearchedCoin({ value });
 
   const setSearchValueDebounce = useDebounce(dispatchSearchedCoin, 200);
 

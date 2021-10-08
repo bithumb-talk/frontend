@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { useSelector } from 'react-redux';
 import CoinPriceListItem from './CoinPriceListItem';
 import CoinPriceListSkeleton from './CoinPriceListSkeleton';
@@ -32,4 +32,4 @@ function CoinPriceList() {
   );
 }
 
-export default CoinPriceList;
+export default memo(CoinPriceList);
