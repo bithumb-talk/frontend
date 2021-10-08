@@ -23,17 +23,24 @@ export default function BoardListPage() {
     if (url === 'all') {
       const res = await api.getBoardAll();
       if (res.data.status === 'SUCCESS') {
-        setItem(res.data.data.content);
+        if (res.data.data.content) setItem(res.data.data.content);
       }
     } else {
       const res = await api.getBoardCategory(url);
       if (res.data.status === 'SUCCESS') {
-        setItem(res.data.data.content);
+        if (res.data.data.content) setItem(res.data.data.content);
       }
     }
   };
   useEffect(() => {
-    getboardList(pathname.split('/')[2]);
+    if (
+      pathname.split('/')[2] === 'all'
+      || pathname.split('/')[2] === 'talk'
+      || pathname.split('/')[2] === 'cointalk'
+      || pathname.split('/')[2] === 'coinBeginner'
+    ) {
+      getboardList(pathname.split('/')[2]);
+    }
     setTitleName(menuData.filter((o) => o.link === pathname.split('/')[2])[0].name);
   }, [pathname]);
 

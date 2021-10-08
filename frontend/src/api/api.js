@@ -13,7 +13,6 @@ const END_POINT = Object.freeze({
   BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
   BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
   BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
-  BOARD_COMMENT: `${BOARD_BASE_URL}/boards/`,
   BOARD_RANK: `${BOARD_BASE_URL}/all-boards/ranking`,
   SIGNUP: `${BASE_URL}/auth/signup`,
   SIGNIN: `${BASE_URL}/auth/login`,
@@ -235,7 +234,7 @@ class Api {
   }
 
   async getComment(commentNo) {
-    const res = await this.api.get(`${END_POINT.BOARD_COMMENT}${commentNo}/comments`);
+    const res = await this.api.get(`${END_POINT.BOARD_DETAIL}/${commentNo}/comments`);
     return res;
   }
 
@@ -269,7 +268,21 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_COMMENT}/${boardNo}/comments`, data);
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments`, data);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async postCommentRecommend(boardNo, commentNo, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend`, data);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);

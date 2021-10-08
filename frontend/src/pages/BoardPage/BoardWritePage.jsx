@@ -1,3 +1,5 @@
+/* eslint-disable prefer-const */
+/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
@@ -67,13 +69,16 @@ export default function BoardWritePage() {
     const editorContent = inputRef.current.state.value;
 
     let imgUrl = '';
-    if (!!editorContent && editorContent.indexOf('<img') !== -1) {
-      const textGroup = ReactHtmlParser(editorContent)[0].props.children;
-      textGroup.forEach((item) => {
-        if (typeof item === 'object' && item.type === 'img' && item.key === '1') {
+    if (editorContent && editorContent.indexOf('<img') !== -1) {
+      const htmlText = ReactHtmlParser(editorContent)[0].props.children;
+      htmlText.some((item) => {
+        if (typeof item === 'object' && item.type === 'img') {
           imgUrl = item.props.src;
         }
+        return typeof item === 'object' && item.type === 'img';
       });
+    } else {
+      imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
     }
 
     setPostContent({
