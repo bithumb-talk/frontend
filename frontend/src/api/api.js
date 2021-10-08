@@ -242,7 +242,7 @@ class Api {
     let res = {
       data: {},
     };
-
+    console.log(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
     try {
       res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
     } catch (error) {

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import proptypes from 'prop-types';
 import Button from '@mui/material/Button';
+import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
 import api from '@/api/api';
 import CommentView from './CommentView';
@@ -13,7 +14,7 @@ export default function Comment(props) {
   const [isWrite, setWrite] = useState('');
   const [Comments, setComments] = useState([]);
   const [boardNo, setNo] = useState('');
-  const user = '나의닉네임'; // useSelector((state) => state.user);
+  const { nickname } = useSelector((state) => state.userInfo);
 
   useEffect(() => {
     setComments(Comments.concat(commentItem));
@@ -30,37 +31,41 @@ export default function Comment(props) {
   const onSubmit = async (event) => {
     event.preventDefault();
 
-    const variables = {
-      commentContent: isWrite,
-      commentCreateDate: '',
-      nickname: user,
-      commentRecommend: 0,
-    };
+    if (nickname) {
+      const variables = {
+        commentContent: isWrite,
+        commentCreateDate: '',
+        nickname,
+        commentRecommend: 0,
+      };
 
-    await api.postComment(boardNo, variables).then((res) => {
-      if (res.data.status === 'SUCCESS') {
-        alert('저장 성공');
-        setComments(Comments.concat(variables));
-        setSend(true);
-        setWrite('');
-      } else {
-        alert('저장 실패');
-      }
-    });
+      await api.postComment(boardNo, variables).then((res) => {
+        if (res.data.status === 'SUCCESS') {
+          alert('저장 성공');
+          setComments(Comments.concat(variables));
+          setSend(true);
+          setWrite('');
+        } else {
+          alert('저장 실패');
+        }
+      });
+    } else {
+      alert('로그인이 필요한 서비스입니다.');
+    }
   };
 
   return (
     <div>
       <div className="commentWrite">
         <div className="">
-          <div className="commentName">{user}</div>
+          <div className="commentName">{nickname}</div>
           <textarea placeholder="댓글을 작성하세요" className="commentWriteText" onChange={commentChange} />
         </div>
         <Button
           onClick={onSubmit}
           size="small"
           variant="contained"
-          style={{ float: 'right', background: '#ff8282', height: '25px' }}
+          style={{ float: 'right', background: 'rgb(255, 130, 130)', height: '25px', color: 'white' }}
         >
           댓글 작성
         </Button>

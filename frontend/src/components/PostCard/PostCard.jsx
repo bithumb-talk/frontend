@@ -2,6 +2,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect } from 'react';
 import proptypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import CardMedia from '@mui/material/CardMedia';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
@@ -14,6 +15,7 @@ import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './
 
 function PostCard(props) {
   const { postItem } = props;
+  const { id } = useSelector((state) => state.userInfo);
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
@@ -26,25 +28,29 @@ function PostCard(props) {
   const [isChecked, setChecked] = useState(false);
 
   const onClick = async () => {
-    setChecked(!isChecked);
+    if (id) {
+      setChecked(!isChecked);
 
-    const data = {
-      boardRecommend: null,
-    };
+      const data = {
+        boardRecommend: null,
+      };
 
-    if (isChecked) {
-      data.boardRecommend = 'false';
-    } else {
-      data.boardRecommend = 'true';
-    }
-
-    await api.postBoardRecommend(postNo, data).then((res) => {
-      if (res.data.status === 'SUCCESS') {
-        alert('저장 성공');
+      if (isChecked) {
+        data.boardRecommend = 'false';
       } else {
-        alert('저장 실패');
+        data.boardRecommend = 'true';
       }
-    });
+
+      await api.postBoardRecommend(postNo, data).then((res) => {
+        if (res.data.status === 'SUCCESS') {
+          alert('저장 성공');
+        } else {
+          alert('저장 실패');
+        }
+      });
+    } else {
+      alert('로그인이 필요한 서비스입니다.');
+    }
   };
 
   useEffect(() => {
@@ -77,7 +83,7 @@ function PostCard(props) {
         <CardMedia component="img" width="225" height="134" image={postImg} alt="img" />
         <CardContent height="100">
           <Typography variant="body2" height="25px" style={{ fontWeight: 'bolder' }}>
-            {title.length >= 16 ? `${title.substr(0, 16)}...` : title}
+            {title.length >= 15 ? `${title.substr(0, 15)}...` : title}
           </Typography>
           <Typography variant="body2" height="80px" style={{ color: 'rgb(73, 80, 87)' }}>
             {postContent}

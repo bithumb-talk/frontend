@@ -1,7 +1,7 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable react/prop-types */
 /* eslint-disable object-curly-newline */
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
@@ -11,6 +11,7 @@ import './BoardDetail.style.css';
 
 export default function PostView(props) {
   const { postItem } = props;
+  const { id } = useSelector((state) => state.userInfo);
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
@@ -23,25 +24,29 @@ export default function PostView(props) {
   const [likeCheck, setLikeCheck] = useState(false);
 
   const onClickContent = async () => {
-    setLikeCheck(!likeCheck);
+    if (id) {
+      setLikeCheck(!likeCheck);
 
-    const data = {
-      boardRecommend: null,
-    };
+      const data = {
+        boardRecommend: null,
+      };
 
-    if (likeCheck) {
-      data.boardRecommend = 'false';
-    } else {
-      data.boardRecommend = 'true';
-    }
-
-    await api.postBoardRecommend(postNo, data).then((res) => {
-      if (res.data.status === 'SUCCESS') {
-        alert('저장 성공');
+      if (likeCheck) {
+        data.boardRecommend = 'false';
       } else {
-        alert('저장 실패');
+        data.boardRecommend = 'true';
       }
-    });
+
+      await api.postBoardRecommend(postNo, data).then((res) => {
+        if (res.data.status === 'SUCCESS') {
+          alert('저장 성공');
+        } else {
+          alert('저장 실패');
+        }
+      });
+    } else {
+      alert('로그인이 필요한 서비스입니다.');
+    }
   };
 
   useEffect(() => {

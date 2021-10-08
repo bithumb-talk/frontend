@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import proptypes from 'prop-types';
 import api from '@/api/api';
 import { CommentLikeIcon, CommentLikeEmptyIcon } from './Board.style';
@@ -6,26 +7,31 @@ import './BoardDetail.style.css';
 
 export default function CommentView(props) {
   const { item } = props;
+  const { id } = useSelector((state) => state.userInfo);
   const [check, setCheck] = useState(false);
   const [boardNo, setNo] = useState('');
 
   const onClickComment = async () => {
-    setCheck(!check);
-    const data = {
-      commentRecommend: null,
-    };
-    if (check) {
-      data.commentRecommend = 'false';
-    } else {
-      data.commentRecommend = 'true';
-    }
-    await api.postCommentRecommend(boardNo, item.commentNo, data).then((res) => {
-      if (res.data.status === 'SUCCESS') {
-        alert('저장 성공');
+    if (id) {
+      setCheck(!check);
+      const data = {
+        commentRecommend: null,
+      };
+      if (check) {
+        data.commentRecommend = 'false';
       } else {
-        alert('저장 실패');
+        data.commentRecommend = 'true';
       }
-    });
+      await api.postCommentRecommend(boardNo, item.commentNo, data).then((res) => {
+        if (res.data.status === 'SUCCESS') {
+          alert('저장 성공');
+        } else {
+          alert('저장 실패');
+        }
+      });
+    } else {
+      alert('로그인이 필요한 서비스입니다.');
+    }
   };
 
   useEffect(() => {

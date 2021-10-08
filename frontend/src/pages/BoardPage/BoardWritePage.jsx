@@ -1,18 +1,15 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
-import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
-import { TextEditor, BoardCategory } from '@/components/index';
+import { TextEditor, BoardCategory, BoardBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
 
 export default function BoardWritePage() {
-  const userId = 1;
+  const { id, nickname } = useSelector((state) => state.userInfo);
   const history = useHistory();
   const inputRef = React.useRef();
   const titleRef = React.useRef();
@@ -25,7 +22,7 @@ export default function BoardWritePage() {
     boardImg: [],
     boardRecommend: 0,
     boardViews: 0,
-    nickname: 'USER1',
+    nickname,
   });
 
   const goBack = () => {
@@ -55,46 +52,53 @@ export default function BoardWritePage() {
   };
 
   const postSubmit = async () => {
-    const res = await api.postBoard(userId, postContent);
-    if (res.data.status === 'SUCCESS') {
-      alert('저장 성공');
-      goBack();
+    if (id) {
+      const res = await api.postBoard(id, postContent);
+      if (res.data.status === 'SUCCESS') {
+        alert('저장 성공');
+        goBack();
+      } else {
+        alert('저장 실패');
+      }
+      setIsSend(false);
     } else {
-      alert('저장 실패');
+      alert('로그인이 필요한 서비스입니다.');
     }
-    setIsSend(false);
   };
 
-  const onClick = async () => {
-    const editorContent = inputRef.current.state.value;
+  const onSubmit = async () => {
+    if (nickname) {
+      const editorContent = inputRef.current.state.value;
 
-    let imgUrl = '';
-    if (editorContent && editorContent.indexOf('<img') !== -1) {
-      const htmlText = ReactHtmlParser(editorContent)[0].props.children;
-      htmlText.some((item) => {
-        if (typeof item === 'object' && item.type === 'img') {
-          imgUrl = item.props.src;
-        }
-        return typeof item === 'object' && item.type === 'img';
+      let imgUrl = '';
+      if (editorContent && editorContent.indexOf('<img') !== -1) {
+        const htmlText = ReactHtmlParser(editorContent)[0].props.children;
+        htmlText.some((item) => {
+          if (typeof item === 'object' && item.type === 'img') {
+            imgUrl = item.props.src;
+          }
+          return typeof item === 'object' && item.type === 'img';
+        });
+      } else if (postContent.boardImg.length === 0) imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
+      else imgUrl = '';
+
+      setPostContent({
+        ...postContent,
+        boardContent: editorContent,
+        boardTitle: titleRef.current.value,
+        boardImg: imgUrl.length > 0 ? postContent.boardImg.concat(imgUrl) : postContent.boardImg,
       });
+      if (postContent.boardCategory === '') {
+        alert('카테고리를 선택해주세요');
+      } else if (titleRef.current.value === '') {
+        alert('제목을 작성해주세요');
+      } else if (editorContent === '<p><br></p>') {
+        alert('내용을 작성해주세요');
+      } else {
+        setIsSend(true);
+      }
     } else {
-      imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
-    }
-
-    setPostContent({
-      ...postContent,
-      boardContent: editorContent,
-      boardTitle: titleRef.current.value,
-      boardImg: postContent.boardImg.concat(imgUrl),
-    });
-    if (postContent.boardCategory === '') {
-      alert('카테고리를 선택해주세요');
-    } else if (titleRef.current.value === '') {
-      alert('제목을 작성해주세요');
-    } else if (editorContent === '<p><br></p>') {
-      alert('내용을 작성해주세요');
-    } else {
-      setIsSend(true);
+      alert('로그인이 필요한 서비스입니다.');
     }
   };
 
@@ -108,23 +112,7 @@ export default function BoardWritePage() {
       <BoardCategory name="boardCategory" onChange={onCategoryChange} />
       <TextTitle className="css-0" titleRef={titleRef} />
       <TextEditor className="ql-editor" inputRef={inputRef} />
-      <div>
-        <Grid container spacing={0} alignItems="center">
-          <Grid item xs={6}>
-            <OutButton type="input" onClick={goBack}>
-              <OutIcon />
-              나가기
-            </OutButton>
-          </Grid>
-          <Grid item xs={6}>
-            <SendButton style={{ float: 'right' }} type="submit" onClick={onClick}>
-              등록
-              <SendButtonIcon />
-            </SendButton>
-          </Grid>
-        </Grid>
-        <br />
-      </div>
+      <BoardBottom onClick={onSubmit} goBack={goBack} />
     </div>
   );
 }
