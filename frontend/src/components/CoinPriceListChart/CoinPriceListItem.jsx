@@ -4,19 +4,21 @@ import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
 import { useDispatch } from 'react-redux';
-// import { Link } from 'react-router-dom';
+import Modal from '@mui/material/Modal';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
-import { editInterestCoin } from '@/redux/coinPriceSlice';
+import { deleteInterestCoin, editInterestCoin, postInterestCoin } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
-// import ROUTE from '@/router/routePath';
+import auth from '@/utils/auth';
 import {
   CoinListItem,
   TableGrid,
   CoinFont,
   CoinLink,
   CoinFontSpan,
+  ModalContainer,
 } from './CoinPriceListChart.style';
+import CoinLogin from './CoinLogin';
 
 const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
   fontSize: '16px',
@@ -24,6 +26,7 @@ const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
 function CoinPriceListItem({
   korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest,
 }) {
+  const [open, setOpen] = React.useState(false);
   const [borderColor, setBorderColor] = useState({ flag: false, color: COLOR.TYPO });
   const dispatch = useDispatch();
   const fontColor = Number(chgRate) > 0 ? COLOR.RED : COLOR.BLUE;
@@ -31,9 +34,25 @@ function CoinPriceListItem({
     symbol,
     isInterest: currentIsInterst,
   }));
+
   const editInterestDebounce = useDebounce(dispatchInterestCoin, 100);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
+
   const onClickStar = () => {
-    editInterestDebounce.current(isInterest);
+    if (auth.isLogin()) {
+      editInterestDebounce.current(isInterest);
+      if (!isInterest) {
+        dispatch(postInterestCoin({ symbol }));
+      }
+
+      if (isInterest) {
+        dispatch(deleteInterestCoin({ symbol }));
+      }
+      return;
+    }
+
+    handleOpen();
   };
 
   const setCommaChgAmt = () => (
@@ -49,52 +68,70 @@ function CoinPriceListItem({
       setBorderColor({ flag: true, color: COLOR.BLUE });
     }
 
+    setTimeout(() => {
+      setBorderColor({ flag: false, color: 'none' });
+    }, 300);
+
     return () => {
       setBorderColor({ flag: false, color: 'none' });
     };
   }, [chgAmt]);
 
   return (
-    <CoinListItem active={borderColor.flag} color={borderColor.color}>
-      <TableGrid
-        width="30"
+    <>
+      <Modal
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
       >
-        <CustomStarBorderIcon
-          sx={{ color: isInterest ? COLOR.MAIN : grey[600] }}
-          onClick={() => onClickStar()}
-        />
-      </TableGrid>
-      <TableGrid
-        width="94"
-      >
-        <div>
-          <CoinLink to={`/coin/${symbol}`}>
-            <CoinFontSpan weight="bold">{korean}</CoinFontSpan>
-          </CoinLink>
-          {/* <CoinFont weight="bold"></CoinFont> */}
-          <CoinFont size="12" color={COLOR.TYPO}>{symbol}</CoinFont>
-        </div>
-      </TableGrid>
-      <TableGrid
-        width="88"
-      >
-        <CoinFont
-          color={fontColor}
-        >{priceToString(closePrice)}
-        </CoinFont>
-      </TableGrid>
-      <TableGrid
-        width="78"
-      >
-        <div>
-          <CoinFont size="12" color={fontColor}>{chgRate}%</CoinFont>
-          <CoinFont size="12" color={fontColor}>{setCommaChgAmt()}</CoinFont>
-        </div>
-      </TableGrid>
-      <TableGrid>
-        <CoinFont>{stringToUnitPrice(stringToNumber(accTradeValue))}백만</CoinFont>
-      </TableGrid>
-    </CoinListItem>
+        <ModalContainer>
+          <CoinLogin />
+        </ModalContainer>
+      </Modal>
+      <CoinListItem active={borderColor.flag} color={borderColor.color}>
+
+        <TableGrid
+          width="30"
+        >
+          <CustomStarBorderIcon
+            sx={{ color: isInterest ? COLOR.MAIN : grey[600] }}
+            onClick={() => onClickStar()}
+          />
+        </TableGrid>
+        <TableGrid
+          width="94"
+        >
+          <div>
+            <CoinLink to={`/coin/${symbol}`}>
+              <CoinFontSpan weight="bold">{korean}</CoinFontSpan>
+            </CoinLink>
+            {/* <CoinFont weight="bold"></CoinFont> */}
+            <CoinFont size="12" color={COLOR.TYPO}>{symbol}</CoinFont>
+          </div>
+        </TableGrid>
+        <TableGrid
+          width="88"
+        >
+          <CoinFont
+            color={fontColor}
+          >{priceToString(closePrice)}
+          </CoinFont>
+        </TableGrid>
+        <TableGrid
+          width="78"
+        >
+          <div>
+            <CoinFont size="12" color={fontColor}>{chgRate}%</CoinFont>
+            <CoinFont size="12" color={fontColor}>{setCommaChgAmt()}</CoinFont>
+          </div>
+        </TableGrid>
+        <TableGrid>
+          <CoinFont>{stringToUnitPrice(stringToNumber(accTradeValue))}백만</CoinFont>
+        </TableGrid>
+      </CoinListItem>
+    </>
+
   );
 }
 

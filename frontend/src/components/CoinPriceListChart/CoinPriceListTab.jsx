@@ -34,7 +34,6 @@ function CoinPriceListTab() {
         >
           <Tab label="원화" {...a11yProps(0)} />
           <Tab label="관심" {...a11yProps(1)} />
-          {/* <Tab label="급상승 코인" {...a11yProps(2)} /> */}
         </Tabs>
       </div>
     </section>
