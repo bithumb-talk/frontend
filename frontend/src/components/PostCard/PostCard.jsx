@@ -8,92 +8,82 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 import ReactHtmlParser from 'react-html-parser';
 import Grid from '@mui/material/Grid';
+import api from '@/api/api';
 import defaultImg from '@/assets/image/defaultImg.png';
 import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
-function PostCard({ boardNo, boardCreatedDate, boardTitle, boardImg, boardContent, nickname, links }) {
-  const [content, setcontent] = useState({
-    board_title: boardTitle,
-    board_created_date: boardCreatedDate,
-    board_content: boardContent,
-    board_img: boardImg,
-    user_nickname: nickname,
-    linkUrl: `/boarddetail/${boardNo}`,
-    links,
-  });
+function PostCard(props) {
+  const { postItem } = props;
+  const [title, setTitle] = useState(postItem.boardTitle);
+  const [postNo, setNo] = useState(postItem.boardNo);
+  const [postName, setName] = useState(postItem.nickname);
+  const [postDate, setDate] = useState(postItem.boardCreatedDate);
+  const [postContent, setContent] = useState(postItem.boardContent);
+  const [postImg, setImg] = useState(postItem.boardImg);
+  const [linkUrl, setlinkUrl] = useState(`/boarddetail/${postItem.boardNo}`);
+  // const links = useState(postItem.links);
 
-  useEffect(() => {
-    setcontent({
-      ...content,
-      board_title: boardTitle,
-      board_created_date: boardCreatedDate,
-      user_nickname: nickname,
-      linkUrl: `/boarddetail/${boardNo}`,
-      links,
-    });
-  }, [boardNo, boardCreatedDate, boardTitle, nickname, links]);
+  const [isChecked, setChecked] = useState(false);
 
-  useEffect(() => {
-    if (content.board_img.indexOf('http') !== -1) {
-      setcontent({
-        ...content,
-        board_img: boardImg,
-      });
-    } else if (content.board_img.indexOf('http') === -1) {
-      setcontent({
-        ...content,
-        board_img: defaultImg,
-      });
+  const onClick = async () => {
+    setChecked(!isChecked);
+
+    const data = {
+      boardRecommend: null,
+    };
+
+    if (isChecked) {
+      data.boardRecommend = 'false';
+    } else {
+      data.boardRecommend = 'true';
     }
-  }, [boardImg]);
 
-  useEffect(() => {
-    if (boardContent && content.board_content) {
-      if (content.board_content.indexOf('<img src') !== -1) {
-        const htmlContent = ReactHtmlParser(content.board_content)[0].props.children[0];
-        if (htmlContent && typeof htmlContent === 'string') {
-          setcontent({
-            ...content,
-            board_content: content.board_content[0].props.children[0],
-          });
-        } else if (htmlContent && typeof htmlContent !== 'string') {
-          setcontent({
-            ...content,
-            board_content: '',
-          });
-        } else {
-          setcontent({
-            ...content,
-            board_content: boardContent,
-          });
-        }
+    await api.postBoardRecommend(postNo, data).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        alert('저장 성공');
       } else {
-        setcontent({
-          ...content,
-          board_content: boardContent,
-        });
+        alert('저장 실패');
       }
-    }
-  }, [boardContent]);
-
-  const [isChecked, setisChecked] = useState(false);
-
-  const onClick = () => {
-    setisChecked(!isChecked);
+    });
   };
+
+  useEffect(() => {
+    setTitle(postItem.boardTitle);
+    setNo(postItem.boardNo);
+    setDate(postItem.boardCreatedDate);
+    setName(postItem.nickname);
+    setlinkUrl(`/boarddetail/${postItem.boardNo}`);
+    setContent(postItem.boardContent);
+
+    // DefaultImg 설정
+    if (postItem.boardImg.indexOf('http') !== -1) {
+      setImg(postItem.boardImg);
+    } else if (postItem.boardImg.indexOf('http') === -1) {
+      setImg(defaultImg);
+    }
+
+    // 내용글 설정
+    if (postItem.boardContent.indexOf('<img src') !== -1) {
+      const withoutImg = postItem.boardContent.replace(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
+      setContent(ReactHtmlParser(withoutImg));
+    } else {
+      setContent(ReactHtmlParser(postItem.boardContent));
+    }
+  }, [postItem]);
 
   return (
     <CardWrap>
-      <Link to={content.linkUrl}>
-        <CardMedia component="img" width="225" height="134" image={content.board_img} alt="img" />
+      <Link to={linkUrl}>
+        <CardMedia component="img" width="225" height="134" image={postImg} alt="img" />
         <CardContent height="100">
-          <Typography variant="body2" height="20px" style={{ fontWeight: 'bolder' }}>
-            {content.board_title.length >= 16 ? `${content.board_title.substr(0, 16)}...` : content.board_title}
+          <Typography variant="body2" height="25px" style={{ fontWeight: 'bolder' }}>
+            {title.length >= 16 ? `${title.substr(0, 16)}...` : title}
           </Typography>
           <Typography variant="body2" height="80px" style={{ color: 'rgb(73, 80, 87)' }}>
-            {ReactHtmlParser(content.board_content.length) >= 120
-              ? `${ReactHtmlParser(content.board_content.substr(0, 120))}...`
-              : ReactHtmlParser(content.board_content)}
+            {postContent}
+            {/*  {ReactHtmlParser(postContent.length) >= 120
+              ? `${ReactHtmlParser(postContent.substr(0, 120))}...`
+              : ReactHtmlParser(postContent)} */}
           </Typography>
         </CardContent>
       </Link>
@@ -104,9 +94,9 @@ function PostCard({ boardNo, boardCreatedDate, boardTitle, boardImg, boardConten
           </Grid>
           <Grid item xs={8}>
             <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom>
-              {content.board_created_date}
+              {postDate}
             </Typography>
-            <CardInfo>by {content.user_nickname}</CardInfo>
+            <CardInfo>by {postName}</CardInfo>
           </Grid>
           <Grid item xs={2}>
             {isChecked ? (
