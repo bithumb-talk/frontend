@@ -108,6 +108,8 @@ export const coinPriceSlice = createSlice({
       const { value } = action.payload;
       state.tabIndex = value;
 
+      if (state.coinPriceList.status !== 'success') return;
+
       if (value === 1) {
         state.filteredCoinPriceList.data = state.filteredCoinPriceList.data.filter(({ isInterest }) => isInterest);
         return;
@@ -125,8 +127,14 @@ export const coinPriceSlice = createSlice({
       }
 
       state.nameStatus.statusName = type;
+      let newData;
 
-      const newData = copy(state.coinPriceList.data);
+      if (state.tabIndex === 0) {
+        newData = copy(state.coinPriceList.data);
+      } else {
+        newData = copy(state.filteredCoinPriceList.data);
+      }
+
       newData.sort((prev, next) => {
         const prevValue = type === 'korean' ? prev[type] : Number(prev[type]);
         const nextValue = type === 'korean' ? next[type] : Number(next[type]);

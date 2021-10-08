@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Tabs, Tab,
 } from '@mui/material';
@@ -20,6 +20,12 @@ function CoinPriceListTab() {
 
   const handleChange = useCallback((event, value) => {
     onSetTabIndex({ value });
+  }, [onSetTabIndex]);
+
+  // const resetTabIndex = () => data && onSetTabIndex({ value: 0 });
+
+  useEffect(() => {
+    onSetTabIndex({ value: 0 });
   }, [onSetTabIndex]);
 
   return (
