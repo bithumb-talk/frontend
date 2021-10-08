@@ -12,6 +12,11 @@ export const CommonMainArticle = styled.article`
     width: 100%;
     padding: 0 22px;
   }
+
+  @media only screen and (max-width: 1400px) {
+    width: 100%;
+    padding-left: 22px;
+  }
 `;
 
 export const CommonContentsSection = styled.section`

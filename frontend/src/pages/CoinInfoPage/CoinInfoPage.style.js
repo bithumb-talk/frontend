@@ -9,6 +9,10 @@ export const CoinInfoSection = styled.article`
   width: 98%;
   border-radius: 10px;
 
+  @media only screen and (max-width: 1400px) {
+    width: calc(98% - 20px);
+  }
+
   @media only screen and (max-width: ${BREAK_POINT.LG}px) {
     width: 100%;
   }
