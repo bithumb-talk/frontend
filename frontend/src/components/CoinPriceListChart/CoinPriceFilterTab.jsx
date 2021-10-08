@@ -1,6 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { setSordStatus } from '@/redux/coinPriceSlice';
+// import { useDispatch } from 'react-redux';
+// import { setSordStatus } from '@/redux/coinPriceSlice';
+import useCoin from '@/hooks/useCoin';
 import {
   CoinPriceInfoTab,
   TableGrid,
@@ -8,10 +9,12 @@ import {
 } from './CoinPriceListChart.style';
 
 function CoinPriceFilterTab() {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
+  const { onSetSordStatus } = useCoin();
 
   const onClickTmp = (type) => {
-    dispatch(setSordStatus({ type }));
+    // dispatch(setSordStatus({ type }));
+    onSetSordStatus({ type });
   };
 
   return (

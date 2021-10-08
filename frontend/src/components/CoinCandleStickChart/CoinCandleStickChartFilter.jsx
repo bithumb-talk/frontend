@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
 import { Button, ButtonGroup } from '@mui/material';
-import { getCandleStick } from '@/redux/coinPriceSlice';
 import useDebounce from '@/hooks/useDebounce';
 import { COIN_CHART_GAP } from '@/constants/coin';
+import useCoin from '@/hooks/useCoin';
 
 function CoinCandleStickChartFilter({ symbol }) {
-  const dispatch = useDispatch();
-  const dispatchCandleStick = (gap) => dispatch(getCandleStick({ symbol, gap }));
+  const { onGetCandleStick } = useCoin();
+  const dispatchCandleStick = (gap) => onGetCandleStick({ symbol, gap });
   const candleStickDebounce = useDebounce(dispatchCandleStick, 200);
   const onClickButton = (gap) => {
     candleStickDebounce.current(gap);

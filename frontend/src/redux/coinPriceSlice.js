@@ -35,6 +35,8 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
       await api.getInterest(auth.getUserId()),
     ]);
 
+    console.log(interestsRes);
+
     const newCoinPriceList = priceRes.data.data.map((coin) => {
       const { korean } = coin;
 
@@ -169,7 +171,19 @@ export const coinPriceSlice = createSlice({
         };
       });
 
+      const newOriginalData = state.coinPriceList.data.map((coin) => {
+        if (payloadSymbol === coin.symbol) {
+          return {
+            ...newSelectedCoin,
+          };
+        }
+        return {
+          ...coin,
+        };
+      });
+
       state.filteredCoinPriceList.data = [...newData];
+      state.coinPriceList.data = [...newOriginalData];
     },
     updateCoinList: (state, action) => {
       const { data: payloadData } = action.payload;
@@ -241,31 +255,6 @@ export const coinPriceSlice = createSlice({
         isLoading: false,
         isError: true,
         status: 'fail',
-      };
-    },
-
-    [postInterestCoin.fulfilled]: (state, action) => {
-      const selectedCoin = state.coinPriceList.data.find(({ symbol }) => action.payload.data.symbol === symbol);
-
-      const newSelectedCoin = {
-        ...selectedCoin,
-        isInterest: !selectedCoin.isInterest,
-      };
-
-      const newData = state.coinPriceList.data.map((coin) => {
-        if (action.payload.symbol === coin.symbol) {
-          return {
-            ...newSelectedCoin,
-          };
-        }
-        return {
-          ...coin,
-        };
-      });
-
-      state.coinPriceList = {
-        ...state.coinPriceList,
-        data: [...newData],
       };
     },
   },
