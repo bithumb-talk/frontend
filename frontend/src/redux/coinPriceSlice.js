@@ -125,8 +125,14 @@ export const coinPriceSlice = createSlice({
       }
 
       state.nameStatus.statusName = type;
+      let newData;
 
-      const newData = copy(state.coinPriceList.data);
+      if (state.tabIndex === 0) {
+        newData = copy(state.coinPriceList.data);
+      } else {
+        newData = copy(state.filteredCoinPriceList.data);
+      }
+
       newData.sort((prev, next) => {
         const prevValue = type === 'korean' ? prev[type] : Number(prev[type]);
         const nextValue = type === 'korean' ? next[type] : Number(next[type]);
