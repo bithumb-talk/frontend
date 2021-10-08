@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {
   Tabs, Tab,
 } from '@mui/material';
@@ -16,11 +16,17 @@ function a11yProps(index) {
 
 function CoinPriceListTab() {
   const { onSetTabIndex } = useCoin();
-  const { tabIndex } = useSelector((state) => state.coinPrice);
+  const { tabIndex, coinPriceList: { data } } = useSelector((state) => state.coinPrice);
 
   const handleChange = useCallback((event, value) => {
     onSetTabIndex({ value });
   }, [onSetTabIndex]);
+
+  useEffect(() => {
+    if (data) {
+      onSetTabIndex({ value: 0 });
+    }
+  }, [onSetTabIndex, data]);
 
   return (
     <section>
