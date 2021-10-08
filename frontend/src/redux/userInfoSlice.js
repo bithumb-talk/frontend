@@ -1,7 +1,15 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { INITIAL_STATUS } from '@/constants/reduxConstants';
 import api from '@/api/api';
 
 const initialState = {
+  userInfo: {
+    ...INITIAL_STATUS,
+  },
+  myBoardList: {
+    data: null,
+    ...INITIAL_STATUS,
+  },
   token: '',
   id: '',
   userId: '',
@@ -10,9 +18,28 @@ const initialState = {
   deviceToken: '',
 };
 
-export const changeNicknameThunk = createAsyncThunk('CHANGE_NICKNAME', async (id, nickname) => {
-  const response = await api.putChangeNickname(id, nickname);
-  return response.data;
+// export const changeNicknameThunk = createAsyncThunk('CHANGE_NICKNAME', async (id, nickname) => {
+//   const response = await api.putChangeNickname(id, nickname);
+//   return response.data;
+// });
+export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => {
+  const id = window.localStorage.getItem('id');
+  const res = await api.getUserInfo(id);
+  const resData = res.data;
+
+  console.log(resData);
+
+  return { ...resData };
+});
+
+export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async () => {
+  const id = window.localStorage.getItem('id');
+  const res = await api.getMyBoardList(id);
+  const resData = res.data;
+
+  console.log(resData);
+
+  return { ...resData };
 });
 
 export const userInfoSlice = createSlice({
@@ -25,6 +52,7 @@ export const userInfoSlice = createSlice({
     actLogIn: (state, action) => {
       console.log(action.payload);
 
+      state.userInfo = action.payload;
       state.token = action.payload.accessToken;
       state.userId = action.payload.userId;
       state.nickname = action.payload.nickname;
@@ -41,7 +69,12 @@ export const userInfoSlice = createSlice({
     },
     actLogOut: (state) => {
       window.localStorage.removeItem('user');
+      window.localStorage.removeItem('userId');
+      window.localStorage.removeItem('nickname');
+      window.localStorage.removeItem('id');
+      window.localStorage.removeItem('profileUrl');
       window.localStorage.removeItem('token');
+      window.localStorage.removeItem('refreshToken');
 
       state.token = null;
       state.userId = null;
@@ -52,11 +85,64 @@ export const userInfoSlice = createSlice({
       window.location.replace('/');
     },
   },
-  // extraReducers: (builder) => {
-  //   builder.addCase(changeNicknameThunk.fulfilled, (state, action) => {
-  //     state.entities.push(action.payload);
-  //   });
-  // },
+  extraReducers: {
+    [getUserInfo.pending]: (state) => {
+      state.userInfo = {
+        ...state.userInfo,
+        isLoading: true,
+        isError: false,
+        status: 'loading',
+      };
+    },
+    [getUserInfo.fulfilled]: (state, action) => {
+      if (!action.payload.data) { // 토큰 재발급 이슈 해결될 때 까지 일단 이렇게라도 ㅠ
+        window.localStorage.removeItem('user');
+        window.localStorage.removeItem('userId');
+        window.localStorage.removeItem('nickname');
+        window.localStorage.removeItem('id');
+        window.localStorage.removeItem('profileUrl');
+        window.localStorage.removeItem('token');
+        window.localStorage.removeItem('refreshToken');
+
+        state.userInfo = null;
+        state.token = null;
+        state.userId = null;
+        state.nickname = null;
+        state.id = null;
+        state.profileUrl = null;
+
+        return;
+      }
+
+      state.userInfo = {
+        ...state.userInfo,
+        ...action.payload.data,
+        isLoading: false,
+        isError: false,
+        status: 'success',
+      };
+
+      state.nickname = action.payload.data.nickname || '';
+      state.profileUrl = action.payload.data.profileUrl || '';
+
+      window.localStorage.setItem('nickname', action.payload.data.nickname);
+      window.localStorage.setItem('id', action.payload.data.id);
+      window.localStorage.setItem('profileUrl', action.payload.data.profileUrl);
+
+      state.userInfo.data = action.payload.data;
+    },
+    [getUserInfo.rejected]: (state) => {
+      state.userInfo = {
+        ...state.userInfo,
+        isLoading: false,
+        isError: true,
+        status: 'fail',
+      };
+    },
+    [getMyBoardList.fulfilled]: (state, action) => {
+      state.myBoardList.data = action.payload.data;
+    },
+  },
 });
 
 export const { actLogIn, actLogOut, setDeviceToken } = userInfoSlice.actions;

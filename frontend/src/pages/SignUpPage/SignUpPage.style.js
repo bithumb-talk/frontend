@@ -1,6 +1,48 @@
 import { styled } from '@mui/material/styles';
-import { Lock } from '@mui/icons-material';
-import { TextField, Button } from '@mui/material';
+import { Lock, ArrowBack } from '@mui/icons-material';
+import { TextField, Button, Box } from '@mui/material';
+
+export const SignUpWrap = styled((props) => (
+  <Box
+    sx={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      justifyContent: 'center',
+      alignItems: 'center',
+      flexDirection: 'column',
+      bgcolor: '#fff',
+    }}
+    {...props}
+  />
+))({});
+
+export const BackArrowBox = styled((props) => (
+  <Box
+    sx={{
+      width: '100%',
+      display: 'flex',
+      flexDirection: 'row',
+      bgcolor: '#fff',
+      padding: '20px',
+      borderBottom: '1px solid #ddd',
+      position: 'fixed',
+      top: 0,
+    }}
+    {...props}
+  />
+))({});
+
+export const BackArrowIcon = styled((props) => (
+  <ArrowBack
+    sx={{
+      width: '40px',
+      height: '40px',
+      color: '#aaa',
+    }}
+    {...props}
+  />
+))({});
 
 export const LockIcon = styled((props) => <Lock {...props} />)({
   color: 'white',
@@ -20,13 +62,6 @@ export const UniqueCheckButton = styled((props) => <Button variant="contained" s
   margin: '15px',
   maxWidth: '80px',
   minWidth: '80px',
+  color: 'white',
+  fontWeight: 800,
 });
-
-// export const DupCheckAlert = styled((props) => (
-//   <Snackbar open="false" autoHideDuration={3000}>
-//     <Alert severity="success">
-//       <AlertTitle>{props.type} 중복체크</AlertTitle>
-//       사용가능한 {props.type}입니다!
-//     </Alert>
-//   </Snackbar>
-// ))({});

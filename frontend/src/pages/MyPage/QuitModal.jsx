@@ -59,6 +59,7 @@ export default function QuitModal(props) {
           <InputTextField
             name="curPassword"
             label="현재 비밀번호"
+            type="password"
             value={curPassword}
             onChange={onChange}
           />

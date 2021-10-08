@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Box from '@mui/material/Box';
 import Badge from '@mui/material/Badge';
 import Tooltip from '@mui/material/Tooltip';
 import { ThemeProvider } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { actLogOut } from '@/redux/userInfoSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { actLogOut, getUserInfo } from '@/redux/userInfoSlice';
 import { theme } from '../../constants/newColor';
 import {
   UserProfile,
@@ -20,23 +20,13 @@ import {
 } from './LoginProfile.style';
 
 export default function LoginProfile() {
-  const localStorageData = JSON.parse(window.localStorage.getItem('user'));
   const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.userInfo.userInfo);
 
-  const { userId, nickname, profileUrl } = localStorageData || {
-    userId: '',
-    nickname: '',
-    profileUrl: '',
-  };
-
-  const userInfo = {
-    id: 8,
-    userId,
-    profileUrl,
-    nickname: '빗썸 관리자',
-    authority: 'ROLE_USER',
-    notifications: 3,
-  };
+  useEffect(() => {
+    const id = window.localStorage.getItem('id');
+    if (id) dispatch(getUserInfo());
+  }, []);
 
   const loginOutBtnClick = () => {
     dispatch(actLogOut());
@@ -44,11 +34,11 @@ export default function LoginProfile() {
 
   return (
     <Box sx={{ display: 'flex', margin: '0px 20px 0px 30px' }}>
-      <UserProfile nickname={nickname} />
+      <UserProfile src={userInfo.profileUrl} />
 
       <UserInfo>
         <UserNickname>
-          {nickname}
+          {userInfo.nickname}
         </UserNickname>
         <ThemeProvider theme={theme}>
           <LoginButton
@@ -63,7 +53,7 @@ export default function LoginProfile() {
       </UserInfo>
 
       <UserIcons>
-        <Tooltip title={`${nickname}님에게 온 알림`}>
+        <Tooltip title={`${userInfo.nickname}님에게 온 알림`}>
           <IconWrap size="small" color="action">
             <Badge badgeContent={userInfo.notifications} color="success">
               { userInfo.notifications > 0 ? <Notifications color="action" /> : <NotificationsNone color="action" />}

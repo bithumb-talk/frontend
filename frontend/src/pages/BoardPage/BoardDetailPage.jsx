@@ -14,7 +14,6 @@ export default function BoardReadDetail() {
   const getCommentList = async (urlNum) => {
     const res = await api.getComment(urlNum);
     if (res.data.status === 'SUCCESS') {
-      console.log(res.data.data.content);
       setComment(res.data.data.content);
     }
   };

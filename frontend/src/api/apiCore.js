@@ -1,6 +1,6 @@
 import axios from 'axios';
 import auth from '@/utils/auth';
-// import getNewToken from './getNewToken';
+import getNewToken from './getNewToken';
 import { authHeader } from './authHeader';
 
 class Core {
@@ -26,10 +26,13 @@ class Core {
   async post(url, data, config, isToken = false) {
     try {
       const res = await axios.post(url, data, config);
-      console.log(isToken);
+
       // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-      //   return getNewToken();
-      // }
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        console.log(newResult);
+        return newResult;
+      }
 
       return res;
     } catch (error) {
@@ -40,10 +43,12 @@ class Core {
   async put(url, data, config, isToken = false) {
     try {
       const res = await axios.put(url, data, config);
-      console.log(isToken);
+
       // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-      //   return getNewToken();
-      // }
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        return newResult;
+      }
 
       return res;
     } catch (error) {
@@ -57,8 +62,10 @@ class Core {
       const res = await axios.delete(url, config);
 
       // if (isToken && res.data.status === '903' && res.data.message === 'expired token') {
-      //   return getNewToken();
-      // }
+      if (isToken && res.data.status === 'FAIL' && res.data.message === 'EXPIRED TOKEN IN GATEWAY') {
+        const newResult = getNewToken(config);
+        return newResult;
+      }
 
       return res;
     } catch (error) {

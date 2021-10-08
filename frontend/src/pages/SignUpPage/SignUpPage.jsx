@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '@/api/api';
 import {
-  LockIcon, SignInForm, LoginButton, UniqueCheckButton,
+  LockIcon, SignInForm, LoginButton, UniqueCheckButton, SignUpWrap, BackArrowBox, BackArrowIcon,
 } from './SignUpPage.style';
 
 export default function SignUpPage() {
@@ -15,6 +15,7 @@ export default function SignUpPage() {
   const [userInput, setUserInput] = useState({
     userId: '',
     password: '',
+    passwordConfirm: '',
     nickname: '',
   });
 
@@ -25,11 +26,11 @@ export default function SignUpPage() {
   });
 
   const [duplicateCheck, setDuplicateCheck] = useState({
-    userIDDupCheck: false,
-    userNicknameDupCheck: false,
+    userIDDupCheck: 'default',
+    userNicknameDupCheck: 'default',
   });
 
-  const { userId, password, nickname } = userInput;
+  const { userId, password, passwordConfirm, nickname } = userInput;
   const { userIDCheck, userPWCheck, userNicknameCheck } = validationCheck;
   const { userIDDupCheck, userNicknameDupCheck } = duplicateCheck;
 
@@ -64,7 +65,7 @@ export default function SignUpPage() {
   };
 
   // eslint-disable-next-line max-len
-  const buttonValidateCheck = () => !(!userIDDupCheck && !userNicknameDupCheck && !userIDCheck && !userPWCheck && !userNicknameCheck && userId && password && nickname);
+  const buttonValidateCheck = () => !(!userIDCheck && !userPWCheck && (passwordConfirm === password) && !userNicknameCheck && userId && password && passwordConfirm && nickname && userNicknameDupCheck === 'done' && userIDDupCheck === 'done');
 
   const onChange = (e) => {
     const { value, name } = e.target;
@@ -91,37 +92,33 @@ export default function SignUpPage() {
     const res = await api.checkDuplicateUserId(userId);
     console.log(res);
 
-    if (res.data.status === 'SUCCESS') {
-      setDuplicateCheck({
-        ...duplicateCheck,
-        userIDDupCheck: true,
-      });
-    }
+    setDuplicateCheck({
+      ...duplicateCheck,
+      userIDDupCheck: res.data.data ? 'success' : 'fail',
+    });
   };
 
   const checkDuplicateNickname = async () => {
     const res = await api.checkDuplicateNickname(nickname);
     console.log(res);
 
-    if (res.data.status === 'SUCCESS') {
-      setDuplicateCheck({
-        ...duplicateCheck,
-        userNicknameDupCheck: true,
-      });
-    }
+    setDuplicateCheck({
+      ...duplicateCheck,
+      userNicknameDupCheck: res.data.data === true ? 'success' : 'fail',
+    });
   };
 
   const closeUserNicknameDupCheck = () => {
     setDuplicateCheck({
       ...duplicateCheck,
-      userNicknameDupCheck: false,
+      userNicknameDupCheck: userNicknameDupCheck === 'success' ? 'done' : 'default',
     });
   };
 
   const closeUserIDDupCheck = () => {
     setDuplicateCheck({
       ...duplicateCheck,
-      userIDDupCheck: false,
+      userIDDupCheck: userIDDupCheck === 'success' ? 'done' : 'default',
     });
   };
 
@@ -139,149 +136,201 @@ export default function SignUpPage() {
     return msg;
   };
 
+  const clickGoBack = () => {
+    history.push('/');
+  };
+
   return (
-    <Box sx={{
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
-      flexDirection: 'column',
-    }}
-    >
-      <Box sx={{
-        padding: '10px',
-        bgcolor: 'pink',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: '100%',
-        marginBottom: '15px',
-      }}
-      >
-        <LockIcon sx={{ fontSize: '28px' }} />
-      </Box>
-      <Typography variant="h4">회원가입</Typography>
-      <Box sx={{
-        marginTop: '15px',
-        display: 'flex',
-        width: '70%',
-        flexDirection: 'column',
-      }}
-      >
-
-        {userNicknameCheck || userNicknameDupCheck ? (
-          <Typography variant="body2" color="error">
-            {userNicknameErrorMessage()}
-          </Typography>
-        )
-          : <></>}
-
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          <SignInForm
-            required
-            fullWidth
-            name="nickname"
-            label="닉네임"
-            onBlur={checkNickname}
-            value={nickname}
-            onChange={onChange}
-            error={userNicknameCheck}
-          />
-          <UniqueCheckButton
-            disabled={userNicknameCheck}
-            onClick={checkDuplicateNickname}
-          >
-            중복체크
-          </UniqueCheckButton>
-          <Snackbar
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            open={userNicknameDupCheck}
-            onClose={closeUserNicknameDupCheck}
-            autoHideDuration={3000}
-          >
-            <Alert severity="success">
-              <AlertTitle>닉네임 중복체크</AlertTitle>
-              사용가능한 닉네임입니다!
-            </Alert>
-          </Snackbar>
-        </Box>
-
-        {userIDCheck || userIDDupCheck ? (
-          <Typography variant="body2" color="error">
-            {userIdErrorMessage()}
-          </Typography>
-        )
-          : <></>}
-        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
-          <SignInForm
-            required
-            fullWidth
-            name="userId"
-            label="사용자ID"
-            onBlur={checkUserId}
-            value={userId}
-            onChange={onChange}
-            error={userIDCheck}
-            // disabled={userNicknameDupCheck}
-          />
-          <UniqueCheckButton
-            disabled={userIDCheck}
-            onClick={checkDuplicateUserId}
-          >
-            중복체크
-          </UniqueCheckButton>
-          <Snackbar
-            anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
-            open={userIDDupCheck}
-            onClose={closeUserIDDupCheck}
-            autoHideDuration={3000}
-          >
-            <Alert severity="success">
-              <AlertTitle>아이디 중복체크</AlertTitle>
-              사용가능한 아이디입니다!
-            </Alert>
-          </Snackbar>
-        </Box>
-
-        {userPWCheck ? (
-          <Typography variant="body2" color="error">
-            비밀번호는 영문, 숫자만 가능하며 8~15자리까지 가능합니다.
-          </Typography>
-        )
-          : <></>}
-        <SignInForm
-          required
-          fullWidth
-          type="password"
-          name="password"
-          label="비밀번호"
-          onBlur={checkPassword}
-          value={password}
-          onChange={onChange}
-          error={userPWCheck}
-          // disabled={!(userIDDupCheck && userNicknameDupCheck)}
-        />
-
-        <LoginButton
-          fullWidth
-          variant="contained"
-          onClick={postSignup}
-          disabled={buttonValidateCheck()}
-        >
-          회원가입
-        </LoginButton>
+    <SignUpWrap>
+      <BackArrowBox>
+        <BackArrowIcon onClick={clickGoBack} />
+      </BackArrowBox>
+      <SignUpWrap>
         <Box sx={{
+          flexDirection: 'column',
           display: 'flex',
-          flexDirection: 'row-reverse',
-          width: '100%',
+          alignItems: 'center',
+          justifyContent: 'center',
+          border: '1px solid #eee',
+          padding: '40px',
+          borderRadius: '10px',
+          bgcolor: 'white',
         }}
         >
-          <Link to="/signin">
-            <Button>이미 계정이 있으신가요? 로그인하기</Button>
-          </Link>
+          <Box sx={{
+            padding: '10px',
+            bgcolor: 'orange',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            borderRadius: '100%',
+            marginBottom: '15px',
+          }}
+          >
+            <LockIcon sx={{ fontSize: '28px' }} />
+          </Box>
+          <Typography variant="h4">회원가입</Typography>
+          <Box sx={{
+            marginTop: '15px',
+            display: 'flex',
+            minWidth: '400px',
+            // maxWidth: '400px',
+            flexDirection: 'column',
+          }}
+          >
+
+            {userNicknameCheck || userNicknameDupCheck ? (
+              <Typography variant="caption" color="error">
+                {userNicknameErrorMessage()}
+              </Typography>
+            )
+              : <></>}
+
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <SignInForm
+                required
+                fullWidth
+                name="nickname"
+                label="닉네임"
+                onBlur={checkNickname}
+                value={nickname}
+                onChange={onChange}
+                error={userNicknameCheck}
+              />
+              <UniqueCheckButton
+                disabled={userNicknameCheck}
+                onClick={checkDuplicateNickname}
+              >
+                중복체크
+              </UniqueCheckButton>
+              <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={userNicknameDupCheck === 'success'}
+                onClose={closeUserNicknameDupCheck}
+                autoHideDuration={3000}
+              >
+                <Alert severity="success">
+                  <AlertTitle>닉네임 중복체크</AlertTitle>
+                  사용가능한 닉네임입니다!
+                </Alert>
+              </Snackbar>
+              <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={userNicknameDupCheck === 'fail'}
+                onClose={closeUserNicknameDupCheck}
+                autoHideDuration={3000}
+              >
+                <Alert severity="error">
+                  <AlertTitle>닉네임 중복체크</AlertTitle>
+                  사용할 수 없는 닉네임입니다!
+                </Alert>
+              </Snackbar>
+            </Box>
+
+            {userIDCheck || userIDDupCheck ? (
+              <Typography variant="caption" color="error">
+                {userIdErrorMessage()}
+              </Typography>
+            )
+              : <></>}
+            <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+              <SignInForm
+                required
+                fullWidth
+                name="userId"
+                label="사용자ID"
+                onBlur={checkUserId}
+                value={userId}
+                onChange={onChange}
+                error={userIDCheck}
+              />
+              <UniqueCheckButton
+                disabled={userIDCheck}
+                onClick={checkDuplicateUserId}
+              >
+                중복체크
+              </UniqueCheckButton>
+              <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={userIDDupCheck === 'success'}
+                onClose={closeUserIDDupCheck}
+                autoHideDuration={3000}
+              >
+                <Alert severity="success">
+                  <AlertTitle>아이디 중복체크</AlertTitle>
+                  사용가능한 아이디입니다!
+                </Alert>
+              </Snackbar>
+              <Snackbar
+                anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+                open={userIDDupCheck === 'fail'}
+                onClose={closeUserIDDupCheck}
+                autoHideDuration={3000}
+              >
+                <Alert severity="error">
+                  <AlertTitle>아이디 중복체크</AlertTitle>
+                  사용할 수 없는 아이디입니다!
+                </Alert>
+              </Snackbar>
+            </Box>
+
+            {userPWCheck ? (
+              <Typography variant="caption" color="error">
+                비밀번호는 영문, 숫자만 가능하며 8~15자리까지 가능합니다.
+              </Typography>
+            )
+              : <></>}
+            <SignInForm
+              required
+              fullWidth
+              type="password"
+              name="password"
+              label="비밀번호"
+              onBlur={checkPassword}
+              value={password}
+              onChange={onChange}
+              error={userPWCheck}
+            />
+
+            {passwordConfirm !== password && passwordConfirm ? (
+              <Typography variant="caption" color="error">
+                입력하신 비밀번호가 일치하지 않습니다.
+              </Typography>
+            )
+              : <></>}
+            <SignInForm
+              required
+              fullWidth
+              type="password"
+              name="passwordConfirm"
+              label="비밀번호 확인"
+              onBlur={checkPassword}
+              value={passwordConfirm}
+              onChange={onChange}
+              error={(passwordConfirm !== password && passwordConfirm !== '')}
+            />
+
+            <LoginButton
+              fullWidth
+              variant="contained"
+              onClick={postSignup}
+              disabled={buttonValidateCheck()}
+            >
+              회원가입
+            </LoginButton>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'row-reverse',
+              width: '100%',
+            }}
+            >
+              <Link to="/signin">
+                <Button sx={{ fontSize: '12px' }}>이미 계정이 있으신가요? 로그인하기</Button>
+              </Link>
+            </Box>
+          </Box>
         </Box>
-      </Box>
-    </Box>
+      </SignUpWrap>
+    </SignUpWrap>
   );
 }

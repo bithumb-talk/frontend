@@ -41,7 +41,17 @@ export default function BoardListPage() {
     <div>
       <div style={{ display: 'flex' }}>
         <Grid item xs={10} md={10} lg={10}>
-          <h1 style={{ margin: '10px', fontSize: '2em', display: 'flex', justifyContent: 'center' }}>{titleName}</h1>
+          <h3
+            style={{
+              margin: '0.5em',
+              fontSize: '1.3em',
+              display: 'flex',
+              justifyContent: 'center',
+              fontFamily: 'Gowun Batang',
+            }}
+          >
+            {titleName}
+          </h3>
           <PostGrid postItem={item} />
         </Grid>
         <div

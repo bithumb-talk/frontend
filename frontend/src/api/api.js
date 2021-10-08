@@ -2,7 +2,6 @@ import Core from './apiCore';
 import { authHeader } from './authHeader';
 
 const BASE_URL = 'http://3.38.23.41:6030';
-const USER_BASE_URL = 'http://3.38.23.41:6030';
 const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
@@ -15,15 +14,17 @@ const END_POINT = Object.freeze({
   BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
   BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
   BOARD_COMMENT: `${BOARD_BASE_URL}/boards/`,
-  SIGNUP: `${USER_BASE_URL}/auth/signup`,
-  SIGNIN: `${USER_BASE_URL}/auth/login`,
-  GET_USERINFO: `${USER_BASE_URL}/users/1/info`,
-  CHECK_DUPLICATE_USERID: `${USER_BASE_URL}/auth/check-duplicate-user-id`,
-  CHECK_DUPLICATE_NICKNAME: `${USER_BASE_URL}/auth/check-duplicate-nickname`,
-  CHANGE_NICKNAME: `${USER_BASE_URL}/users/nickname`,
-  CHANGE_PASSWORD: `${USER_BASE_URL}/users/password`,
-  USER_WITHDRAWAL: `${USER_BASE_URL}/users`,
-  SET_DEVICE_TOKEN: `${USER_BASE_URL}/users/device/`,
+  BOARD_RANK: `${BOARD_BASE_URL}/all-boards/ranking`,
+  SIGNUP: `${BASE_URL}/auth/signup`,
+  SIGNIN: `${BASE_URL}/auth/login`,
+  GET_USERINFO: `${BASE_URL}/users/1/info`,
+  CHECK_DUPLICATE_USERID: `${BASE_URL}/auth/check-duplicate-user-id`,
+  CHECK_DUPLICATE_NICKNAME: `${BASE_URL}/auth/check-duplicate-nickname`,
+  CHANGE_NICKNAME: `${BASE_URL}/users/nickname`,
+  CHANGE_PASSWORD: `${BASE_URL}/users/password`,
+  USER_WITHDRAWAL: `${BASE_URL}/users`,
+  SET_DEVICE_TOKEN: `${BASE_URL}/users/device`,
+  IMAGE_UPLOAD: `${BASE_URL}/users/profile`,
   // SIGNUP: '/auth/signup',
   // SIGNIN: '/auth/login',
   // GET_USERINFO: '/users/1/info',
@@ -33,16 +34,12 @@ const END_POINT = Object.freeze({
   // CHANGE_PASSWORD: '/users/password',
   // USER_WITHDRAWAL: '/users',
   // SET_DEVICE_TOKEN: '/users/device/',
+  // IMAGE_UPLOAD: '/users/profile/',
 });
 
 class Api {
   constructor() {
     this.api = new Core();
-    this.config = {
-      headers: {
-        ...authHeader(),
-      },
-    };
   }
 
   async getInterest(userId) {
@@ -56,7 +53,15 @@ class Api {
   }
 
   async getUserInfo(id) {
-    const res = await this.api.get(`users/${id}/info`);
+    const res = await this.api.get(
+      `${BASE_URL}/users/${id}/info`,
+      {
+        headers: {
+          ...authHeader(),
+        },
+      },
+      true,
+    );
     return res;
   }
 
@@ -77,6 +82,31 @@ class Api {
 
     try {
       res = await this.api.post(`${END_POINT.SIGNUP}`, data, null);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+
+    console.log(res);
+    return res;
+  }
+
+  async postImageUpload(id, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(
+        `${END_POINT.IMAGE_UPLOAD}/${id}`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -224,7 +254,25 @@ class Api {
 
   async deleteInterestCoin({ symbol, userId }) {
     const res = await this.api.delete(`${END_POINT.INTEREST}/${userId}`, { data: { symbol }, ...this.config });
+    return res;
+  }
 
+  async postComment(boardNo, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_COMMENT}/${boardNo}/comments`, data);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async getRanking() {
+    const res = await this.api.get(`${END_POINT.BOARD_RANK}`);
     return res;
   }
 }
