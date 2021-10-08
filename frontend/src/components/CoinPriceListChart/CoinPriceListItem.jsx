@@ -1,9 +1,8 @@
-import React, { useEffect, useState, memo } from 'react';
+import React, { useEffect, useState, memo, useCallback } from 'react';
 import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
-import Modal from '@mui/material/Modal';
 import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
 import useDebounce from '@/hooks/useDebounce';
@@ -15,9 +14,8 @@ import {
   CoinFont,
   CoinLink,
   CoinFontSpan,
-  ModalContainer,
 } from './CoinPriceListChart.style';
-import CoinLogin from './CoinLogin';
+import CoinListModal from './CoinListModal';
 
 const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
   fontSize: '16px',
@@ -35,8 +33,8 @@ function CoinPriceListItem({
   });
 
   const editInterestDebounce = useDebounce(dispatchInterestCoin, 100);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
+  const handleOpen = useCallback(() => setOpen(true), []);
+  const handleClose = useCallback(() => setOpen(false), []);
 
   const onClickStar = () => {
     if (auth.isLogin()) {
@@ -78,7 +76,8 @@ function CoinPriceListItem({
 
   return (
     <>
-      <Modal
+      <CoinListModal open={open} handleClose={() => handleClose()} />
+      {/* <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
@@ -87,7 +86,7 @@ function CoinPriceListItem({
         <ModalContainer>
           <CoinLogin />
         </ModalContainer>
-      </Modal>
+      </Modal> */}
       <CoinListItem active={borderColor.flag} color={borderColor.color}>
 
         <TableGrid
