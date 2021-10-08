@@ -21,7 +21,6 @@ export default function BoardReadDetail() {
   const getBoardDetail = async (url) => {
     await api.getBoardDetail(url).then((res) => {
       if (res.data.status === 'SUCCESS') {
-        console.log('성공');
         setItem(res.data.data);
         getCommentList(res.data.data.links[0].href.split('/')[4]);
       }

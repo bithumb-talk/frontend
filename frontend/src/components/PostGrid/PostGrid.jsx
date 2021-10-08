@@ -6,7 +6,12 @@ import Grid from '@mui/material/Grid';
 import PostCard from '../PostCard/PostCard';
 
 function PostGrid(props) {
-  const postSample = props.postItem;
+  const postArr = props.postItem;
+  const [postGridItem, setPostGridItem] = React.useState(postArr);
+
+  React.useEffect(() => {
+    setPostGridItem(postArr);
+  }, [postArr]);
 
   return (
     <div
@@ -21,9 +26,10 @@ function PostGrid(props) {
       }}
     >
       <Grid container spacing={3}>
-        {postSample.map((item) => (
+        {postGridItem.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12}>
             <PostCard
+              boardTitle={item.boardTitle}
               boardNo={item.boardNo}
               boardCreatedDate={item.boardCreatedDate}
               boardImg={item.boardImg}

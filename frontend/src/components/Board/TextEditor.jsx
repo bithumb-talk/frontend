@@ -48,7 +48,6 @@ const TextEditor = (props) => {
 
           const reader = new FileReader();
           reader.onloadend = () => {
-            console.log('잉');
             reader.readAsDataURL(file);
           };
 

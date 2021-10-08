@@ -1,5 +1,3 @@
-/* eslint-disable max-len */
-/* eslint-disable no-unused-vars */
 import React, { useState, useEffect } from 'react';
 import proptypes from 'prop-types';
 import Button from '@mui/material/Button';
