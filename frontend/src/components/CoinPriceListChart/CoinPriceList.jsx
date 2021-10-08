@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import CoinPriceListItem from './CoinPriceListItem';
 import CoinPriceListSkeleton from './CoinPriceListSkeleton';
 import { CoinPriceListSection } from './CoinPriceListChart.style';
+import EmptyList from './EmptyList';
 
 function CoinPriceList() {
   const { coinPriceList: { isLoading } } = useSelector((state) => state.coinPrice);
@@ -20,7 +21,7 @@ function CoinPriceList() {
     <CoinPriceListSection>
       {
         coins.length === 0
-          ? <div>empty</div>
+          ? <EmptyList />
           : coins.map((coin) => (
             <CoinPriceListItem
               key={coin.symbol}
