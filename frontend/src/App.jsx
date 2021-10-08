@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { onMessageListener } from './firebase/firebaseInit';
 import Router from './router/Router';
 import ReactNotificationComponent from './components/Notifications/ReactNotificationComponent';
@@ -11,16 +11,18 @@ function App() {
 
   console.log(show, notification);
 
-  onMessageListener()
-    .then((payload) => {
-      setShow(true);
-      setNotification({
-        title: payload.notification.title,
-        body: payload.notification.body,
-      });
-      console.log(payload);
-    })
-    .catch((err) => console.log('failed: ', err));
+  useEffect(() => {
+    onMessageListener()
+      .then((payload) => {
+        setShow(true);
+        setNotification({
+          title: payload.notification.title,
+          body: payload.notification.body,
+        });
+        console.log(payload);
+      })
+      .catch((err) => console.log('failed: ', err));
+  }, []);
 
   return (
     <>
