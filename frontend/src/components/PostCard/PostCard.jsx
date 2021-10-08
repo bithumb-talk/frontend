@@ -11,6 +11,7 @@ import ReactHtmlParser from 'react-html-parser';
 import Grid from '@mui/material/Grid';
 import api from '@/api/api';
 import defaultImg from '@/assets/image/defaultImg.png';
+import { withoutImgTag, gapTime } from '@/utils/utils';
 import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
 function PostCard(props) {
@@ -56,11 +57,13 @@ function PostCard(props) {
   useEffect(() => {
     setTitle(postItem.boardTitle);
     setNo(postItem.boardNo);
-    setDate(postItem.boardCreatedDate);
+    // setDate(postItem.boardCreatedDate);
     setName(postItem.nickname);
     setlinkUrl(`/boarddetail/${postItem.boardNo}`);
     setContent(postItem.boardContent);
 
+    // 시간 설정
+    setDate(gapTime(postItem.boardCreatedDate));
     // DefaultImg 설정
     if (postItem.boardImg.indexOf('http') !== -1) {
       setImg(postItem.boardImg);
@@ -70,7 +73,7 @@ function PostCard(props) {
 
     // 내용글 설정
     if (postItem.boardContent.indexOf('<img src') !== -1) {
-      const withoutImg = postItem.boardContent.replace(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
+      const withoutImg = withoutImgTag(postItem.boardContent);
       setContent(ReactHtmlParser(withoutImg));
     } else {
       setContent(ReactHtmlParser(postItem.boardContent));
