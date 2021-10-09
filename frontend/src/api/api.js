@@ -2,7 +2,6 @@ import Core from './apiCore';
 import { authHeader } from './authHeader';
 
 const BASE_URL = 'http://3.38.23.41:6030';
-const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
   INTERESTS: `${BASE_URL}/interests`,
@@ -10,10 +9,10 @@ const END_POINT = Object.freeze({
   COIN: `${BASE_URL}/quote_init`,
   CANDLE_STICK: `${BASE_URL}/candlestick`,
   POPULAR_COIN: `${BASE_URL}/changerate`,
-  BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
-  BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
-  BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
-  BOARD_RANK: `${BOARD_BASE_URL}/all-boards/ranking`,
+  BOARD_ALL: `${BASE_URL}/all-boards`,
+  BOARD_CATEGORY: `${BASE_URL}/all-boards/category`,
+  BOARD_DETAIL: `${BASE_URL}/boards`,
+  BOARD_RANK: `${BASE_URL}/all-boards/ranking`,
   SIGNUP: `${BASE_URL}/auth/signup`,
   SIGNIN: `${BASE_URL}/auth/login`,
   GET_USERINFO: `${BASE_URL}/users/1/info`,
@@ -219,9 +218,7 @@ class Api {
   }
 
   async getBoardAll(url) {
-    const res = url
-      ? await this.api.get(`${END_POINT.BOARD_ALL}${url}`)
-      : await this.api.get(`${END_POINT.BOARD_ALL}`);
+    const res = url ? await this.api.get(`${END_POINT.BOARD_ALL}${url}`) : await this.api.get(`${END_POINT.BOARD_ALL}`);
     return res;
   }
 
