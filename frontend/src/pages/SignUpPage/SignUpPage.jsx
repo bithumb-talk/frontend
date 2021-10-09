@@ -5,8 +5,9 @@ import Box from '@mui/material/Box';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import api from '@/api/api';
+import logo from '@/assets/image/newLogo.png';
 import {
-  LockIcon, SignInForm, LoginButton, UniqueCheckButton, SignUpWrap, BackArrowBox, BackArrowIcon,
+  LockIcon, SignInForm, LoginButton, UniqueCheckButton, SignUpWrap, BackArrowBox,
 } from './SignUpPage.style';
 
 export default function SignUpPage() {
@@ -136,14 +137,12 @@ export default function SignUpPage() {
     return msg;
   };
 
-  const clickGoBack = () => {
-    history.push('/');
-  };
-
   return (
     <SignUpWrap>
       <BackArrowBox>
-        <BackArrowIcon onClick={clickGoBack} />
+        <Link to="/">
+          <img src={logo} alt="youngcha" width="105px" height="65px" />
+        </Link>
       </BackArrowBox>
       <SignUpWrap>
         <Box sx={{
@@ -151,7 +150,7 @@ export default function SignUpPage() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          border: '1px solid #eee',
+          border: '1px solid #ddd',
           padding: '40px',
           borderRadius: '10px',
           bgcolor: 'white',
@@ -164,12 +163,14 @@ export default function SignUpPage() {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: '100%',
-            marginBottom: '15px',
+            marginBottom: '10px',
+            minWidth: '45px',
+            maxWidth: '45px',
           }}
           >
-            <LockIcon sx={{ fontSize: '28px' }} />
+            <LockIcon sx={{ fontSize: '25px' }} />
           </Box>
-          <Typography variant="h4">회원가입</Typography>
+          <Typography variant="h4" sx={{ fontWeight: '800' }}>회원가입</Typography>
           <Box sx={{
             marginTop: '15px',
             display: 'flex',
@@ -325,7 +326,9 @@ export default function SignUpPage() {
             }}
             >
               <Link to="/signin">
-                <Button sx={{ fontSize: '12px' }}>이미 계정이 있으신가요? 로그인하기</Button>
+                <Button>
+                  <Typography sx={{ fontSize: '12.5px' }}>이미 계정이 있으신가요? <b>로그인하기</b></Typography>
+                </Button>
               </Link>
             </Box>
           </Box>

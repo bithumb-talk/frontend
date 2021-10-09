@@ -31,10 +31,12 @@ export const UserInfo = styled((props) => <Box {...props} />)({
 
 export const UserNickname = styled((props) => <Typography {...props} />)({
   fontSize: 18,
+  color: 'black',
 });
 
 export const LoginButton = styled((props) => <Button {...props} />)({
   fontSize: '1rem',
+  fontWeight: '600',
   minWidth: '120px',
 });
 

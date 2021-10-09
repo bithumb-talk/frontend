@@ -23,6 +23,7 @@ const END_POINT = Object.freeze({
   USER_WITHDRAWAL: `${BASE_URL}/users`,
   SET_DEVICE_TOKEN: `${BASE_URL}/users/device`,
   IMAGE_UPLOAD: `${BASE_URL}/users/profile`,
+  BOARD_MY_LIST: `${BASE_URL}/all-boards/auth`,
   // SIGNUP: '/auth/signup',
   // SIGNIN: '/auth/login',
   // GET_USERINFO: '/users/1/info',
@@ -46,7 +47,6 @@ class Api {
   }
 
   async getInterest(userId) {
-    console.log(this.config);
     const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, this.config, true);
     return res;
   }
@@ -66,6 +66,11 @@ class Api {
       },
       true,
     );
+    return res;
+  }
+
+  async getMyBoardList(userId) {
+    const res = await this.api.get(`${END_POINT.BOARD_MY_LIST}/${userId}?size=8`, this.config, true);
     return res;
   }
 

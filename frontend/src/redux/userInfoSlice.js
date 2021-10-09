@@ -7,7 +7,7 @@ const initialState = {
     ...INITIAL_STATUS,
   },
   myBoardList: {
-    data: null,
+    data: [],
     ...INITIAL_STATUS,
   },
   token: '',
@@ -15,7 +15,7 @@ const initialState = {
   userId: '',
   nickname: '',
   profileUrl: '',
-  deviceToken: '',
+  deviceToken: '0',
 };
 
 // export const changeNicknameThunk = createAsyncThunk('CHANGE_NICKNAME', async (id, nickname) => {
@@ -36,8 +36,6 @@ export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async 
   const id = window.localStorage.getItem('id');
   const res = await api.getMyBoardList(id);
   const resData = res.data;
-
-  console.log(resData);
 
   return { ...resData };
 });
@@ -140,7 +138,7 @@ export const userInfoSlice = createSlice({
       };
     },
     [getMyBoardList.fulfilled]: (state, action) => {
-      state.myBoardList.data = action.payload.data;
+      state.myBoardList.data = action.payload.data.content;
     },
   },
 });
