@@ -13,6 +13,7 @@ const END_POINT = Object.freeze({
   BOARD_CATEGORY: `${BASE_URL}/all-boards/category`,
   BOARD_DETAIL: `${BASE_URL}/boards`,
   BOARD_RANK: `${BASE_URL}/all-boards/ranking`,
+  BOARD_USER: `${BASE_URL}/user-boards`,
   SIGNUP: `${BASE_URL}/auth/signup`,
   SIGNIN: `${BASE_URL}/auth/login`,
   GET_USERINFO: `${BASE_URL}/users/1/info`,
@@ -310,7 +311,32 @@ class Api {
   }
 
   async getRanking() {
-    const res = await this.api.get(`${END_POINT.BOARD_RANK}`);
+    const res = await this.api.get(`${END_POINT.BOARD_RANK}`, this.config);
+    console.log(res);
+    return res;
+  }
+
+  async postUserBoardRecommend(userId, boardNo) {
+    const res = await this.api.post(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
+    console.log(res);
+    return res;
+  }
+
+  async getUserBoardRecommend(userId, boardNo) {
+    const res = await this.api.get(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
+    console.log(res);
+    return res;
+  }
+
+  async postUserCommentRecommend(userId, commentNo) {
+    const res = await this.api.post(`${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentNo}`, this.config);
+    console.log(res);
+    return res;
+  }
+
+  async getUserCommentRecommend(userId, commentdNo) {
+    const res = await this.api.get(`${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentdNo}`, this.config);
+    console.log(res);
     return res;
   }
 }

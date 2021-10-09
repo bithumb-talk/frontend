@@ -22,11 +22,15 @@ const GlobalStyle = () => (
         height: 100%;
         font-size: 16px;
       }
-
-      h1 h2 h3 {
-        font-family: 'Fira Mono';
+      h1,
+      h2{
+         margin: '0.5em',
+          paddingLeft: ' 4em',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          fontFamily: 'Gowun Batang',
       }
-
+      h3, 
       html,
       body,
       h1,
