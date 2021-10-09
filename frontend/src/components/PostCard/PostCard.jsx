@@ -9,7 +9,7 @@ import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
 import ReactHtmlParser from 'react-html-parser';
 import Grid from '@mui/material/Grid';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Skeleton from '@mui/material/Skeleton';
 import api from '@/api/api';
@@ -144,17 +144,6 @@ function PostCard(props) {
           </Grid>
         </CardBottom>
       </CardWrap>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 }

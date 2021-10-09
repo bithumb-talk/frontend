@@ -3,7 +3,7 @@ import proptypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 import CommentView from './CommentView';
@@ -72,17 +72,6 @@ export default function Comment(props) {
           ? Comments.map((item) => <CommentView key={item.CommentNo} item={item} />)
           : commentItem.map((item) => <CommentView key={item.CommentNo} item={item} />)}
       </div>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 }

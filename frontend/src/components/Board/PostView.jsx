@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 import { categoryList } from '@/assets/index';
@@ -44,6 +44,12 @@ export default function PostView(props) {
       await api.postBoardRecommend(postNo, data).then((res) => {
         if (res.data.status !== 'SUCCESS') {
           toast.error('저장에 실패하였습니다');
+        }
+      });
+
+      await api.postUserBoardRecommend(id, postNo).then((res) => {
+        if (res.data.status !== 'SUCCESS') {
+          toast.error('유저 저장에 실패하였습니다');
         }
       });
     } else {
@@ -105,17 +111,6 @@ export default function PostView(props) {
           )}
         </div>
       </div>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 }

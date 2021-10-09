@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-key */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ToastContainer } from 'react-toastify';
 import Grid from '@mui/material/Grid';
 import PostCard from '../PostCard/PostCard';
 
@@ -31,6 +32,17 @@ function PostGrid(props) {
           </Grid>
         ))}
       </Grid>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

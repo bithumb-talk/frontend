@@ -247,7 +247,7 @@ class Api {
     let res = {
       data: {},
     };
-    console.log(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
+
     try {
       res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
     } catch (error) {
@@ -287,8 +287,7 @@ class Api {
     };
 
     try {
-      console.log(`${END_POINT.BOARD_DETAIL}/${boardNo}/recommend`, data);
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/recommend`, data);
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/auth/recommend`, data, this.config);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -311,14 +310,36 @@ class Api {
   }
 
   async getRanking() {
-    const res = await this.api.get(`${END_POINT.BOARD_RANK}`, this.config);
+    const res = await this.api.get(`${END_POINT.BOARD_RANK}`);
     console.log(res);
     return res;
   }
 
   async postUserBoardRecommend(userId, boardNo) {
-    const res = await this.api.post(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
-    console.log(res);
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async deleteUserBoardRecommend(userId, boardNo) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.delete(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
     return res;
   }
 
