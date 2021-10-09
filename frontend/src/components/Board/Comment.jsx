@@ -19,10 +19,6 @@ export default function Comment(props) {
   const { nickname } = useSelector((state) => state.userInfo.userInfo);
 
   useEffect(() => {
-    setComments(Comments.concat(commentItem));
-  }, [commentItem]);
-
-  useEffect(() => {
     setNo(pathname.split('/')[2]);
   }, [pathname]);
 

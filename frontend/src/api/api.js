@@ -218,8 +218,10 @@ class Api {
     return res;
   }
 
-  async getBoardAll() {
-    const res = await this.api.get(`${END_POINT.BOARD_ALL}`);
+  async getBoardAll(url) {
+    const res = url
+      ? await this.api.get(`${END_POINT.BOARD_ALL}${url}`)
+      : await this.api.get(`${END_POINT.BOARD_ALL}`);
     return res;
   }
 

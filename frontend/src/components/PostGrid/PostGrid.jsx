@@ -19,8 +19,7 @@ function PostGrid(props) {
         overflow: 'hidden',
         display: 'flex',
         flexWrap: 'wrap',
-        margin: '-1%',
-        paddingLeft: '3%',
+        margin: '1%',
         paddingRight: '3%',
         flexDirection: 'column',
       }}
@@ -28,9 +27,7 @@ function PostGrid(props) {
       <Grid container spacing={1}>
         {postGridItem.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12}>
-            <PostCard
-              postItem={item}
-            />
+            <PostCard postItem={item} />
           </Grid>
         ))}
       </Grid>

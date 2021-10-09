@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
@@ -28,9 +28,9 @@ export default function BoardWritePage() {
     nickname,
   });
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     history.goBack();
-  };
+  }, [history]);
 
   const onCategoryChange = (e) => {
     const { innerText } = e.target;
@@ -48,7 +48,7 @@ export default function BoardWritePage() {
     }
   };
 
-  const postSubmit = async () => {
+  const postSubmit = useCallback(async () => {
     if (id) {
       const res = await api.postBoard(id, postContent);
       if (res.data.status === 'SUCCESS') {
@@ -61,7 +61,7 @@ export default function BoardWritePage() {
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
     }
-  };
+  }, [goBack, id, postContent]);
 
   const onSubmit = async () => {
     if (nickname) {
@@ -100,8 +100,8 @@ export default function BoardWritePage() {
   };
 
   useEffect(() => {
-    if (isSend === true) postSubmit();
-  }, [isSend]);
+    if (isSend) postSubmit();
+  }, [isSend, postSubmit]);
 
   return (
     <>
