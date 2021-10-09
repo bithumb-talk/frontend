@@ -11,6 +11,7 @@ import ReactHtmlParser from 'react-html-parser';
 import Grid from '@mui/material/Grid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Skeleton from '@mui/material/Skeleton';
 import api from '@/api/api';
 import defaultImg from '@/assets/image/defaultImg.png';
 import { withoutImgTag, gapTime } from '@/utils/utils';
@@ -18,7 +19,9 @@ import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './
 
 function PostCard(props) {
   const { postItem } = props;
+  const [loading, setLoading] = useState(true);
   const { id } = useSelector((state) => state.userInfo.userInfo);
+
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
@@ -63,6 +66,7 @@ function PostCard(props) {
 
     // 시간 설정
     setDate(gapTime(postItem.boardCreatedDate));
+
     // DefaultImg 설정
     if (postItem.boardImg.indexOf('http') !== -1) {
       setImg(postItem.boardImg);
@@ -79,33 +83,56 @@ function PostCard(props) {
     }
   }, [postItem]);
 
+  useEffect(() => {
+    setLoading(false);
+  }, [postImg, postContent]);
+
   return (
     <>
       <CardWrap>
         <Link to={linkUrl}>
-          <CardMedia component="img" width="225" height="134" image={postImg} alt="img" />
+          {loading ? (
+            <Skeleton sx={{ height: 134 }} animation="wave" variant="rectangular" />
+          ) : (
+            <CardMedia component="img" width="225" height="134" image={postImg} alt="img" />
+          )}
           <CardContent height="100">
-            <Typography variant="body2" height="25px" style={{ fontWeight: 'bolder' }}>
-              {title.length >= 15 ? `${title.substr(0, 15)}...` : title}
-            </Typography>
-            <Typography variant="body2" height="80px" style={{ color: 'rgb(73, 80, 87)' }}>
-              {postContent}
-              {/*  {ReactHtmlParser(postContent.length) >= 120
+            {loading ? (
+              <Skeleton sx={{ height: 105 }} animation="wave" variant="rectangular" />
+            ) : (
+              <>
+                <Typography variant="body2" height="25px" style={{ fontWeight: 'bolder' }}>
+                  {title.length >= 15 ? `${title.substr(0, 15)}...` : title}
+                </Typography>
+                <Typography variant="body2" height="80px" style={{ color: 'rgb(73, 80, 87)' }}>
+                  {postContent}
+                  {/*  {ReactHtmlParser(postContent.length) >= 120
               ? `${ReactHtmlParser(postContent.substr(0, 120))}...`
               : ReactHtmlParser(postContent)} */}
-            </Typography>
+                </Typography>
+              </>
+            )}
           </CardContent>
         </Link>
         <CardBottom height="100">
           <Grid container spacing={0} alignItems=" center">
             <Grid item xs={2}>
-              <CardProfile />
+              {loading ? <Skeleton variant="circular" width={30} height={30} /> : <CardProfile />}
             </Grid>
             <Grid item xs={8}>
-              <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom>
-                {postDate}
-              </Typography>
-              <CardInfo>by {postName}</CardInfo>
+              {loading ? (
+                <>
+                  <Skeleton variant="text" animation="wave" width={100} height={15} />
+                  <Skeleton variant="text" animation="wave" width={100} height={15} />
+                </>
+              ) : (
+                <>
+                  <Typography sx={{ fontSize: 10 }} color="text.secondary" gutterBottom>
+                    {postDate}
+                  </Typography>
+                  <CardInfo>by {postName}</CardInfo>
+                </>
+              )}
             </Grid>
             <Grid item xs={2}>
               {isChecked ? (
