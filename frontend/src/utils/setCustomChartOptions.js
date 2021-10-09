@@ -23,7 +23,9 @@ const setCustomChartOptions = (data) => ({
   plotOptions: {
     candlestick: {
       color: COLOR.BLUE,
+      lineColor: COLOR.BLUE,
       upColor: COLOR.RED,
+      upLineColor: COLOR.RED,
     },
   },
   navigator: {
