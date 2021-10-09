@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { TextEditor, BoardCategory, BoardBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
 import { categoryList } from '@/assets/index';
@@ -10,7 +12,7 @@ import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
 
 export default function BoardWritePage() {
-  const { id, nickname } = useSelector((state) => state.userInfo);
+  const { id, nickname } = useSelector((state) => state.userInfo.userInfo);
   const history = useHistory();
   const inputRef = React.useRef();
   const titleRef = React.useRef();
@@ -50,14 +52,14 @@ export default function BoardWritePage() {
     if (id) {
       const res = await api.postBoard(id, postContent);
       if (res.data.status === 'SUCCESS') {
-        alert('저장 성공');
+        toast.success('글이 작성되었습니다👌');
         goBack();
       } else {
-        alert('저장 실패');
+        toast.error('저장에 실패하였습니다');
       }
       setIsSend(false);
     } else {
-      alert('로그인이 필요한 서비스입니다.');
+      toast.info('로그인이 필요한 서비스입니다.');
     }
   };
 
@@ -84,16 +86,16 @@ export default function BoardWritePage() {
         boardImg: imgUrl.length > 0 ? postContent.boardImg.concat(imgUrl) : postContent.boardImg,
       });
       if (postContent.boardCategory === '') {
-        alert('카테고리를 선택해주세요');
+        toast('카테고리를 선택해주세요');
       } else if (titleRef.current.value === '') {
-        alert('제목을 작성해주세요');
+        toast('제목을 작성해주세요');
       } else if (editorContent === '<p><br></p>') {
-        alert('내용을 작성해주세요');
+        toast('내용을 작성해주세요');
       } else {
         setIsSend(true);
       }
     } else {
-      alert('로그인이 필요한 서비스입니다.');
+      toast.info('로그인이 필요한 서비스입니다.');
     }
   };
 
@@ -102,12 +104,25 @@ export default function BoardWritePage() {
   }, [isSend]);
 
   return (
-    <div className="board">
-      <h3>글쓰기</h3>
-      <BoardCategory name="boardCategory" onChange={onCategoryChange} />
-      <TextTitle className="css-0" titleRef={titleRef} />
-      <TextEditor className="ql-editor" inputRef={inputRef} />
-      <BoardBottom onClick={onSubmit} goBack={goBack} />
-    </div>
+    <>
+      <div className="board">
+        <h3>글쓰기</h3>
+        <BoardCategory name="boardCategory" onChange={onCategoryChange} />
+        <TextTitle className="css-0" titleRef={titleRef} />
+        <TextEditor className="ql-editor" inputRef={inputRef} />
+        <BoardBottom onClick={onSubmit} goBack={goBack} />
+      </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 }

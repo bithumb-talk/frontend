@@ -3,6 +3,8 @@ import proptypes from 'prop-types';
 import Button from '@mui/material/Button';
 import { useSelector } from 'react-redux';
 import { useLocation } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 import CommentView from './CommentView';
 import './BoardDetail.style.css';
@@ -41,16 +43,15 @@ export default function Comment(props) {
 
       await api.postComment(boardNo, variables).then((res) => {
         if (res.data.status === 'SUCCESS') {
-          alert('저장 성공');
           setComments(Comments.concat(variables));
+          setWrite(' ');
           setSend(true);
-          setWrite('');
         } else {
-          alert('저장 실패');
+          toast.error('저장에 실패하였습니다');
         }
       });
     } else {
-      alert('로그인이 필요한 서비스입니다.');
+      toast.info('로그인이 필요한 서비스입니다.');
     }
   };
 
@@ -75,6 +76,17 @@ export default function Comment(props) {
           ? Comments.map((item) => <CommentView key={item.CommentNo} item={item} />)
           : commentItem.map((item) => <CommentView key={item.CommentNo} item={item} />)}
       </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }
