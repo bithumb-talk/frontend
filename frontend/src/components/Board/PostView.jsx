@@ -1,11 +1,13 @@
+/* eslint-disable max-len */
 /* eslint-disable react/prop-types */
-/* eslint-disable object-curly-newline */
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
 import api from '@/api/api';
+import { categoryList } from '@/assets/index';
+import { gapTime } from '@/utils/utils';
 import { ContentLikeButton, ContentLikeIcon, ContentLikeEmptyIcon, ContentLikeEmptyButton } from './Board.style';
 import './BoardDetail.style.css';
 
@@ -53,7 +55,7 @@ export default function PostView(props) {
     setTitle(postItem.boardTitle);
     setNo(postItem.boardNo);
     setName(postItem.nickname);
-    setDate(postItem.boardCreatedDate);
+    setDate(gapTime(postItem.boardCreatedDate));
     setContent(postItem.boardContent);
     setCatagory(postItem.boardCategory);
     setCatagoryUrl(`/board/${postItem.boardCategory}`);
@@ -63,7 +65,7 @@ export default function PostView(props) {
   return (
     <div>
       <div>
-        커뮤니티 <Link href={cataogryUrl}>{postCatagory}</Link>
+        커뮤니티 <Link href={cataogryUrl}>{categoryList.filter((item) => item.name === postCatagory)[0].label}</Link>
       </div>
       <div className="postTitle">
         <span className="titleText">{title}</span>

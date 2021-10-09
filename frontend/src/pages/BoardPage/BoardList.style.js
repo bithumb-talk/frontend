@@ -6,18 +6,21 @@ import CreateOutlinedIcon from '@mui/icons-material/CreateOutlined';
 export const WriteIcon = styled((props) => <CreateOutlinedIcon {...props} />)({
   width: '1.6em',
   height: ' 1.6em',
-  color: 'coral',
+  color: 'white',
+  '&:hover': { color: 'coral' },
 });
 
 export const PlusIcon = styled((props) => <AddIcon {...props} />)({
   width: '1.6em',
   height: ' 1.6em',
-  color: 'coral',
+  color: 'white',
+  '&:hover': { color: 'coral' },
 });
 
 export const WriteButton = styled((props) => <IconButton {...props} />)({
   fontSize: '1em',
   color: 'black',
+  background: '#ffa536',
   '&:hover': {
     background: 'rgb(255 149 118 / 24%)',
     boxShadow: '0 4px 20px 0 rgba(0,0,0,0.12)',

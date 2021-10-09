@@ -57,7 +57,6 @@ function PostCard(props) {
   useEffect(() => {
     setTitle(postItem.boardTitle);
     setNo(postItem.boardNo);
-    // setDate(postItem.boardCreatedDate);
     setName(postItem.nickname);
     setlinkUrl(`/boarddetail/${postItem.boardNo}`);
     setContent(postItem.boardContent);

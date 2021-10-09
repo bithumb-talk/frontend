@@ -25,19 +25,11 @@ function PostGrid(props) {
         flexDirection: 'column',
       }}
     >
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         {postGridItem.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12}>
             <PostCard
               postItem={item}
-              /*   postItempostArr
-              boardTitle={item.boardTitle}
-              boardNo={item.boardNo}
-              boardCreatedDate={item.boardCreatedDate}
-              boardImg={item.boardImg}
-              boardContent={item.boardContent}
-              nickname={item.nickname}
-              links={item.links[0].href} */
             />
           </Grid>
         ))}

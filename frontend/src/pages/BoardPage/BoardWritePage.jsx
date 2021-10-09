@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
 import { TextEditor, BoardCategory, BoardBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
+import { categoryList } from '@/assets/index';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
@@ -32,12 +33,6 @@ export default function BoardWritePage() {
   const onCategoryChange = (e) => {
     const { innerText } = e.target;
     if (innerText) {
-      const categoryList = [
-        { name: 'talk', label: '자유게시판' },
-        { name: 'cointalk', label: '코인잡담' },
-        { name: 'coinBeginner', label: '코인초보' },
-      ];
-
       const pick = categoryList.filter((item) => item.label === innerText)[0].name;
       setPostContent({
         ...postContent,

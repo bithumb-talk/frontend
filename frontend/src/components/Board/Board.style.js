@@ -90,7 +90,7 @@ export const PostContentBody = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin: 0 7vw;
+  margin: 0 10vw;
   min-height: auto;
   padding: 20px;
   box-sizing: border-box;

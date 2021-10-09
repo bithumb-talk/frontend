@@ -1,13 +1,19 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import proptypes from 'prop-types';
+import { useSelector } from 'react-redux';
+import Grid from '@mui/material/Grid';
 import api from '@/api/api';
+import { gapTime } from '@/utils/utils';
 import { CommentLikeIcon, CommentLikeEmptyIcon } from './Board.style';
 import './BoardDetail.style.css';
 
 export default function CommentView(props) {
   const { item } = props;
+  console.log(item);
   const { id } = useSelector((state) => state.userInfo);
+  const [postDate, setDate] = useState(item.commentCreatedDate);
   const [check, setCheck] = useState(false);
   const [boardNo, setNo] = useState('');
 
@@ -35,6 +41,7 @@ export default function CommentView(props) {
   };
 
   useEffect(() => {
+    setDate(gapTime(item.commentCreatedDate));
     if (item && item.links) {
       setNo(item.links[0].href.split('/')[4]);
     }
@@ -43,20 +50,29 @@ export default function CommentView(props) {
   return (
     <div>
       <div className="commentRead">
-        <div className="commentName">{item.nickname}</div>
+        <div className="commentName">
+          <Grid container spacing={0} alignItems="center">
+            <Grid item xs={6} className="postTopInfo">
+              {item.nickname}
+            </Grid>
+            <Grid item xs={6} className="postTopInfo_right">
+              {postDate}
+            </Grid>
+          </Grid>
+        </div>
         <div className="commentReadText">{item.commentContent}</div>
         {check === false ? (
           <div className="commentBottom">
             {/* <span className="writeReply">대댓글 달기</span> */}
-            <span className="writeReplyLike">
-              <CommentLikeEmptyIcon onClick={onClickComment} /> 좋아요 {item.commentRecommend}
+            <span className="writeReplyLike" onClick={onClickComment}>
+              <CommentLikeEmptyIcon /> 좋아요 {item.commentRecommend}
             </span>
           </div>
         ) : (
           <div className="commentBottom">
             {/* <span className="writeReply">대댓글 달기</span> */}
-            <span className="writeReplyLike">
-              <CommentLikeIcon onClick={onClickComment} /> 좋아요 {item.commentRecommend + 1}
+            <span className="writeReplyLike" onClick={onClickComment}>
+              <CommentLikeIcon /> 좋아요 {item.commentRecommend + 1}
             </span>
           </div>
         )}

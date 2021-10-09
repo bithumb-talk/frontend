@@ -4,6 +4,7 @@ import './BoradWrite.style.css';
 import { Grid } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import PostGrid from '@/components/PostGrid/PostGrid';
+import { menuData } from '@/assets/index';
 import api from '@/api/api';
 import { WriteButton, WriteIcon, PlusIcon } from './BoardList.style';
 
@@ -11,13 +12,6 @@ export default function BoardListPage() {
   const { pathname } = useLocation();
   const [titleName, setTitleName] = useState('');
   const [item, setItem] = useState([]);
-
-  const menuData = [
-    { id: 1, link: 'all', name: 'ALL' },
-    { id: 2, link: 'talk', name: '자유게시판' },
-    { id: 3, link: 'cointalk', name: '코인잡담' },
-    { id: 4, link: 'coinBeginner', name: '코인초보' },
-  ];
 
   const getboardList = async (url) => {
     if (url === 'all') {

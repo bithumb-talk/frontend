@@ -2,13 +2,8 @@
 import * as React from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import Stack from '@mui/material/Stack';
+import { categoryList } from '@/assets/index';
 import { CssTextField } from './Board.style';
-
-const categoryList = [
-  { id: 2, name: 'talk', label: '자유게시판' },
-  { id: 3, name: 'cointalk', label: '코인잡담' },
-  { id: 4, name: 'coinBeginner', label: '코인초보' },
-];
 
 export default function ComboBox(props) {
   const { onChange } = props;

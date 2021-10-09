@@ -40,5 +40,5 @@ export const gapTime = (value) => {
     return `${betweenTimeOneMonth}일전`;
   }
 
-  return `${value.replaceAll('T', ' ')}`;
+  return `${timeValue.getFullYear()}년 ${timeValue.getMonth() + 1}월 ${timeValue.getDay()}일`;
 };

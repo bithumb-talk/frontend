@@ -32,7 +32,7 @@ export default function BoardReadDetail() {
   }, []);
 
   return (
-    <Grid item xs={12} md={10}>
+    <Grid item xs={12} md={12}>
       <PostContentBody>
         <div style={{ width: '100%' }}>
           <PostView postItem={item} />
