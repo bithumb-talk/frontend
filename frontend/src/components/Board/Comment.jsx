@@ -16,7 +16,7 @@ export default function Comment(props) {
   const [isWrite, setWrite] = useState('');
   const [Comments, setComments] = useState([]);
   const [boardNo, setNo] = useState('');
-  const { nickname } = useSelector((state) => state.userInfo);
+  const { nickname } = useSelector((state) => state.userInfo.userInfo);
 
   useEffect(() => {
     setComments(Comments.concat(commentItem));

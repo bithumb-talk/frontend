@@ -15,7 +15,7 @@ import './BoardDetail.style.css';
 
 export default function PostView(props) {
   const { postItem } = props;
-  const { id } = useSelector((state) => state.userInfo);
+  const { id } = useSelector((state) => state.userInfo.userInfo);
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);

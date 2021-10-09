@@ -35,7 +35,7 @@ export default function BoardListPage() {
     ) {
       getboardList(pathname.split('/')[2]);
     }
-    setTitleName(menuData.filter((o) => o.link === pathname.split('/')[2])[0].name);
+    setTitleName(menuData.filter((o) => o.link === pathname.split('/')[2]).name);
   }, [pathname]);
 
   return (
