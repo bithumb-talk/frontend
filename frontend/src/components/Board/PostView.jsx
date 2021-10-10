@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
@@ -53,18 +53,18 @@ export default function PostView(props) {
     }
   };
 
-  const getUserBoardRecommend = async () => {
+  const getUserBoardRecommend = useCallback(async () => {
     await api.getUserBoardRecommend(id, postNo).then((res) => {
       if (res.data.status === 'SUCCESS') {
         if (res.data.data.likeStatus === 'false') setLikeCheck(false);
         else if (res.data.data.likeStatus === 'true') setLikeCheck(true);
       }
     });
-  };
+  });
 
   useEffect(() => {
-    if (id && postNo) getUserBoardRecommend(postNo);
-  }, [postNo]);
+    if (postNo) getUserBoardRecommend(postNo);
+  }, [getUserBoardRecommend, postNo]);
 
   useEffect(() => {
     setTitle(postItem.boardTitle);
