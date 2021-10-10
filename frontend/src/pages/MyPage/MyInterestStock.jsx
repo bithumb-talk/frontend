@@ -21,28 +21,28 @@ export default function EmptyContent() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', padding: '20px 50px', width: '100%', height: '100%' }}>
       {myStockList.map((stock) => (
-        <Link sx={{ width: '100%' }} key={stock.symbol} to={`/coin/${stock.symbol}`}>
-          <Box sx={{ display: 'flex', margin: '7px 0px', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: '12px' }}>
+        <Box key={stock.symbol} sx={{ display: 'flex', margin: '7px 0px', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: '12px' }}>
+          <Link to={`/coin/${stock.symbol}`}>
             <Box sx={{ alignItems: 'center', display: 'flex' }}>
               <Avatar {...stringAvatar(stock.symbol)} />
               <Typography variant="h6" sx={{ fontWeight: 800, paddingLeft: '20px' }}>
                 {stock.korean}
               </Typography>
             </Box>
-            <Box sx={{ alignItems: 'center', display: 'flex' }}>
-              <ToggleButton
-                value="check"
-                selected
-                onClick={() => {
-                  onDeleteInterestCoin({ symbol: stock.symbol });
-                }}
-              >
-                <CheckIcon sx={{ color: '#aaa' }} />
-                <Typography variant="body2" sx={{ paddingLeft: '3px', fontWeight: 800 }}>관심 종목에서 제외하기</Typography>
-              </ToggleButton>
-            </Box>
+          </Link>
+          <Box sx={{ alignItems: 'center', display: 'flex' }}>
+            <ToggleButton
+              value="check"
+              selected
+              onClick={() => {
+                onDeleteInterestCoin({ symbol: stock.symbol });
+              }}
+            >
+              <CheckIcon sx={{ color: '#aaa' }} />
+              <Typography variant="body2" sx={{ paddingLeft: '3px', fontWeight: 800 }}>관심 종목에서 제외하기</Typography>
+            </ToggleButton>
           </Box>
-        </Link>
+        </Box>
       ))}
     </Box>
   );
