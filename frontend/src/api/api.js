@@ -321,7 +321,16 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend/auth`, data);
+      res = await this.api.post(
+        `${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend/auth`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -391,9 +400,51 @@ class Api {
     return res;
   }
 
+  // 현
+
   async postUserCommentRecommend(userId, commentNo) {
-    const res = await this.api.post(`${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentNo}`, this.config);
-    console.log(res);
+    let res = {
+      data: {},
+    };
+    const body = { data: null };
+    try {
+      res = await this.api.post(
+        `${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentNo}`,
+        body,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async deleteUserCommentRecommend(userId, commentNo) {
+    let res = {
+      data: {},
+    };
+    const body = { data: null };
+    try {
+      res = await this.api.delete(
+        `${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentNo}`,
+        body,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
     return res;
   }
 

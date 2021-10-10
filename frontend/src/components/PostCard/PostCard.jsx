@@ -29,7 +29,6 @@ function PostCard(props) {
   const [postContent, setContent] = useState(postItem.boardContent);
   const [postImg, setImg] = useState(postItem.boardImg);
   const [linkUrl, setlinkUrl] = useState(`/boarddetail/${postItem.boardNo}`);
-  // const links = useState(postItem.links);
 
   const [isChecked, setChecked] = useState(false);
 
@@ -37,20 +36,16 @@ function PostCard(props) {
     if (id) {
       if (isChecked) {
         const resUser = await api.deleteUserBoardRecommend(id, postNo);
-        if (resUser.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
-
         const res = await api.postBoardRecommend(postNo, { boardRecommend: 'false' });
-        if (res.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
 
         if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setChecked(!isChecked);
+        else toast.error('저장에 실패하였습니다');
       } else {
         const resUser = await api.postUserBoardRecommend(id, postNo);
-        if (resUser.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
-
         const res = await api.postBoardRecommend(postNo, { boardRecommend: 'true' });
-        if (res.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
 
         if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setChecked(!isChecked);
+        else toast.error('저장에 실패하였습니다');
       }
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
@@ -84,7 +79,7 @@ function PostCard(props) {
   }, [postItem]);
 
   useEffect(() => {
-    setLoading(false);
+    // setLoading(false);
   }, [postImg, postContent]);
 
   const getUserBoardRecommend = useCallback(async () => {

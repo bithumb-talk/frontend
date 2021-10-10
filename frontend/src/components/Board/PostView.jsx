@@ -32,28 +32,20 @@ export default function PostView(props) {
     if (id) {
       if (likeCheck) {
         const resUser = await api.deleteUserBoardRecommend(id, postNo);
-        if (resUser.data.status !== 'SUCCESS') toast.error('딜리트에 실패하였습니다');
-
         const res = await api.postBoardRecommend(postNo, { boardRecommend: 'false' });
-        if (res.data.status !== 'SUCCESS') {
-          toast.error('저장에 실패하였습니다');
-        }
+
         if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') {
           setLikeCheck(!likeCheck);
           setLikeCnt(likeCount - 1);
-        }
+        } else toast.error('저장에 실패하였습니다');
       } else {
         const resUser = await api.postUserBoardRecommend(id, postNo);
-        if (resUser.data.status !== 'SUCCESS') toast.error('유저 저장에 실패하였습니다');
-
         const res = await api.postBoardRecommend(postNo, { boardRecommend: 'true' });
-        if (res.data.status !== 'SUCCESS') {
-          toast.error('저장에 실패하였습니다');
-        }
+
         if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') {
           setLikeCheck(!likeCheck);
           setLikeCnt(likeCount + 1);
-        }
+        } else toast.error('저장에 실패하였습니다');
       }
     } else {
       toast.info('로그인이 필요한 서비스입니다.');

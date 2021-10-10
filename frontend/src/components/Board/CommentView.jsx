@@ -14,36 +14,54 @@ import './BoardDetail.style.css';
 export default function CommentView(props) {
   const { item } = props;
   const { id } = useSelector((state) => state.userInfo.userInfo);
+  const [commentNo, setcommentNo] = useState(item.commentNo);
   const [postDate, setDate] = useState(item.commentCreatedDate);
   const [check, setCheck] = useState(false);
   const [boardNo, setNo] = useState('');
 
   const onClickComment = async () => {
     if (id) {
-      setCheck(!check);
-      const data = {
-        commentRecommend: null,
-      };
       if (check) {
-        data.commentRecommend = 'false';
-      } else {
-        data.commentRecommend = 'true';
-      }
-      await api.postCommentRecommend(boardNo, item.commentNo, data).then((res) => {
-        if (res.data.status !== 'SUCCESS') {
+        const res = await api.postCommentRecommend(boardNo, commentNo, { commentRecommend: 'false' });
+
+        if (res.data.status === 'SUCCESS') {
+          setCheck(!check);
+        } else {
           toast.error('저장에 실패하였습니다');
         }
-      });
+      } else {
+        const res = await api.postCommentRecommend(boardNo, commentNo, { commentRecommend: 'true' });
+
+        if (res.data.status === 'SUCCESS') {
+          setCheck(!check);
+        } else {
+          toast.error('저장에 실패하였습니다');
+        }
+      }
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
     }
   };
+
+  // const getUserCommentRecommend = useCallback(async () => {
+  //   await api.getUserCommentRecommend(id, commentNo).then((res) => {
+  //     if (res.data.status === 'SUCCESS') {
+  //       if (res.data.data.likeStatus === 'false') setCheck(false);
+  //       else if (res.data.data.likeStatus === 'true') setCheck(true);
+  //     }
+  //   });
+  // });
+
+  // useEffect(() => {
+  //   if (commentNo) getUserCommentRecommend();
+  // }, [getUserCommentRecommend, commentNo]);
 
   useEffect(() => {
     setDate(item.commentCreatedDate);
     if (item && item.links) {
       setNo(item.links[0].href.split('/')[4]);
     }
+    setcommentNo(item.commentNo);
   }, [item]);
 
   return (
