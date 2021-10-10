@@ -65,7 +65,7 @@ function PostCard(props) {
     // DefaultImg 설정
     if (postItem.boardImg.indexOf('http') !== -1) {
       setImg(postItem.boardImg);
-    } else if (postItem.boardImg.indexOf('http') === -1) {
+    } else {
       setImg(defaultImg);
     }
 
@@ -80,7 +80,10 @@ function PostCard(props) {
 
   useEffect(() => {
     // setLoading(false);
-  }, [postImg, postContent]);
+    if (loading && postImg.length < 1) {
+      setImg(defaultImg);
+    }
+  }, [loading, postImg]);
 
   const getUserBoardRecommend = useCallback(async () => {
     await api.getUserBoardRecommend(id, postNo).then((res) => {

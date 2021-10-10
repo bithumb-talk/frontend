@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import ReactHtmlParser from 'react-html-parser';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TextEditor, BoardCategory, BoardBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
+import { exportImgTag, exportSrcTag } from '@/utils/utils';
 import { categoryList } from '@/assets/index';
 import api from '@/api/api';
 import './BoradWrite.style.css';
@@ -53,7 +53,8 @@ export default function BoardWritePage() {
       const res = await api.postBoard(1, postContent);
       if (res.data.status === 'SUCCESS') {
         toast.success('글이 작성되었습니다👌');
-        goBack();
+        //  setTimeout(history.push({ pathname: '/' }), 3000);
+        setTimeout(goBack(), 2000);
       } else {
         toast.error('저장에 실패하였습니다');
       }
@@ -68,14 +69,11 @@ export default function BoardWritePage() {
       const editorContent = inputRef.current.state.value;
 
       let imgUrl = '';
-      if (editorContent && editorContent.indexOf('<img') !== -1) {
-        const htmlText = ReactHtmlParser(editorContent)[0].props.children;
-        htmlText.some((item) => {
-          if (typeof item === 'object' && item.type === 'img') {
-            imgUrl = item.props.src;
-          }
-          return typeof item === 'object' && item.type === 'img';
-        });
+      if (editorContent && editorContent.indexOf('<img') !== -1 && exportImgTag(editorContent)) {
+        imgUrl = exportImgTag(editorContent).pop();
+        imgUrl = exportSrcTag(imgUrl).pop();
+        imgUrl = imgUrl.replace('"', '');
+        imgUrl = imgUrl.replace('>', '');
       } else if (postContent.boardImg.length === 0) imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
       else imgUrl = '';
 

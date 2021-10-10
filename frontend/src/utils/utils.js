@@ -20,6 +20,10 @@ export const setItem = (key, value) => window.localStorage.setItem(key, value);
 
 export const withoutImgTag = (value) => value.replace(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
 
+export const exportImgTag = (value) => value.match(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
+
+export const exportSrcTag = (value) => value.match(/\bhttps?:\/\/\S+/gi);
+
 export const gapTime = (value) => {
   const today = new Date();
   const timeValue = new Date(value);
