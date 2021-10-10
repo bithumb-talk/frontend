@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { INITIAL_STATUS } from '@/constants/reduxConstants';
 import api from '@/api/api';
-import { authUserId } from '@/utils/auth';
 
 const initialState = {
   userInfo: {
@@ -32,6 +31,7 @@ const initialState = {
 //   return response.data;
 // });
 export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => {
+  const authUserId = window.localStorage.getItem('id');
   const res = await api.getUserInfo(authUserId);
   const resData = res.data;
 
@@ -39,6 +39,7 @@ export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => 
 });
 
 export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async () => {
+  const authUserId = window.localStorage.getItem('id');
   const res = await api.getMyBoardList(authUserId);
   const resData = res.data;
 
@@ -46,6 +47,7 @@ export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async 
 });
 
 export const getMyInterestStockList = createAsyncThunk('userInfo/getMyStockList', async () => {
+  const authUserId = window.localStorage.getItem('id');
   const res = await api.getInterest(authUserId);
   const resData = res.data;
 
@@ -53,6 +55,7 @@ export const getMyInterestStockList = createAsyncThunk('userInfo/getMyStockList'
 });
 
 export const getMyLikeBoardList = createAsyncThunk('userInfo/getMyLikeBoardList', async () => {
+  const authUserId = window.localStorage.getItem('id');
   const result = await api.getLikeBoardNumberList(authUserId);
   const numberList = result.data.data.contentIdList;
 
