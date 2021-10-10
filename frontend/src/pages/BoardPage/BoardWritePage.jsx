@@ -1,18 +1,18 @@
-/* eslint-disable prefer-const */
-/* eslint-disable no-unused-vars */
-import React, { useState, useEffect } from 'react';
-import Grid from '@mui/material/Grid';
+import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import ReactHtmlParser from 'react-html-parser';
-import { SendButton, SendButtonIcon, OutButton, OutIcon } from '@/components/Board/Board.style';
-import { TextEditor, BoardCategory } from '@/components/index';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { TextEditor, BoardCategory, BoardBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
+import { categoryList } from '@/assets/index';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
 
 export default function BoardWritePage() {
-  const userId = 1;
+  const { id, nickname } = useSelector((state) => state.userInfo.userInfo);
   const history = useHistory();
   const inputRef = React.useRef();
   const titleRef = React.useRef();
@@ -25,22 +25,16 @@ export default function BoardWritePage() {
     boardImg: [],
     boardRecommend: 0,
     boardViews: 0,
-    nickname: 'USER1',
+    nickname,
   });
 
-  const goBack = () => {
+  const goBack = useCallback(() => {
     history.goBack();
-  };
+  }, [history]);
 
   const onCategoryChange = (e) => {
     const { innerText } = e.target;
     if (innerText) {
-      const categoryList = [
-        { name: 'talk', label: '자유게시판' },
-        { name: 'cointalk', label: '코인잡담' },
-        { name: 'coinBeginner', label: '코인초보' },
-      ];
-
       const pick = categoryList.filter((item) => item.label === innerText)[0].name;
       setPostContent({
         ...postContent,
@@ -54,77 +48,82 @@ export default function BoardWritePage() {
     }
   };
 
-  const postSubmit = async () => {
-    const res = await api.postBoard(userId, postContent);
-    if (res.data.status === 'SUCCESS') {
-      alert('저장 성공');
-      goBack();
+  const postSubmit = useCallback(async () => {
+    if (id) {
+      const res = await api.postBoard(1, postContent);
+      if (res.data.status === 'SUCCESS') {
+        toast.success('글이 작성되었습니다👌');
+        goBack();
+      } else {
+        toast.error('저장에 실패하였습니다');
+      }
+      setIsSend(false);
     } else {
-      alert('저장 실패');
+      toast.info('로그인이 필요한 서비스입니다.');
     }
-    setIsSend(false);
-  };
+  }, [goBack, id, postContent]);
 
-  const onClick = async () => {
-    const editorContent = inputRef.current.state.value;
+  const onSubmit = async () => {
+    if (nickname) {
+      const editorContent = inputRef.current.state.value;
 
-    let imgUrl = '';
-    if (editorContent && editorContent.indexOf('<img') !== -1) {
-      const htmlText = ReactHtmlParser(editorContent)[0].props.children;
-      htmlText.some((item) => {
-        if (typeof item === 'object' && item.type === 'img') {
-          imgUrl = item.props.src;
-        }
-        return typeof item === 'object' && item.type === 'img';
+      let imgUrl = '';
+      if (editorContent && editorContent.indexOf('<img') !== -1) {
+        const htmlText = ReactHtmlParser(editorContent)[0].props.children;
+        htmlText.some((item) => {
+          if (typeof item === 'object' && item.type === 'img') {
+            imgUrl = item.props.src;
+          }
+          return typeof item === 'object' && item.type === 'img';
+        });
+      } else if (postContent.boardImg.length === 0) imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
+      else imgUrl = '';
+
+      setPostContent({
+        ...postContent,
+        boardContent: editorContent,
+        boardTitle: titleRef.current.value,
+        boardImg: imgUrl.length > 0 ? postContent.boardImg.concat(imgUrl) : postContent.boardImg,
+        nickname,
       });
+      if (postContent.boardCategory === '') {
+        toast('카테고리를 선택해주세요');
+      } else if (titleRef.current.value === '') {
+        toast('제목을 작성해주세요');
+      } else if (editorContent === '<p><br></p>') {
+        toast('내용을 작성해주세요');
+      } else {
+        setIsSend(true);
+      }
     } else {
-      imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
-    }
-
-    setPostContent({
-      ...postContent,
-      boardContent: editorContent,
-      boardTitle: titleRef.current.value,
-      boardImg: postContent.boardImg.concat(imgUrl),
-    });
-    if (postContent.boardCategory === '') {
-      alert('카테고리를 선택해주세요');
-    } else if (titleRef.current.value === '') {
-      alert('제목을 작성해주세요');
-    } else if (editorContent === '<p><br></p>') {
-      alert('내용을 작성해주세요');
-    } else {
-      setIsSend(true);
+      toast.info('로그인이 필요한 서비스입니다.');
     }
   };
 
   useEffect(() => {
-    if (isSend === true) postSubmit();
-  }, [isSend]);
+    if (isSend) postSubmit();
+  }, [isSend, postSubmit]);
 
   return (
-    <div className="board">
-      <h3>글쓰기</h3>
-      <BoardCategory name="boardCategory" onChange={onCategoryChange} />
-      <TextTitle className="css-0" titleRef={titleRef} />
-      <TextEditor className="ql-editor" inputRef={inputRef} />
-      <div>
-        <Grid container spacing={0} alignItems="center">
-          <Grid item xs={6}>
-            <OutButton type="input" onClick={goBack}>
-              <OutIcon />
-              나가기
-            </OutButton>
-          </Grid>
-          <Grid item xs={6}>
-            <SendButton style={{ float: 'right' }} type="submit" onClick={onClick}>
-              등록
-              <SendButtonIcon />
-            </SendButton>
-          </Grid>
-        </Grid>
-        <br />
+    <>
+      <div className="board">
+        <h3>글쓰기</h3>
+        <BoardCategory name="boardCategory" onChange={onCategoryChange} />
+        <TextTitle className="css-0" titleRef={titleRef} />
+        <TextEditor className="ql-editor" inputRef={inputRef} />
+        <BoardBottom onClick={onSubmit} goBack={goBack} />
       </div>
-    </div>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
+    </>
   );
 }

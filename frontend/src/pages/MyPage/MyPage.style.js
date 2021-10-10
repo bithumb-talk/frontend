@@ -1,5 +1,5 @@
 import {
-  Avatar, Box, Typography, TextField, Button,
+  Avatar, Box, TextField, Button,
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
@@ -12,10 +12,11 @@ export const BackArrowBox = styled((props) => (
       display: 'flex',
       flexDirection: 'row',
       bgcolor: '#fff',
-      padding: '20px',
-      borderBottom: '1px solid #ddd',
+      padding: '15px 50px 15px 50px',
+      borderBottom: '1px solid #EAEDF0',
       position: 'fixed',
       top: 0,
+      zIndex: 100,
     }}
     {...props}
   />
@@ -36,20 +37,17 @@ export const UserProfileBox = styled((props) => <Box {...props} />)({
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
-  borderRight: '1px solid #f0f0f0',
-  marginRight: '20px',
-  borderRadius: '20px 0px 0px 20px',
-  padding: '40px 20px 20px 10px',
-  // position: 'fixed',
+  border: '1px solid #EAEDF0',
+  padding: '25px',
   backgroundColor: 'white',
-  // minWidth: '350px',
-  // maxWidth: '350px',
+  minWidth: '400px',
+  maxWidth: '400px',
 });
 
 export const UserInfo = styled((props) => <Box {...props} />)({
   display: 'flex',
   flexDirection: 'column',
-  marginLeft: '10px',
+  marginLeft: '30px',
   justifyContent: 'center',
   minWidth: '120px',
   width: '25px',
@@ -64,7 +62,7 @@ export const UserIcons = styled((props) => <Box {...props} />)({
   justifyContent: 'center',
 });
 
-export const ProfileImage = styled((props) => <Avatar sx={{ margin: '20px 0px 20px 0px', width: '200px', height: '200px' }} {...props} />)({
+export const ProfileImage = styled((props) => <Avatar sx={{ margin: '20px 0px 20px 0px', width: '100px', height: '100px' }} {...props} />)({
   border: '1px solid #ddd',
 });
 
@@ -73,10 +71,24 @@ export const NicknameBox = styled((props) => <Box {...props} />)({
   justifyContent: 'center',
   alignItems: 'center',
   padding: '10px 0px 10px 0px',
-  width: '300px',
+  width: '100%',
 });
 
 export const UserNickname = styled((props) => <TextField size="small" variant="standard" {...props} />)({
+  fontSize: '1.5rem',
+  marginRight: '10px',
+});
+
+export const UserNicknameFixed = styled((props) => (
+  <TextField
+    InputProps={{
+      readOnly: true,
+    }}
+    size="small"
+    variant="standard"
+    {...props}
+  />
+))({
   fontSize: '1.5rem',
   marginRight: '10px',
 });
@@ -85,14 +97,10 @@ export const ChangeButton = styled((props) => (
   <Button
     variant="contained"
     size="small"
-    sx={{
-      color: 'white',
-      bgcolor: blueGrey[300],
-    }}
     {...props}
   />
 ))({
-  fontSize: '1rem',
+  fontSize: '0.9rem',
   fontWeight: 800,
 });
 
@@ -103,22 +111,26 @@ export const QuitButton = styled((props) => (
     size="small"
     sx={{
       color: 'white',
-      bgcolor: orange[600],
+      bgcolor: orange[800],
     }}
     {...props}
   />
 ))({
-  margin: '0px 20px 0px 20px',
+  fontSize: '1rem',
   fontWeight: 800,
+  borderRadius: '0px',
+  padding: '10px',
+  marginTop: '10px',
 });
 
 export const PWChangeButton = styled((props) => (
   <Button
     variant="contained"
     size="medium"
+    fullWidth
     sx={{
       color: 'white',
-      bgcolor: blueGrey[600],
+      bgcolor: blueGrey[900],
     }}
     // fullWidth
     {...props}
@@ -126,19 +138,26 @@ export const PWChangeButton = styled((props) => (
 ))({
   fontSize: '1rem',
   fontWeight: 800,
+  borderRadius: '0px',
+  padding: '10px',
+  marginTop: '10px',
 });
 
 export const ImgUploadButton = styled((props) => (
-  <label {...props} />
+  <label
+    {...props}
+  />
 ))({
-  padding: '10px 25px',
-  backgroundColor: '#FF6600',
+  padding: '10px',
   borderRadius: '4px',
-  color: 'white',
+  color: 'rgba(0,0,0,.65)',
   cursor: 'pointer',
-  fontSize: '1rem',
+  textAlign: 'center',
+  border: '1px solid rgb(217, 217, 217)',
+  width: '130px',
+  fontSize: '0.9rem',
   fontWeight: 800,
-  boxShadow: '0px 3px 1px -2px rgb(0 0 0 / 20%), 0px 2px 2px 0px rgb(0 0 0 / 14%), 0px 1px 5px 0px rgb(0 0 0 / 12%)',
+  boxShadow: '0 2px 0 rgb(0 0 0 / 2%)',
 });
 
 export const ImgDeleteButton = styled((props) => (
@@ -157,19 +176,22 @@ export const ImgDeleteButton = styled((props) => (
 
 export const UserContentBox = styled((props) => <Box {...props} />)({
   display: 'flex',
-  flexDirection: 'column',
-  // padding: '20px 0px 20px 0px',
+  flexDirection: 'row',
+  alignItems: 'center',
   width: '100%',
+  borderBottom: '1px solid #EAEDF0',
 });
 
-export const ContentWrap = styled((props) => <Box {...props} />)({
+export const ContentWrap = styled((props) => (
+  <Button
+    color="default"
+    {...props}
+  />
+))({
   display: 'flex',
   flexDirection: 'column',
-  padding: '20px 0px 20px 0px',
-  width: '100%',
-});
-
-export const ContentTitle = styled((props) => <Typography variant="h5" {...props} />)({
+  padding: '18px 25px',
+  fontSize: '19px',
   fontWeight: 800,
 });
 
@@ -180,7 +202,13 @@ export const DivideLine = styled((props) => <hr {...props} />)({
 });
 
 export const InfoDivideLine = styled((props) => <hr {...props} />)({
-  borderColor: 'rgb(152 152 152 / 0%)',
+  borderColor: 'rgb(152 152 152 / 8%)',
   margin: '10px 0px 10px 0px',
   width: '100%',
+});
+
+export const UpDownLine = styled((props) => <div {...props} />)({
+  border: '1px solid rgb(152 152 152 / 20%)',
+  width: '1px',
+  height: 'calc(100% - 36px)',
 });

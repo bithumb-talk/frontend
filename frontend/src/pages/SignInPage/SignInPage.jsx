@@ -1,10 +1,13 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Button, Typography, InputAdornment } from '@mui/material';
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
+import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import api from '@/api/api';
+import logo from '@/assets/image/newLogo.png';
 import { actLogIn } from '@/redux/userInfoSlice';
-import { LockIcon, SignInForm, LoginButton, SignInWrap, BackArrowBox, BackArrowIcon } from './SignInPage.style';
+import { LockIcon, SignInForm, LoginButton, SignInWrap, BackArrowBox } from './SignInPage.style';
 
 export default function SignInPage() {
   const history = useHistory();
@@ -42,14 +45,12 @@ export default function SignInPage() {
     }
   };
 
-  const clickGoBack = () => {
-    history.push('/');
-  };
-
   return (
     <SignInWrap>
       <BackArrowBox>
-        <BackArrowIcon onClick={clickGoBack} />
+        <Link to="/">
+          <img src={logo} alt="youngcha" width="105px" height="65px" />
+        </Link>
       </BackArrowBox>
       <SignInWrap>
         <Box
@@ -58,7 +59,7 @@ export default function SignInPage() {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            border: '1px solid #eee',
+            border: '1px solid #ddd',
             padding: '40px',
             borderRadius: '10px',
             bgcolor: 'white',
@@ -71,14 +72,14 @@ export default function SignInPage() {
             alignItems: 'center',
             justifyContent: 'center',
             borderRadius: '100%',
-            marginBottom: '15px',
-            minWidth: '50px',
-            maxWidth: '50px',
+            marginBottom: '10px',
+            minWidth: '45px',
+            maxWidth: '45px',
           }}
           >
-            <LockIcon sx={{ fontSize: '28px' }} />
+            <LockIcon sx={{ fontSize: '25px' }} />
           </Box>
-          <Typography variant="h4">로그인</Typography>
+          <Typography variant="h4" sx={{ fontWeight: '800' }}>로그인</Typography>
           <Box sx={{
             marginTop: '15px',
             display: 'flex',
@@ -95,6 +96,13 @@ export default function SignInPage() {
               value={userId}
               onChange={onChange}
               error={errorStatus}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <AccountCircleOutlinedIcon sx={{ color: '#ccc', fontSize: '25px' }} />
+                  </InputAdornment>
+                ),
+              }}
             />
             <SignInForm
               required
@@ -105,6 +113,13 @@ export default function SignInPage() {
               value={password}
               onChange={onChange}
               error={errorStatus}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <VpnKeyOutlinedIcon sx={{ color: '#ccc', fontSize: '25px' }} />
+                  </InputAdornment>
+                ),
+              }}
             />
 
             {errorStatus ? (
@@ -130,9 +145,11 @@ export default function SignInPage() {
               width: '100%',
             }}
             >
-              <Button sx={{ fontSize: '12px' }}>비밀번호를 잊어버리셨나요?</Button>
+              <Button sx={{ fontSize: '12.5px' }}>비밀번호를 잊어버리셨나요?</Button>
               <Link to="/signup">
-                <Button sx={{ fontSize: '12px' }}>계정이 없으신가요? <strong>회원가입하기</strong></Button>
+                <Button>
+                  <Typography sx={{ fontSize: '12.5px' }}>계정이 없으신가요? <strong>회원가입하기</strong></Typography>
+                </Button>
               </Link>
             </Box>
           </Box>

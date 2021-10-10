@@ -24,7 +24,7 @@ export const BackArrowBox = styled((props) => (
       display: 'flex',
       flexDirection: 'row',
       bgcolor: '#fff',
-      padding: '20px',
+      padding: '15px 50px 15px 50px',
       borderBottom: '1px solid #ddd',
       position: 'fixed',
       top: 0,
@@ -53,8 +53,8 @@ export const SignInForm = styled((props) => <TextField {...props} />)({
 });
 
 export const LoginButton = styled((props) => <Button {...props} />)({
-  fontSize: '1.3rem',
-  padding: '15px 0px 15px 0px',
+  fontSize: '1.2rem',
+  padding: '10px 0px 10px 0px',
   margin: '20px 0px 15px 0px',
   color: 'white',
   fontWeight: 800,

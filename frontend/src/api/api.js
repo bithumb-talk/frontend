@@ -2,7 +2,6 @@ import Core from './apiCore';
 import { authHeader } from './authHeader';
 
 const BASE_URL = 'http://3.38.23.41:6030';
-const BOARD_BASE_URL = 'http://15.164.149.136:7000';
 
 const END_POINT = Object.freeze({
   INTERESTS: `${BASE_URL}/interests`,
@@ -10,10 +9,11 @@ const END_POINT = Object.freeze({
   COIN: `${BASE_URL}/quote_init`,
   CANDLE_STICK: `${BASE_URL}/candlestick`,
   POPULAR_COIN: `${BASE_URL}/changerate`,
-  BOARD_ALL: `${BOARD_BASE_URL}/all-boards`,
-  BOARD_CATEGORY: `${BOARD_BASE_URL}/all-boards/category`,
-  BOARD_DETAIL: `${BOARD_BASE_URL}/boards`,
-  BOARD_RANK: `${BOARD_BASE_URL}/all-boards/ranking`,
+  BOARD_ALL: `${BASE_URL}/all-boards`,
+  BOARD_CATEGORY: `${BASE_URL}/all-boards/category`,
+  BOARD_DETAIL: `${BASE_URL}/boards`,
+  BOARD_RANK: `${BASE_URL}/all-boards/ranking`,
+  BOARD_USER: `${BASE_URL}/user-boards`,
   SIGNUP: `${BASE_URL}/auth/signup`,
   SIGNIN: `${BASE_URL}/auth/login`,
   GET_USERINFO: `${BASE_URL}/users/1/info`,
@@ -24,6 +24,7 @@ const END_POINT = Object.freeze({
   USER_WITHDRAWAL: `${BASE_URL}/users`,
   SET_DEVICE_TOKEN: `${BASE_URL}/users/device`,
   IMAGE_UPLOAD: `${BASE_URL}/users/profile`,
+  BOARD_MY_LIST: `${BASE_URL}/all-boards/auth`,
   // SIGNUP: '/auth/signup',
   // SIGNIN: '/auth/login',
   // GET_USERINFO: '/users/1/info',
@@ -66,6 +67,11 @@ class Api {
       },
       true,
     );
+    return res;
+  }
+
+  async getMyBoardList(userId) {
+    const res = await this.api.get(`${END_POINT.BOARD_MY_LIST}/${userId}?size=8`, this.config, true);
     return res;
   }
 
@@ -217,8 +223,8 @@ class Api {
     return res;
   }
 
-  async getBoardAll() {
-    const res = await this.api.get(`${END_POINT.BOARD_ALL}`);
+  async getBoardAll(url) {
+    const res = url ? await this.api.get(`${END_POINT.BOARD_ALL}${url}`) : await this.api.get(`${END_POINT.BOARD_ALL}`);
     return res;
   }
 
@@ -241,9 +247,19 @@ class Api {
     let res = {
       data: {},
     };
-
+    console.log(data);
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
+      res = await this.api.post(
+        `${END_POINT.BOARD_DETAIL}/auth/${userId}`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+      console.log(res);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -267,7 +283,31 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments`, data);
+      res = await this.api.post(
+        `${END_POINT.BOARD_DETAIL}/${boardNo}/comments/auth`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async postBoardRecommend(boardNo, data) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/auth/recommend`, data, this.config, true);
+      console.log(res);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -281,7 +321,16 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend`, data);
+      res = await this.api.post(
+        `${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend/auth`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -291,6 +340,117 @@ class Api {
 
   async getRanking() {
     const res = await this.api.get(`${END_POINT.BOARD_RANK}`);
+    return res;
+  }
+
+  async postUserBoardRecommend(userId, boardNo) {
+    let res = {
+      data: {},
+    };
+
+    const body = { data: null };
+
+    try {
+      res = await this.api.post(
+        `${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`,
+        body,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async deleteUserBoardRecommend(userId, boardNo) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.delete(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, {
+        headers: {
+          ...authHeader(),
+        },
+      });
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async getUserBoardRecommend(userId, boardNo) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.get(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  // 현
+
+  async postUserCommentRecommend(userId, commentNo) {
+    let res = {
+      data: {},
+    };
+    const body = { data: null };
+    try {
+      res = await this.api.post(
+        `${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentNo}`,
+        body,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async deleteUserCommentRecommend(userId, commentNo) {
+    let res = {
+      data: {},
+    };
+    const body = { data: null };
+    try {
+      res = await this.api.delete(
+        `${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentNo}`,
+        body,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async getUserCommentRecommend(userId, commentdNo) {
+    const res = await this.api.get(`${END_POINT.BOARD_USER}/${userId}/like-comment-content/${commentdNo}`, this.config);
+    console.log(res);
     return res;
   }
 }

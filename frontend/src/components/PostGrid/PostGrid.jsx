@@ -2,6 +2,7 @@
 /* eslint-disable react/jsx-key */
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ToastContainer } from 'react-toastify';
 import Grid from '@mui/material/Grid';
 import PostCard from '../PostCard/PostCard';
 
@@ -19,27 +20,29 @@ function PostGrid(props) {
         overflow: 'hidden',
         display: 'flex',
         flexWrap: 'wrap',
-        margin: '-1%',
-        paddingLeft: '3%',
+        margin: '1%',
         paddingRight: '3%',
         flexDirection: 'column',
       }}
     >
-      <Grid container spacing={3}>
+      <Grid container spacing={1}>
         {postGridItem.map((item) => (
           <Grid item lg={3} md={4} sm={6} xs={12}>
-            <PostCard
-              boardTitle={item.boardTitle}
-              boardNo={item.boardNo}
-              boardCreatedDate={item.boardCreatedDate}
-              boardImg={item.boardImg}
-              boardContent={item.boardContent}
-              nickname={item.nickname}
-              links={item.links[0].href}
-            />
+            <PostCard postItem={item} />
           </Grid>
         ))}
       </Grid>
+      <ToastContainer
+        position="bottom-left"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
     </div>
   );
 }

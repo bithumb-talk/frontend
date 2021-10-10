@@ -1,4 +1,5 @@
 import { createTheme } from '@mui/material/styles';
+import { grey } from '@mui/material/colors';
 
 export const COLOR = Object.freeze({
   MAIN: '#F37321',
@@ -37,6 +38,9 @@ export const theme = createTheme({
   palette: {
     primary: {
       main: COLOR.MAIN,
+    },
+    default: {
+      main: grey[900],
     },
   },
 });

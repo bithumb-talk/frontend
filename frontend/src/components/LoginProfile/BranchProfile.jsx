@@ -1,13 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import LoginSignupLink from './LoginSignupLink';
 import LoginProfile from './LoginProfile';
 
 export default function BranchProfile() {
-  const getLocalToken = () => window.localStorage.getItem('token');
+  const [localToken, setlocalToken] = useState('');
+
+  useEffect(() => {
+    const token = window.localStorage.getItem('token');
+    setlocalToken(token);
+  }, []);
 
   return (
     <>
-      { getLocalToken() ? (
+      { localToken ? (
         <LoginProfile />
       ) : (
         <LoginSignupLink />

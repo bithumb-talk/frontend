@@ -56,6 +56,7 @@ export default function QuitModal(props) {
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{ paddingBottom: '10px' }}>
             <b>회원 탈퇴</b>
           </Typography>
+          <Typography color="error" variant="body2" sx={{ paddingBottom: '20px' }}>탈퇴 시 작성하신 포스트 및 댓글이 <strong>모두 삭제되며<br /> 복구되지 않습니다.</strong></Typography>
           <InputTextField
             name="curPassword"
             label="현재 비밀번호"

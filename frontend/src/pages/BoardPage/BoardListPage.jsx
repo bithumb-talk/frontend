@@ -1,48 +1,49 @@
 /* eslint-disable react/prop-types */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import './BoradWrite.style.css';
 import { Grid } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import PostGrid from '@/components/PostGrid/PostGrid';
+import { PostGrid } from '@/components/index';
+import { menuData } from '@/assets/index';
 import api from '@/api/api';
-import { WriteButton, WriteIcon, PlusIcon } from './BoardList.style';
+import { WriteButton, WriteIcon, PlusIcon, BoardPagination } from './BoardList.style';
 
 export default function BoardListPage() {
   const { pathname } = useLocation();
   const [titleName, setTitleName] = useState('');
+  const [page, setPage] = useState(0);
+  const [totalPage, setTotalPage] = useState(1);
   const [item, setItem] = useState([]);
 
-  const menuData = [
-    { id: 1, link: 'all', name: 'ALL' },
-    { id: 2, link: 'talk', name: '자유게시판' },
-    { id: 3, link: 'cointalk', name: '코인잡담' },
-    { id: 4, link: 'coinBeginner', name: '코인초보' },
-  ];
-
-  const getboardList = async (url) => {
+  const getboardList = useCallback(async (url, search) => {
     if (url === 'all') {
-      const res = await api.getBoardAll();
+      const res = search ? await api.getBoardAll(search) : await api.getBoardAll();
       if (res.data.status === 'SUCCESS') {
         if (res.data.data.content) setItem(res.data.data.content);
+        setTotalPage(res.data.data.page.totalPages);
       }
     } else {
-      const res = await api.getBoardCategory(url);
+      const pageUrl = search ? url.concat(search) : url;
+      const res = await api.getBoardCategory(pageUrl);
       if (res.data.status === 'SUCCESS') {
+        setTotalPage(res.data.data.page.totalPages);
         if (res.data.data.content) setItem(res.data.data.content);
       }
     }
+  }, []);
+
+  const onPageClick = (event, value) => {
+    setPage(value);
   };
+
   useEffect(() => {
-    if (
-      pathname.split('/')[2] === 'all'
-      || pathname.split('/')[2] === 'talk'
-      || pathname.split('/')[2] === 'cointalk'
-      || pathname.split('/')[2] === 'coinBeginner'
-    ) {
-      getboardList(pathname.split('/')[2]);
-    }
-    setTitleName(menuData.filter((o) => o.link === pathname.split('/')[2])[0].name);
-  }, [pathname]);
+    if (page !== 0) getboardList(pathname.split('/')[2], `?page=${page - 1}`);
+  }, [getboardList, page, pathname]);
+
+  useEffect(() => {
+    if (pathname.indexOf('/board/') !== -1) getboardList(pathname.split('/')[2], null);
+    setTitleName(menuData.filter((o) => o.link === pathname.split('/')[2]).name);
+  }, [getboardList, pathname]);
 
   return (
     <div>
@@ -60,6 +61,7 @@ export default function BoardListPage() {
             {titleName}
           </h3>
           <PostGrid postItem={item} />
+          <BoardPagination page={page} count={totalPage} onChange={onPageClick} />
         </Grid>
         <div
           style={{

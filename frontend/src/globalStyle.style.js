@@ -4,13 +4,15 @@ const GlobalStyle = () => (
   <Global
     styles={css`
       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding&family=Gowun+Batang&family=Jua&display=swap');
+      @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@100;200;300;400;500;600;700&family=Noto+Sans+KR:wght@300&display=swap');
 
       * {
         box-sizing: border-box;
         scroll-behavior: smooth;
-        font-family: 'Noto Sans', sans-serif;
+        font-family: 'Noto Sans KR', sans-serif !important;
       }
 
       html,
@@ -20,11 +22,15 @@ const GlobalStyle = () => (
         height: 100%;
         font-size: 16px;
       }
-
-      h1 h2 h3 {
-        font-family: 'Fira Mono';
+      h1,
+      h2{
+         margin: '0.5em',
+          paddingLeft: ' 4em',
+          display: 'flex',
+          justifyContent: 'flex-start',
+          fontFamily: 'Gowun Batang',
       }
-
+      h3, 
       html,
       body,
       h1,

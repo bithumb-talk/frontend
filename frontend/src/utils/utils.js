@@ -18,4 +18,27 @@ export const getItem = (key) => window.localStorage.getItem(key);
 
 export const setItem = (key, value) => window.localStorage.setItem(key, value);
 
-export const isStorage = (key) => !!window.localStorage.getItem(key);
+export const withoutImgTag = (value) => value.replace(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
+
+export const gapTime = (value) => {
+  const today = new Date();
+  const timeValue = new Date(value);
+
+  const betweenTime = Math.floor((today.getTime() - timeValue.getTime()) / 1000 / 60);
+  if (betweenTime < 1) return '방금전';
+  if (betweenTime < 60) {
+    return `${betweenTime}분전`;
+  }
+
+  const betweenTimeHour = Math.floor(betweenTime / 60);
+  if (betweenTimeHour < 24) {
+    return `${betweenTimeHour}시간전`;
+  }
+
+  const betweenTimeOneMonth = Math.floor(betweenTime / 60 / 24);
+  if (betweenTimeOneMonth < 30) {
+    return `${betweenTimeOneMonth}일전`;
+  }
+
+  return `${timeValue.getFullYear()}년 ${timeValue.getMonth() + 1}월 ${timeValue.getDay()}일`;
+};
