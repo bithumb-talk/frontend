@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import proptypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -87,7 +87,7 @@ function PostCard(props) {
     }
   }, [loading, postImg]);
 
-  const getUserBoardRecommend = useCallback(async () => {
+  const getUserBoardRecommend = async () => {
     await api.getUserBoardRecommend(id, postNo).then((res) => {
       if (res.data.status === 'SUCCESS') {
         if (res.data.data.likeStatus === 'false') setChecked(false);
@@ -95,11 +95,11 @@ function PostCard(props) {
       }
     });
     setLoading(false);
-  });
+  };
 
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
-  }, [getUserBoardRecommend, postNo]);
+  }, [postNo]);
 
   return (
     <>

@@ -18,10 +18,6 @@ export default function Comment(props) {
   const [boardNo, setNo] = useState('');
   const { nickname } = useSelector((state) => state.userInfo.userInfo);
 
-  useEffect(() => {
-    setNo(pathname.split('/')[2]);
-  }, [pathname]);
-
   const commentChange = (event) => {
     setWrite(event.currentTarget.value);
   };
@@ -39,7 +35,7 @@ export default function Comment(props) {
 
       await api.postComment(boardNo, variables).then((res) => {
         if (res.data.status === 'SUCCESS') {
-          setComments(Comments.concat(variables));
+          setComments([variables].concat(Comments));
           setWrite(' ');
           setSend(true);
         } else {
@@ -50,6 +46,14 @@ export default function Comment(props) {
       toast.info('로그인이 필요한 서비스입니다.');
     }
   };
+
+  useEffect(() => {
+    setComments(commentItem);
+  }, [commentItem]);
+
+  useEffect(() => {
+    setNo(pathname.split('/')[2]);
+  }, [pathname]);
 
   return (
     <div>
