@@ -247,9 +247,18 @@ class Api {
     let res = {
       data: {},
     };
-
+    console.log(data);
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/auth/${userId}`, data, this.config);
+      res = await this.api.post(
+        `${END_POINT.BOARD_DETAIL}/auth/${userId}`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
       console.log(res);
     } catch (error) {
       res.data.status = 'FAIL';
@@ -274,7 +283,16 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/auth`, data);
+      res = await this.api.post(
+        `${END_POINT.BOARD_DETAIL}/${boardNo}/comments/auth`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);

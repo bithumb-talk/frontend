@@ -23,6 +23,7 @@ export default function PostView(props) {
   const [postContent, setContent] = useState(postItem.boardContent);
   const [postCatagory, setCatagory] = useState(postItem.boardCategory);
   const [cataogryUrl, setCatagoryUrl] = useState(`/board/${postItem.boardCategory}`);
+  const [renameCatagory, setRename] = useState('');
   const [viewCount, setViewCnt] = useState(postItem.boardViews);
   const [likeCount, setLikeCnt] = useState(postItem.boardRecommend);
   const [likeCheck, setLikeCheck] = useState(false);
@@ -64,7 +65,7 @@ export default function PostView(props) {
 
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
-  }, [getUserBoardRecommend, postNo]);
+  }, [getUserBoardRecommend, postNo, props]);
 
   useEffect(() => {
     setTitle(postItem.boardTitle);
@@ -75,27 +76,29 @@ export default function PostView(props) {
     setCatagoryUrl(`/board/${postItem.boardCategory}`);
     setViewCnt(postItem.boardViews);
     setLikeCnt(postItem.boardRecommend);
-    setCatagory(
-      categoryList && postItem.boardCategory
-        ? categoryList.filter((item) => item.name === postItem.boardCategory).label
-        : postItem.boardCategory,
-    );
+    setCatagory(postItem.boardCategory);
   }, [postItem]);
 
+  useEffect(() => {
+    if (categoryList && postCatagory) {
+      const name = categoryList.filter((item) => item.name === postCatagory);
+      if (name) setRename(name[0].label);
+    }
+  }, [postCatagory]);
   return (
     <>
       <div>
         <div>
-          커뮤니티 <Link href={cataogryUrl}>{postCatagory}</Link>
+          커뮤니티 <Link href={cataogryUrl}>{renameCatagory}</Link>
         </div>
         <div className="postTitle">
           <span className="titleText">{title}</span>
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={6} className="postTopInfo">
-              <span>{postName}</span> | <span>{postDate}</span>
+              <span>{postName}&nbsp;</span>&nbsp; |&nbsp; <span>&nbsp;{postDate}&nbsp;</span>
             </Grid>
             <Grid item xs={6} className="postTopInfo_right">
-              <span>조회 {viewCount}</span> | <span>추천 {likeCount}</span>
+              <span>조회 &nbsp;{viewCount}&nbsp;</span> &nbsp;|&nbsp; <span>&nbsp;추천&nbsp; {likeCount}</span>
             </Grid>
           </Grid>
         </div>

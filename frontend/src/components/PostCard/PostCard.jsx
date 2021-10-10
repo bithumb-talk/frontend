@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import proptypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -87,6 +87,20 @@ function PostCard(props) {
     setLoading(false);
   }, [postImg, postContent]);
 
+  const getUserBoardRecommend = useCallback(async () => {
+    await api.getUserBoardRecommend(id, postNo).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        if (res.data.data.likeStatus === 'false') setChecked(false);
+        else if (res.data.data.likeStatus === 'true') setChecked(true);
+      }
+    });
+    setLoading(false);
+  });
+
+  useEffect(() => {
+    if (postNo) getUserBoardRecommend(postNo);
+  }, [getUserBoardRecommend, postNo]);
+
   return (
     <>
       <CardWrap>
@@ -135,10 +149,16 @@ function PostCard(props) {
               )}
             </Grid>
             <Grid item xs={2}>
-              {isChecked ? (
-                <Like className="button red" onClick={onClick} />
+              {loading ? (
+                <Skeleton variant="circular" width={20} height={20} />
               ) : (
-                <LikeEmpty className="button" onClick={onClick} />
+                <>
+                  {isChecked ? (
+                    <Like className="button red" onClick={onClick} />
+                  ) : (
+                    <LikeEmpty className="button" onClick={onClick} />
+                  )}
+                </>
               )}
             </Grid>
           </Grid>

@@ -7,7 +7,7 @@ import Grid from '@mui/material/Grid';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
-import { gapTime } from '@/utils/utils';
+// import { gapTime } from '@/utils/utils';
 import { CommentLikeIcon, CommentLikeEmptyIcon } from './Board.style';
 import './BoardDetail.style.css';
 
@@ -40,7 +40,7 @@ export default function CommentView(props) {
   };
 
   useEffect(() => {
-    setDate(gapTime(item.commentCreatedDate));
+    setDate(item.commentCreatedDate);
     if (item && item.links) {
       setNo(item.links[0].href.split('/')[4]);
     }

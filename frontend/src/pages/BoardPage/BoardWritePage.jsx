@@ -84,6 +84,7 @@ export default function BoardWritePage() {
         boardContent: editorContent,
         boardTitle: titleRef.current.value,
         boardImg: imgUrl.length > 0 ? postContent.boardImg.concat(imgUrl) : postContent.boardImg,
+        nickname,
       });
       if (postContent.boardCategory === '') {
         toast('카테고리를 선택해주세요');
