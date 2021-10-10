@@ -1,22 +1,22 @@
 /* eslint-disable react/no-array-index-key */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import CommonLayout from '@/components/@layout/CommonLayout';
-// import PostGrid from '@/components/PostGrid/PostGrid';
-// import api from '@/api/api';
+import PostGrid from '@/components/PostGrid/PostGrid';
+import api from '@/api/api';
 
 function HomeMainPage() {
-  // const [item, setItem] = useState([]);
+  const [item, setItem] = useState([]);
 
-  // const getRanking = async () => {
-  //   const res = await api.getRanking();
-  //   if (res.data.status === 'SUCCESS') {
-  //     setItem(res.data.data.content);
-  //   }
-  // };
+  const getRanking = async () => {
+    const res = await api.getRanking();
+    if (res.data.status === 'SUCCESS') {
+      setItem(res.data.data.content);
+    }
+  };
 
-  // useEffect(() => {
-  //   getRanking();
-  // }, []);
+  useEffect(() => {
+    getRanking();
+  }, []);
 
   return (
     <CommonLayout>
@@ -31,7 +31,7 @@ function HomeMainPage() {
       >
         베스트 인기글 Top4👑
       </h2>
-      {/* <PostGrid postItem={item} /> */}
+      <PostGrid postItem={item} />
     </CommonLayout>
   );
 }
