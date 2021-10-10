@@ -44,6 +44,8 @@ export const CardBottom = styled((props) => <Box {...props} />)({
   paddingLeft: '16px',
   paddingBottom: '8px',
   borderTop: '1px solid gray',
+  Zindex: 1,
+  background: 'white',
 });
 
 // MuiCardContent-root css-46bh2p-MuiCardContent-root

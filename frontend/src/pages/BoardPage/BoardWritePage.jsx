@@ -50,7 +50,7 @@ export default function BoardWritePage() {
 
   const postSubmit = useCallback(async () => {
     if (id) {
-      const res = await api.postBoard(id, postContent);
+      const res = await api.postBoard(1, postContent);
       if (res.data.status === 'SUCCESS') {
         toast.success('글이 작성되었습니다👌');
         goBack();
