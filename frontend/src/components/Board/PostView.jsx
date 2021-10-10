@@ -38,7 +38,10 @@ export default function PostView(props) {
         if (res.data.status !== 'SUCCESS') {
           toast.error('저장에 실패하였습니다');
         }
-        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setLikeCheck(!likeCheck);
+        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') {
+          setLikeCheck(!likeCheck);
+          setLikeCnt(likeCount - 1);
+        }
       } else {
         const resUser = await api.postUserBoardRecommend(id, postNo);
         if (resUser.data.status !== 'SUCCESS') toast.error('유저 저장에 실패하였습니다');
@@ -47,7 +50,10 @@ export default function PostView(props) {
         if (res.data.status !== 'SUCCESS') {
           toast.error('저장에 실패하였습니다');
         }
-        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setLikeCheck(!likeCheck);
+        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') {
+          setLikeCheck(!likeCheck);
+          setLikeCnt(likeCount + 1);
+        }
       }
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
@@ -110,7 +116,7 @@ export default function PostView(props) {
             <div>
               <ContentLikeButton onClick={onClickContent}>
                 <ContentLikeIcon />
-                <span> Like {likeCount + 1}</span>
+                <span> Like {likeCount}</span>
               </ContentLikeButton>
             </div>
           ) : (

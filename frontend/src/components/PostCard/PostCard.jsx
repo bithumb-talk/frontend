@@ -37,18 +37,20 @@ function PostCard(props) {
     if (id) {
       if (isChecked) {
         const resUser = await api.deleteUserBoardRecommend(id, postNo);
-        if (resUser.data.status === 'SUCCESS') {
-          setChecked(!isChecked);
-        } else {
-          toast.error('저장에 실패하였습니다');
-        }
+        if (resUser.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
+
+        const res = await api.postBoardRecommend(postNo, { boardRecommend: 'false' });
+        if (res.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
+
+        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setChecked(!isChecked);
       } else {
         const resUser = await api.postUserBoardRecommend(id, postNo);
-        if (resUser.data.status === 'SUCCESS') {
-          setChecked(!isChecked);
-        } else {
-          toast.error('저장에 실패하였습니다');
-        }
+        if (resUser.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
+
+        const res = await api.postBoardRecommend(postNo, { boardRecommend: 'true' });
+        if (res.data.status !== 'SUCCESS') toast.error('저장에 실패하였습니다');
+
+        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setChecked(!isChecked);
       }
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
