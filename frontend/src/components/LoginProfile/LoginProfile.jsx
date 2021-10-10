@@ -35,7 +35,7 @@ export default function LoginProfile() {
   return (
     <Box sx={{ display: 'flex', margin: '0px 20px 0px 30px' }}>
       <Link to="/mypage">
-        <UserProfile src={userInfo.profileUrl ? userInfo.profileUrl : ''} />
+        <UserProfile src={userInfo ? userInfo.profileUrl : ''} />
       </Link>
 
       <UserInfo>
