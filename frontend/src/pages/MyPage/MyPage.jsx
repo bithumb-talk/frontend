@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Typography, Box, Alert, AlertTitle, Snackbar } from '@mui/material';
-import { getUserInfo, getMyBoardList, getMyLikeBoardList } from '@/redux/userInfoSlice';
+import { getUserInfo, getMyBoardList, getMyLikeBoardList, getMyInterestStockList } from '@/redux/userInfoSlice';
 import api from '@/api/api';
 import logo from '@/assets/image/newLogo.png';
 import PostGrid from '@/components/PostGrid/PostGrid';
@@ -36,6 +36,7 @@ export default function MyPage() {
   const nickname = useSelector((state) => state.userInfo.nickname);
   const myBoardList = useSelector((state) => state.userInfo.myBoardList.data);
   const myLikeBoardList = useSelector((state) => state.userInfo.myLikeBoardList.data);
+  const myStockList = useSelector((state) => state.userInfo.myInterestStockList.data);
 
   const [changeToggle, setchangeToggle] = useState('change');
   const [myPageTab, setmyPageTab] = useState('myBoard');
@@ -56,6 +57,7 @@ export default function MyPage() {
     dispatch(getUserInfo());
     dispatch(getMyBoardList());
     dispatch(getMyLikeBoardList());
+    dispatch(getMyInterestStockList());
   }, []);
 
   const handleInput = async (e) => {
@@ -190,7 +192,7 @@ export default function MyPage() {
       return (<PostGrid postItem={myLikeBoardList} />);
     }
 
-    if (myPageTab === 'myStock') {
+    if (myPageTab === 'myStock' && myStockList.length > 0) {
       return (<MyInterestStock />);
     }
 
