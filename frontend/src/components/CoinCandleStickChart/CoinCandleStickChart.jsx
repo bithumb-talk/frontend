@@ -5,22 +5,31 @@ import { useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 import setCustomChartOptions from '@/utils/setCustomChartOptions';
 import { COIN_CHART_GAP } from '@/constants/coin';
+import useCoin from '@/hooks/useCoin';
+import usePrevious from '@/hooks/usePrevious';
 import CoinDetailInfo from '../CoinDetailInfo/CoinDetailInfo';
 import CoinCandleStickChartFilter from './CoinCandleStickChartFilter';
 
 function CoinCandleStickChart({ symbol }) {
-  const [chartGap, setChartGap] = useState(COIN_CHART_GAP.DAY.UNIT);
+  const { onGetCandleStick } = useCoin();
+  const [chartGap, setChartGap] = useState('');
   const {
     candleStickTimeDataList: { data },
   } = useSelector((state) => state.coinPrice);
   const [chartOptions, setChartOptions] = useState({});
+  const prevData = usePrevious(data);
 
   const onSetChartGap = useCallback((gap) => {
     setChartGap(gap);
   }, []);
 
   useEffect(() => {
-    const setOptions = async () => {
+    setChartGap(COIN_CHART_GAP.DAY.UNIT);
+    onGetCandleStick({ symbol, gap: COIN_CHART_GAP.DAY.UNIT });
+  }, [onGetCandleStick, symbol]);
+
+  useEffect(() => {
+    const setOptions = () => {
       const options = setCustomChartOptions(data, chartGap);
 
       setChartOptions({
@@ -28,10 +37,10 @@ function CoinCandleStickChart({ symbol }) {
       });
     };
 
-    if (data) {
+    if (data && data !== prevData) {
       setOptions();
     }
-  }, [data, chartGap]);
+  }, [prevData, data, chartGap]);
 
   if (!data) {
     return null;
@@ -41,11 +50,17 @@ function CoinCandleStickChart({ symbol }) {
     <>
       <CoinDetailInfo symbol={symbol} />
       <CoinCandleStickChartFilter symbol={symbol} onSetChartGap={onSetChartGap} />
-      <HighchartsReact
-        highcharts={Highcharts}
-        options={chartOptions}
-        constructorType="stockChart"
-      />
+      {
+        data
+        && (
+        <HighchartsReact
+          highcharts={Highcharts}
+          options={chartOptions}
+          constructorType="stockChart"
+        />
+        )
+      }
+
     </>
   );
 }

@@ -8,19 +8,9 @@ const setZoomButtons = (gap) => {
         ...DEFAULT_ZOOM_OPTION,
         {
           type: 'day',
-          count: 6,
-          text: '6day',
-          title: 'View 6 day',
-          dataGrouping: {
-            forced: true,
-            units: [['minute', [10]]],
-          },
-        },
-        {
-          type: 'day',
-          count: 3,
-          text: '3day',
-          title: 'View 3 day',
+          count: 1,
+          text: '1day',
+          title: 'View 1 day',
           dataGrouping: {
             forced: true,
             units: [['minute', [10]]],
@@ -38,9 +28,19 @@ const setZoomButtons = (gap) => {
         },
         {
           type: 'day',
-          count: 1,
-          text: '1day',
-          title: 'View 1 day',
+          count: 3,
+          text: '3day',
+          title: 'View 3 day',
+          dataGrouping: {
+            forced: true,
+            units: [['minute', [10]]],
+          },
+        },
+        {
+          type: 'day',
+          count: 6,
+          text: '6day',
+          title: 'View 6 day',
           dataGrouping: {
             forced: true,
             units: [['minute', [10]]],
@@ -52,19 +52,9 @@ const setZoomButtons = (gap) => {
         ...DEFAULT_ZOOM_OPTION,
         {
           type: 'day',
-          count: 6,
-          text: '6day',
-          title: 'View 6 day',
-          dataGrouping: {
-            forced: true,
-            units: [['minute', [30]]],
-          },
-        },
-        {
-          type: 'day',
-          count: 3,
-          text: '3day',
-          title: 'View 3 day',
+          count: 1,
+          text: '1day',
+          title: 'View 1 day',
           dataGrouping: {
             forced: true,
             units: [['minute', [30]]],
@@ -82,9 +72,19 @@ const setZoomButtons = (gap) => {
         },
         {
           type: 'day',
-          count: 1,
-          text: '1day',
-          title: 'View 1 day',
+          count: 3,
+          text: '3day',
+          title: 'View 3 day',
+          dataGrouping: {
+            forced: true,
+            units: [['minute', [30]]],
+          },
+        },
+        {
+          type: 'day',
+          count: 6,
+          text: '6day',
+          title: 'View 6 day',
           dataGrouping: {
             forced: true,
             units: [['minute', [30]]],
@@ -95,20 +95,10 @@ const setZoomButtons = (gap) => {
       return [
         ...DEFAULT_ZOOM_OPTION,
         {
-          type: 'month',
-          count: 1,
-          text: '1mon',
-          title: 'View 1 mon',
-          dataGrouping: {
-            forced: true,
-            units: [['hour', [1]]],
-          },
-        },
-        {
           type: 'day',
-          count: 14,
-          text: '2 weeks',
-          title: 'View 2 weeks',
+          count: 3,
+          text: '3day',
+          title: 'View 3 day',
           dataGrouping: {
             forced: true,
             units: [['hour', [1]]],
@@ -126,9 +116,19 @@ const setZoomButtons = (gap) => {
         },
         {
           type: 'day',
-          count: 3,
-          text: '3day',
-          title: 'View 3 day',
+          count: 14,
+          text: '2 weeks',
+          title: 'View 2 weeks',
+          dataGrouping: {
+            forced: true,
+            units: [['hour', [1]]],
+          },
+        },
+        {
+          type: 'month',
+          count: 1,
+          text: '1mon',
+          title: 'View 1 mon',
           dataGrouping: {
             forced: true,
             units: [['hour', [1]]],
@@ -140,19 +140,9 @@ const setZoomButtons = (gap) => {
         ...DEFAULT_ZOOM_OPTION,
         {
           type: 'month',
-          count: 6,
-          text: '6mon',
-          title: 'View 6 month',
-          dataGrouping: {
-            forced: true,
-            units: [['day', [1]]],
-          },
-        },
-        {
-          type: 'month',
-          count: 3,
-          text: '3mon',
-          title: 'View 3 month',
+          count: 1,
+          text: '1mon',
+          title: 'View 1 month',
           dataGrouping: {
             forced: true,
             units: [['day', [1]]],
@@ -170,23 +160,24 @@ const setZoomButtons = (gap) => {
         },
         {
           type: 'month',
-          count: 1,
-          text: '1mon',
-          title: 'View 1 month',
+          count: 3,
+          text: '3mon',
+          title: 'View 3 month',
           dataGrouping: {
             forced: true,
             units: [['day', [1]]],
           },
         },
-        // {
-        //   type: 'day',
-        //   count: 5,
-        //   text: '10m',
-        //   dataGrouping: {
-        //     forced: true,
-        //     units: [['minute', [10]]],
-        //   },
-        // },
+        {
+          type: 'month',
+          count: 6,
+          text: '6mon',
+          title: 'View 6 month',
+          dataGrouping: {
+            forced: true,
+            units: [['day', [1]]],
+          },
+        },
       ];
   }
 };
