@@ -29,33 +29,42 @@ export default function PostView(props) {
 
   const onClickContent = async () => {
     if (id) {
-      setLikeCheck(!likeCheck);
-
-      const data = {
-        boardRecommend: null,
-      };
-
       if (likeCheck) {
-        data.boardRecommend = 'false';
-      } else {
-        data.boardRecommend = 'true';
-      }
+        const resUser = await api.deleteUserBoardRecommend(id, postNo);
+        if (resUser.data.status !== 'SUCCESS') toast.error('딜리트에 실패하였습니다');
 
-      await api.postBoardRecommend(postNo, data).then((res) => {
+        const res = await api.postBoardRecommend(postNo, { boardRecommend: 'false' });
         if (res.data.status !== 'SUCCESS') {
           toast.error('저장에 실패하였습니다');
         }
-      });
+        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setLikeCheck(!likeCheck);
+      } else {
+        const resUser = await api.postUserBoardRecommend(id, postNo);
+        if (resUser.data.status !== 'SUCCESS') toast.error('유저 저장에 실패하였습니다');
 
-      await api.postUserBoardRecommend(id, postNo).then((res) => {
+        const res = await api.postBoardRecommend(postNo, { boardRecommend: 'true' });
         if (res.data.status !== 'SUCCESS') {
-          toast.error('유저 저장에 실패하였습니다');
+          toast.error('저장에 실패하였습니다');
         }
-      });
+        if (res.data.status === 'SUCCESS' && resUser.data.status === 'SUCCESS') setLikeCheck(!likeCheck);
+      }
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
     }
   };
+
+  const getUserBoardRecommend = async () => {
+    await api.getUserBoardRecommend(id, postNo).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        if (res.data.data.likeStatus === 'false') setLikeCheck(false);
+        else if (res.data.data.likeStatus === 'true') setLikeCheck(true);
+      }
+    });
+  };
+
+  useEffect(() => {
+    if (id && postNo) getUserBoardRecommend(postNo);
+  }, [postNo]);
 
   useEffect(() => {
     setTitle(postItem.boardTitle);
