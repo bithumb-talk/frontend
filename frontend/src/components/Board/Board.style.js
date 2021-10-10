@@ -90,6 +90,7 @@ export const ContentLikeEmptyButton = styled.div`
 export const PostContentBody = styled.div`
   display: flex;
   flex-direction: column;
+  background: white;
   align-items: center;
   margin: 0 10vw;
   min-height: auto;
