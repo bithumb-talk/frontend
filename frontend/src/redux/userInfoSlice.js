@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { INITIAL_STATUS } from '@/constants/reduxConstants';
 import api from '@/api/api';
-import auth from '@/utils/auth';
+import { authUserId } from '@/utils/auth';
 
 const initialState = {
   userInfo: {
@@ -32,28 +32,28 @@ const initialState = {
 //   return response.data;
 // });
 export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => {
-  const res = await api.getUserInfo(auth.getUserId());
+  const res = await api.getUserInfo(authUserId);
   const resData = res.data;
 
   return { ...resData };
 });
 
 export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async () => {
-  const res = await api.getMyBoardList(auth.getUserId());
+  const res = await api.getMyBoardList(authUserId);
   const resData = res.data;
 
   return { ...resData };
 });
 
 export const getMyInterestStockList = createAsyncThunk('userInfo/getMyStockList', async () => {
-  const res = await api.getInterest(auth.getUserId());
+  const res = await api.getInterest(authUserId);
   const resData = res.data;
 
   return { ...resData };
 });
 
 export const getMyLikeBoardList = createAsyncThunk('userInfo/getMyLikeBoardList', async () => {
-  const result = await api.getLikeBoardNumberList(auth.getUserId());
+  const result = await api.getLikeBoardNumberList(authUserId);
   const numberList = result.data.data.contentIdList;
 
   if (numberList.length < 1) {
@@ -64,7 +64,7 @@ export const getMyLikeBoardList = createAsyncThunk('userInfo/getMyLikeBoardList'
     };
   }
 
-  const res = await api.getMyLikeBoardList(auth.getUserId(), numberList);
+  const res = await api.getMyLikeBoardList(authUserId, numberList);
   const resData = res.data;
 
   return { ...resData };
@@ -117,7 +117,8 @@ export const userInfoSlice = createSlice({
       };
     },
     [getUserInfo.fulfilled]: (state, action) => {
-      if (!action.payload.data) { // 토큰 재발급 이슈 해결될 때 까지 일단 이렇게라도 ㅠ
+      if (!action.payload.data) {
+        // 토큰 재발급 이슈 해결될 때 까지 일단 이렇게라도 ㅠ
         localStorage.clear();
 
         state.userInfo = null;
