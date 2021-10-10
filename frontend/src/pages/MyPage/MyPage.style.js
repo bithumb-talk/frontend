@@ -12,7 +12,7 @@ export const BackArrowBox = styled((props) => (
       display: 'flex',
       flexDirection: 'row',
       bgcolor: '#fff',
-      padding: '15px 50px 15px 50px',
+      padding: '8px 50px',
       borderBottom: '1px solid #EAEDF0',
       position: 'fixed',
       top: 0,
@@ -42,6 +42,7 @@ export const UserProfileBox = styled((props) => <Box {...props} />)({
   backgroundColor: 'white',
   minWidth: '400px',
   maxWidth: '400px',
+  borderRadius: '10px',
 });
 
 export const UserInfo = styled((props) => <Box {...props} />)({
@@ -118,9 +119,9 @@ export const QuitButton = styled((props) => (
 ))({
   fontSize: '1rem',
   fontWeight: 800,
-  borderRadius: '0px',
   padding: '10px',
   marginTop: '10px',
+  borderRadius: '10px',
 });
 
 export const PWChangeButton = styled((props) => (
@@ -138,7 +139,7 @@ export const PWChangeButton = styled((props) => (
 ))({
   fontSize: '1rem',
   fontWeight: 800,
-  borderRadius: '0px',
+  borderRadius: '10px',
   padding: '10px',
   marginTop: '10px',
 });

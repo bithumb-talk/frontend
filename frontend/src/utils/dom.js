@@ -19,12 +19,15 @@ export function stringToColor(string) {
 }
 
 export function stringAvatar(name = 'default') {
+  const fontSize = name.length > 6 ? '12px' : '15px';
+
   return {
     sx: {
       bgcolor: stringToColor(name),
-      width: '70px',
-      height: '70px',
+      width: '60px',
+      height: '60px',
+      fontSize,
     },
-    children: `${name.slice(0, 2)}`,
+    children: `${name}`,
   };
 }

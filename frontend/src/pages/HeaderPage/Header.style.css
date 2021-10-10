@@ -8,7 +8,7 @@
     align-items: center; /*반대축(현재는 반대축이 수직축)의 속성값 활용 */
     background-color:rgb(255, 255, 255);
     border-bottom: 1px solid #eee;
-    padding : 15px 50px 15px 50px; /*위아래 8px, 양옆 12px*/
+    padding : 8px 50px; /*위아래 8px, 양옆 12px*/
 }
  
 
@@ -32,17 +32,19 @@ a {
 }
 
 .navbar__menu {
+    margin-left: 20px;
     display: flex; /*메뉴를 일렬로 배치*/
+    width: 100%;
     list-style: none; /*ul태그의 점을 제거*/
     padding-left: 0; /*패딩때문에 우측으로 치우쳐있는것을 되돌림*/
 }
 
 .navbar__menu li{
-    padding : 8px 12px; /*마우스 클릭영역확보*/   
+    padding : 5px 16px; /*마우스 클릭영역확보*/   
 }
 
 .navbar__menu li:hover {
-    background-color: yellow;
+    color: #ff9800;
     border-radius: 10px; /*테두리 둥글게*/
 }
 

@@ -2,13 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Typography, Box, Alert, AlertTitle, Snackbar } from '@mui/material';
-import { getUserInfo, getMyBoardList } from '@/redux/userInfoSlice';
+import { getUserInfo, getMyBoardList, getMyLikeBoardList } from '@/redux/userInfoSlice';
 import api from '@/api/api';
 import logo from '@/assets/image/newLogo.png';
 import PostGrid from '@/components/PostGrid/PostGrid';
 import PasswordModal from './PasswordModal';
 import QuitModal from './QuitModal';
 import EmptyContent from './EmptyContent';
+import MyInterestStock from './MyInterestStock';
 import {
   UserProfileBox,
   ProfileImage,
@@ -34,6 +35,7 @@ export default function MyPage() {
   const profileUrl = useSelector((state) => state.userInfo.profileUrl);
   const nickname = useSelector((state) => state.userInfo.nickname);
   const myBoardList = useSelector((state) => state.userInfo.myBoardList.data);
+  const myLikeBoardList = useSelector((state) => state.userInfo.myLikeBoardList.data);
 
   const [changeToggle, setchangeToggle] = useState('change');
   const [myPageTab, setmyPageTab] = useState('myBoard');
@@ -53,6 +55,7 @@ export default function MyPage() {
   useEffect(() => {
     dispatch(getUserInfo());
     dispatch(getMyBoardList());
+    dispatch(getMyLikeBoardList());
   }, []);
 
   const handleInput = async (e) => {
@@ -183,19 +186,19 @@ export default function MyPage() {
       return (<PostGrid postItem={myBoardList} />);
     }
 
-    if (myPageTab === 'myBoard' && myBoardList.length <= 0) {
-      return (<EmptyContent type={myPageTab} />);
+    if (myPageTab === 'myLike' && myLikeBoardList.length > 0) {
+      return (<PostGrid postItem={myLikeBoardList} />);
     }
 
-    if (myPageTab === 'myLike') {
-      return (<EmptyContent type={myPageTab} />);
+    if (myPageTab === 'myStock') {
+      return (<MyInterestStock />);
     }
 
     return (<EmptyContent type={myPageTab} />);
   };
 
   return (
-    <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
+    <Box sx={{ display: 'flex', width: '100%' }}>
       <BackArrowBox>
         <Link to="/">
           <img src={logo} alt="youngcha" width="105px" height="65px" />
@@ -325,6 +328,7 @@ export default function MyPage() {
             border: '1px solid #EAEDF0',
             bgcolor: '#fff',
             marginLeft: '30px',
+            borderRadius: '10px',
           }}
           >
             <UserContentBox>

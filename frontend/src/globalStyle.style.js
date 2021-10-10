@@ -21,6 +21,7 @@ const GlobalStyle = () => (
         width: 100%;
         height: 100%;
         font-size: 16px;
+        background-color: #F1F3F5;
       }
       h1,
       h2{

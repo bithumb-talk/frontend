@@ -17,7 +17,7 @@ const Notifications = () => {
       data = await getCurToken(setTokenFound);
       if (data) {
         dispatch(setDeviceToken(data));
-        console.log('Token is', data);
+        // console.log('Token is', data);
       }
       return data;
     }

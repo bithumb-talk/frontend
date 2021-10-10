@@ -24,7 +24,7 @@ export const BackArrowBox = styled((props) => (
       display: 'flex',
       flexDirection: 'row',
       bgcolor: '#fff',
-      padding: '15px 50px 15px 50px',
+      padding: '8px 50px',
       borderBottom: '1px solid #ddd',
       position: 'fixed',
       top: 0,

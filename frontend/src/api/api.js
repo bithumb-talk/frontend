@@ -25,16 +25,7 @@ const END_POINT = Object.freeze({
   SET_DEVICE_TOKEN: `${BASE_URL}/users/device`,
   IMAGE_UPLOAD: `${BASE_URL}/users/profile`,
   BOARD_MY_LIST: `${BASE_URL}/all-boards/auth`,
-  // SIGNUP: '/auth/signup',
-  // SIGNIN: '/auth/login',
-  // GET_USERINFO: '/users/1/info',
-  // CHECK_DUPLICATE_USERID: '/auth/check-duplicate-user-id',
-  // CHECK_DUPLICATE_NICKNAME: '/auth/check-duplicate-nickname',
-  // CHANGE_NICKNAME: '/users/nickname',
-  // CHANGE_PASSWORD: '/users/password',
-  // USER_WITHDRAWAL: '/users',
-  // SET_DEVICE_TOKEN: '/users/device/',
-  // IMAGE_UPLOAD: '/users/profile/',
+  BOARD_LIKE_LIST: `${BASE_URL}/user-boards`,
 });
 
 class Api {
@@ -47,13 +38,26 @@ class Api {
     };
   }
 
-  async getInterest(userId, config) {
-    const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, config, true);
+  async getInterest(userId) {
+    const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, {
+      headers: {
+        ...authHeader(),
+      },
+    }, true);
     return res;
   }
 
   async getCoinList() {
     const res = await this.api.get(`${END_POINT.COIN}`);
+    return res;
+  }
+
+  async getLikeBoardNumberList(userId) {
+    const res = await this.api.get(`${END_POINT.BOARD_LIKE_LIST}/${userId}/like-board-contents`, {
+      headers: {
+        ...authHeader(),
+      },
+    }, true);
     return res;
   }
 
@@ -71,7 +75,11 @@ class Api {
   }
 
   async getMyBoardList(userId) {
-    const res = await this.api.get(`${END_POINT.BOARD_MY_LIST}/${userId}?size=8`, this.config, true);
+    const res = await this.api.get(`${END_POINT.BOARD_MY_LIST}/${userId}?size=8`, {
+      headers: {
+        ...authHeader(),
+      },
+    }, true);
     return res;
   }
 
@@ -82,6 +90,17 @@ class Api {
 
   async checkDuplicateNickname(nickname) {
     const res = await this.api.get(`${END_POINT.CHECK_DUPLICATE_NICKNAME}/${nickname}`);
+    return res;
+  }
+
+  async getMyLikeBoardList(id, contentIdList) {
+    const res = await this.api.post(`${END_POINT.BOARD_MY_LIST}/${id}/recommend?page=0`, {
+      contentIdList,
+    }, {
+      headers: {
+        ...authHeader(),
+      },
+    }, true);
     return res;
   }
 

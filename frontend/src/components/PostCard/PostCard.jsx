@@ -63,8 +63,10 @@ function PostCard(props) {
     setDate(gapTime(postItem.boardCreatedDate));
 
     // DefaultImg 설정
-    if (postItem.boardImg.indexOf('http') !== -1) {
+    if (postItem.boardImg && postItem.boardImg.indexOf('http') !== -1) {
       setImg(postItem.boardImg);
+    } else if (postItem.boardImg && postItem.boardImg.indexOf('http') === -1) {
+      setImg(defaultImg);
     } else {
       setImg(defaultImg);
     }

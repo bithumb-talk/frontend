@@ -1,12 +1,21 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { INITIAL_STATUS } from '@/constants/reduxConstants';
 import api from '@/api/api';
+import auth from '@/utils/auth';
 
 const initialState = {
   userInfo: {
     ...INITIAL_STATUS,
   },
   myBoardList: {
+    data: [],
+    ...INITIAL_STATUS,
+  },
+  myLikeBoardList: {
+    data: [],
+    ...INITIAL_STATUS,
+  },
+  myInterestStockList: {
     data: [],
     ...INITIAL_STATUS,
   },
@@ -23,18 +32,39 @@ const initialState = {
 //   return response.data;
 // });
 export const getUserInfo = createAsyncThunk('userInfo/getUserInfo', async () => {
-  const id = window.localStorage.getItem('id');
-  const res = await api.getUserInfo(id);
+  const res = await api.getUserInfo(auth.getUserId());
   const resData = res.data;
-
-  console.log(resData);
 
   return { ...resData };
 });
 
 export const getMyBoardList = createAsyncThunk('userInfo/getMyBoardList', async () => {
-  const id = window.localStorage.getItem('id');
-  const res = await api.getMyBoardList(id);
+  const res = await api.getMyBoardList(auth.getUserId());
+  const resData = res.data;
+
+  return { ...resData };
+});
+
+export const getMyInterestStockList = createAsyncThunk('userInfo/getMyStockList', async () => {
+  const res = await api.getInterest(auth.getUserId());
+  const resData = res.data;
+
+  return { ...resData };
+});
+
+export const getMyLikeBoardList = createAsyncThunk('userInfo/getMyLikeBoardList', async () => {
+  const result = await api.getLikeBoardNumberList(auth.getUserId());
+  const numberList = result.data.data.contentIdList;
+
+  if (numberList.length < 1) {
+    return {
+      data: {
+        boardList: [],
+      },
+    };
+  }
+
+  const res = await api.getMyLikeBoardList(auth.getUserId(), numberList);
   const resData = res.data;
 
   return { ...resData };
@@ -66,13 +96,7 @@ export const userInfoSlice = createSlice({
       window.localStorage.setItem('refreshToken', action.payload.refreshToken);
     },
     actLogOut: (state) => {
-      window.localStorage.removeItem('user');
-      window.localStorage.removeItem('userId');
-      window.localStorage.removeItem('nickname');
-      window.localStorage.removeItem('id');
-      window.localStorage.removeItem('profileUrl');
-      window.localStorage.removeItem('token');
-      window.localStorage.removeItem('refreshToken');
+      window.localStorage.clear();
 
       state.token = null;
       state.userId = null;
@@ -94,13 +118,7 @@ export const userInfoSlice = createSlice({
     },
     [getUserInfo.fulfilled]: (state, action) => {
       if (!action.payload.data) { // 토큰 재발급 이슈 해결될 때 까지 일단 이렇게라도 ㅠ
-        window.localStorage.removeItem('user');
-        window.localStorage.removeItem('userId');
-        window.localStorage.removeItem('nickname');
-        window.localStorage.removeItem('id');
-        window.localStorage.removeItem('profileUrl');
-        window.localStorage.removeItem('token');
-        window.localStorage.removeItem('refreshToken');
+        localStorage.clear();
 
         state.userInfo = null;
         state.token = null;
@@ -138,7 +156,13 @@ export const userInfoSlice = createSlice({
       };
     },
     [getMyBoardList.fulfilled]: (state, action) => {
-      state.myBoardList.data = action.payload.data.content;
+      if (action.payload.data) state.myBoardList.data = action.payload.data.content;
+    },
+    [getMyLikeBoardList.fulfilled]: (state, action) => {
+      if (action.payload.data) state.myLikeBoardList.data = action.payload.data.boardList;
+    },
+    [getMyInterestStockList.fulfilled]: (state, action) => {
+      if (action.payload.data) state.myInterestStockList.data = action.payload.data;
     },
   },
 });

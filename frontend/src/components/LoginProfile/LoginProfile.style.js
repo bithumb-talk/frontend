@@ -13,8 +13,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 export const UserProfile = styled((props) => (
   <Avatar
     sx={{
-      width: '70px',
-      height: '70px',
+      width: '60px',
+      height: '60px',
       border: '1px solid #eee',
     }}
     {...props}
