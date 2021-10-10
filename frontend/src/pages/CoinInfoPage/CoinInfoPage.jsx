@@ -14,7 +14,7 @@ function CoinInfoPage({ match }) {
   useEffect(() => {
     let isMounted = true;
     if (isMounted) {
-      onGetCandleStick({ symbol, gap: COIN_CHART_GAP.HOUR.UNIT });
+      onGetCandleStick({ symbol, gap: COIN_CHART_GAP.DAY.UNIT });
     }
 
     return () => {

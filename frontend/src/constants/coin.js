@@ -15,3 +15,11 @@ export const COIN_UNIT = Object.freeze({
   TRADING_VOLUME: '거래량',
   TRADING_PRICE: '거래대금',
 });
+
+export const DEFAULT_ZOOM_OPTION = [
+  {
+    type: 'all',
+    text: 'All',
+    title: 'View all',
+  },
+];
