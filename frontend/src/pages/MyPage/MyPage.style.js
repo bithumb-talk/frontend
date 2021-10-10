@@ -1,5 +1,5 @@
 import {
-  Avatar, Box, Typography, TextField, Button,
+  Avatar, Box, TextField, Button,
 } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { styled } from '@mui/material/styles';
@@ -191,9 +191,7 @@ export const ContentWrap = styled((props) => (
   display: 'flex',
   flexDirection: 'column',
   padding: '18px 25px',
-});
-
-export const ContentTitle = styled((props) => <Typography variant="h6" {...props} />)({
+  fontSize: '19px',
   fontWeight: 800,
 });
 

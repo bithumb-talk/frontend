@@ -8,6 +8,7 @@ import logo from '@/assets/image/newLogo.png';
 import PostGrid from '@/components/PostGrid/PostGrid';
 import PasswordModal from './PasswordModal';
 import QuitModal from './QuitModal';
+import EmptyContent from './EmptyContent';
 import {
   UserProfileBox,
   ProfileImage,
@@ -16,7 +17,6 @@ import {
   NicknameBox,
   PWChangeButton,
   UserContentBox,
-  ContentTitle,
   ContentWrap,
   QuitButton,
   ImgUploadButton,
@@ -36,6 +36,7 @@ export default function MyPage() {
   const myBoardList = useSelector((state) => state.userInfo.myBoardList.data);
 
   const [changeToggle, setchangeToggle] = useState('change');
+  const [myPageTab, setmyPageTab] = useState('myBoard');
   const [errorStatus, seterrorStatus] = useState(false);
   const [pwOpenToggle, setpwOpenToggle] = useState(false);
   const [quitOpenToggle, setquitOpenToggle] = useState(false);
@@ -173,6 +174,26 @@ export default function MyPage() {
     boxShadow: 'none',
   });
 
+  const changeMenuTab = (e) => {
+    setmyPageTab(e.target.name);
+  };
+
+  const printComponent = () => {
+    if (myPageTab === 'myBoard' && myBoardList.length > 0) {
+      return (<PostGrid postItem={myBoardList} />);
+    }
+
+    if (myPageTab === 'myBoard' && myBoardList.length <= 0) {
+      return (<EmptyContent type={myPageTab} />);
+    }
+
+    if (myPageTab === 'myLike') {
+      return (<EmptyContent type={myPageTab} />);
+    }
+
+    return (<EmptyContent type={myPageTab} />);
+  };
+
   return (
     <Box sx={{ display: 'flex', width: '100%', height: '100%' }}>
       <BackArrowBox>
@@ -307,19 +328,19 @@ export default function MyPage() {
           }}
           >
             <UserContentBox>
-              <ContentWrap>
-                <ContentTitle>내가 쓴 글</ContentTitle>
+              <ContentWrap onClick={changeMenuTab} name="myBoard">
+                내가 쓴 글
               </ContentWrap>
               <UpDownLine />
-              <ContentWrap>
-                <ContentTitle>좋아요 한 게시글</ContentTitle>
+              <ContentWrap onClick={changeMenuTab} name="myLike">
+                좋아요 한 게시글
               </ContentWrap>
               <UpDownLine />
-              <ContentWrap>
-                <ContentTitle>관심종목</ContentTitle>
+              <ContentWrap onClick={changeMenuTab} name="myStock">
+                관심종목
               </ContentWrap>
             </UserContentBox>
-            <PostGrid postItem={myBoardList} />
+            {printComponent()}
           </Box>
         </Box>
       </Box>

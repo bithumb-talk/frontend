@@ -20,8 +20,8 @@ export default function LoginSignupLink() {
       <Link to="/signup">
         <LoginButton
           sx={{
-            color: grey[800],
-            bgcolor: grey[300],
+            color: 'white',
+            bgcolor: grey[800],
           }}
         >
           회원가입
