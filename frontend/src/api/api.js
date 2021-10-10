@@ -249,7 +249,7 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${userId}`, data);
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/auth/${userId}`, data);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -273,7 +273,7 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments`, data);
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/auth`, data);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -301,7 +301,7 @@ class Api {
     };
 
     try {
-      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend`, data);
+      res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/comments/${commentNo}/recommend/auth`, data);
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
