@@ -5,12 +5,13 @@ import useDebounce from '@/hooks/useDebounce';
 import { COIN_CHART_GAP } from '@/constants/coin';
 import useCoin from '@/hooks/useCoin';
 
-function CoinCandleStickChartFilter({ symbol }) {
+function CoinCandleStickChartFilter({ symbol, onSetChartGap }) {
   const { onGetCandleStick } = useCoin();
   const dispatchCandleStick = (gap) => onGetCandleStick({ symbol, gap });
   const candleStickDebounce = useDebounce(dispatchCandleStick, 200);
   const onClickButton = (gap) => {
     candleStickDebounce.current(gap);
+    onSetChartGap(gap);
   };
 
   return (
@@ -25,6 +26,7 @@ function CoinCandleStickChartFilter({ symbol }) {
 
 CoinCandleStickChartFilter.propTypes = {
   symbol: PropTypes.string.isRequired,
+  onSetChartGap: PropTypes.func.isRequired,
 };
 
 export default CoinCandleStickChartFilter;

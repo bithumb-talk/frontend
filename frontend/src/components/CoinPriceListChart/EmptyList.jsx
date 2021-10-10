@@ -10,7 +10,7 @@ const EmptyText = styled.p`
 function EmptyList() {
   return (
     <>
-      <EmptyText>관심코인이 존재하지 않습니다</EmptyText>
+      <EmptyText>결과가 존재하지 않습니다</EmptyText>
     </>
   );
 }

@@ -1,9 +1,9 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
-import { copy, includeKor, includeEng } from '@/utils/utils';
+import { copy, includeKor, includeEng, getItem } from '@/utils/utils';
 import api from '@/api/api';
 import { setNewDataWithSymbol } from '@/utils/reduxUtils';
-import auth from '@/utils/auth';
+import { userId } from '@/utils/auth';
 
 const initialState = {
   tabIndex: 0,
@@ -29,13 +29,15 @@ const initialState = {
 
 /* eslint max-len: ["error", { "code": 150 }] */
 export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', async () => {
-  if (auth.isLogin()) {
+  if (getItem('token')) {
     const [priceRes, interestsRes] = await Promise.all([
       await api.getCoinList(),
-      await api.getInterest(auth.getUserId()),
+      await api.getInterest(getItem('id'), {
+        headers: {
+          Authorization: `Bearer ${getItem('token')}`,
+        },
+      }),
     ]);
-
-    console.log(interestsRes);
 
     const newCoinPriceList = priceRes.data.data.map((coin) => {
       const { korean } = coin;
@@ -55,7 +57,6 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
   }
 
   const onlyPriceRes = await api.getCoinList();
-
   const onlyNewCoinPriceList = onlyPriceRes.data.data.map((coin) => ({
     ...coin,
     isInterest: false,
@@ -85,7 +86,7 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
 });
 
 export const postInterestCoin = createAsyncThunk('coinPrice/postInterestCoin', async ({ symbol }) => {
-  const { data } = await api.postInterestCoin({ symbol, userId: auth.getUserId() });
+  const { data } = await api.postInterestCoin({ symbol, userId });
 
   return {
     data: data.data,
@@ -93,7 +94,7 @@ export const postInterestCoin = createAsyncThunk('coinPrice/postInterestCoin', a
 });
 
 export const deleteInterestCoin = createAsyncThunk('coinPrice/deleteInterestCoin', async ({ symbol }) => {
-  const { data } = await api.deleteInterestCoin({ symbol, userId: auth.getUserId() });
+  const { data } = await api.deleteInterestCoin({ symbol, userId });
 
   return {
     data: data.data,
@@ -147,12 +148,14 @@ export const coinPriceSlice = createSlice({
     setSearchedCoin: (state, action) => {
       const { value } = action.payload;
 
+      const targetData = state.tabIndex === 0 ? state.coinPriceList.data : state.filteredCoinPriceList.data;
+
       if (value === '') {
-        state.filteredCoinPriceList.data = [...state.coinPriceList.data];
+        state.filteredCoinPriceList.data = [...targetData];
         return;
       }
 
-      const filteredNewData = state.coinPriceList.data.filter(
+      const filteredNewData = targetData.filter(
         ({ korean, symbol }) => includeKor(korean, value) || includeEng(symbol, value),
       );
 

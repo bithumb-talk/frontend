@@ -7,7 +7,7 @@ function useAuth() {
   useEffect(() => {
     setIsLogin(!!getItem('token'));
   }, [setIsLogin]);
-  return [isLogin];
+  return { isLogin };
 }
 
 export default useAuth;
