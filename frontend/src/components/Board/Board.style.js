@@ -4,6 +4,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import TextField from '@mui/material/TextField';
 import ThumbUpAltIcon from '@mui/icons-material/ThumbUpAlt';
 import ThumbUpOffAltIcon from '@mui/icons-material/ThumbUpOffAlt';
+import Pagination from '@mui/material/Pagination';
 import { COLOR } from '@/constants/style';
 
 export const SendButton = styled.div`
@@ -141,4 +142,12 @@ export const CommentLikeIcon = styled((props) => <ThumbUpAltIcon {...props} />)(
 });
 export const CommentLikeEmptyIcon = styled((props) => <ThumbUpOffAltIcon {...props} />)({
   width: '0.7em',
+});
+
+export const BoardPagination = styled((props) => <Pagination {...props} />)({
+  display: 'flex',
+  flexWrap: 'wrap',
+  alignItems: 'center',
+  justifyContent: 'center',
+  margin: '1em',
 });

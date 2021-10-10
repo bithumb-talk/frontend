@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 // eslint-disable-next-line object-curly-newline
 import { SendButton, SendButtonIcon, OutButton, OutIcon } from './Board.style';
 
-export default function BoardBottom(props) {
+export default function TextBottom(props) {
   const { onClick, goBack } = props;
   return (
     <div>
