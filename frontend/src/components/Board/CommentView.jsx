@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react';
 import proptypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import Grid from '@mui/material/Grid';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 // import { gapTime } from '@/utils/utils';
@@ -96,17 +96,6 @@ export default function CommentView(props) {
           </Grid>
         </Grid>
       </Grid>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </div>
   );
 }
