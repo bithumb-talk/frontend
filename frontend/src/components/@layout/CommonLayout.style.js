@@ -5,7 +5,7 @@ export const CommonMainArticle = styled.article`
   position: relative;
   display: flex;
   width: 1400px;
-  margin: 20px auto 0;
+  margin: 0 auto;
 
   @media only screen and (max-width: ${BREAK_POINT.LG}px) {
     display: block;
