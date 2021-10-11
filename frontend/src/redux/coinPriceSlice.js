@@ -86,7 +86,7 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
 });
 
 export const postInterestCoin = createAsyncThunk('coinPrice/postInterestCoin', async ({ symbol }) => {
-  const { data } = await api.postInterestCoin({ symbol, authUserId });
+  const { data } = await api.postInterestCoin({ symbol, userId: authUserId });
 
   return {
     data: data.data,
@@ -94,7 +94,7 @@ export const postInterestCoin = createAsyncThunk('coinPrice/postInterestCoin', a
 });
 
 export const deleteInterestCoin = createAsyncThunk('coinPrice/deleteInterestCoin', async ({ symbol }) => {
-  const { data } = await api.deleteInterestCoin({ symbol, authUserId });
+  const { data } = await api.deleteInterestCoin({ symbol, userId: authUserId });
 
   return {
     data: data.data,
