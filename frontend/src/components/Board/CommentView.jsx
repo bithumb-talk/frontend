@@ -66,34 +66,36 @@ export default function CommentView(props) {
 
   return (
     <div>
-      <div className="commentRead">
-        <div className="commentName">
-          <Grid container spacing={0} alignItems="center">
-            <Grid item xs={6} className="postTopInfo">
-              {item.nickname}
-            </Grid>
-            <Grid item xs={6} className="postTopInfo_right">
-              {postDate}
-            </Grid>
+      <Grid container spacing={0} alignItems="center" className="commentRead">
+        <Grid container spacing={0} alignItems="center" className="commentName">
+          <Grid item xs={6} className="postTopInfo">
+            {item.nickname}
           </Grid>
-        </div>
-        <div className="commentReadText">{item.commentContent}</div>
-        {check === false ? (
-          <div className="commentBottom">
-            {/* <span className="writeReply">대댓글 달기</span> */}
-            <span className="writeReplyLike" onClick={onClickComment}>
-              <CommentLikeEmptyIcon /> 좋아요 {item.commentRecommend}
-            </span>
-          </div>
-        ) : (
-          <div className="commentBottom">
-            {/* <span className="writeReply">대댓글 달기</span> */}
-            <span className="writeReplyLike" onClick={onClickComment}>
-              <CommentLikeIcon /> 좋아요 {item.commentRecommend + 1}
-            </span>
-          </div>
-        )}
-      </div>
+          <Grid item xs={6} className="postTopInfo_right">
+            {postDate}
+          </Grid>
+        </Grid>
+        <Grid container spacing={0} alignItems="center">
+          <Grid item xs={10}>
+            <div className="commentReadText">{item.commentContent}</div>
+          </Grid>
+          <Grid item xs={2}>
+            {check === false ? (
+              <div className="commentBottom">
+                <span className="writeReplyLike" onClick={onClickComment}>
+                  <CommentLikeEmptyIcon /> 좋아요 {item.commentRecommend}
+                </span>
+              </div>
+            ) : (
+              <div className="commentBottom">
+                <span className="writeReplyLike" onClick={onClickComment}>
+                  <CommentLikeIcon /> 좋아요 {item.commentRecommend + 1}
+                </span>
+              </div>
+            )}
+          </Grid>
+        </Grid>
+      </Grid>
       <ToastContainer
         position="bottom-left"
         autoClose={3000}
