@@ -2,7 +2,7 @@ import React, { useEffect, useState, memo, useCallback } from 'react';
 import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
-import { grey } from '@mui/material/colors';
+import { grey, red, blue } from '@mui/material/colors';
 import { priceToString, stringToNumber, stringToUnitPrice, getItem } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
 import useDebounce from '@/hooks/useDebounce';
@@ -15,6 +15,9 @@ import {
   CoinFontSpan,
 } from './CoinPriceListChart.style';
 import CoinListModal from './CoinListModal';
+
+const RED = red[50];
+const BLUE = blue[50];
 
 const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
   fontSize: '16px',
@@ -59,9 +62,9 @@ function CoinPriceListItem({
 
   useEffect(() => {
     if (chgAmt > 0) {
-      setBorderColor({ flag: true, color: COLOR.RED });
+      setBorderColor({ flag: true, color: RED });
     } else {
-      setBorderColor({ flag: true, color: COLOR.BLUE });
+      setBorderColor({ flag: true, color: BLUE });
     }
 
     setTimeout(() => {

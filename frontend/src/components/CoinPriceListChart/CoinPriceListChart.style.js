@@ -29,7 +29,7 @@ export const CoinListItem = styled.div`
   font-size: 14px;
   border-top: 0.5px solid #cbcbcb;
   height: 50px;
-  ${({ active, color }) => active && `outline: 1px solid ${color};`}
+  ${({ active, color }) => active && `background-color: ${color};`}
 `;
 
 export const TableGrid = styled.div`

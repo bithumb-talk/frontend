@@ -50,6 +50,14 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
       };
     });
 
+    newCoinPriceList.sort((prev, next) => {
+      const prevValue = Number(prev.accTradeValue);
+      const nextValue = Number(next.accTradeValue);
+      if (prevValue < nextValue) return 1;
+      if (prevValue > nextValue) return -1;
+      return 0;
+    });
+
     return {
       ...priceRes,
       data: [...newCoinPriceList],
@@ -61,6 +69,14 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
     ...coin,
     isInterest: false,
   }));
+
+  onlyNewCoinPriceList.sort((prev, next) => {
+    const prevValue = Number(prev.accTradeValue);
+    const nextValue = Number(next.accTradeValue);
+    if (prevValue < nextValue) return 1;
+    if (prevValue > nextValue) return -1;
+    return 0;
+  });
 
   return {
     ...onlyPriceRes,
