@@ -29,3 +29,7 @@ export const MainPostContainer = styled.div`
 export const AllPostsContainer = styled(MainPostContainer)`
   margin-top: 20px;
 `;
+
+export const MainPostSection = styled.section`
+  margin-top: 20px;
+`;

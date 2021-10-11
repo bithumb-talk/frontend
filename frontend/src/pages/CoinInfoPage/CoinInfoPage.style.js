@@ -8,6 +8,7 @@ export const CoinInfoSection = styled.article`
   background-color: #fff;
   width: 98%;
   border-radius: 10px;
+  margin-top: 20px;
 
   @media only screen and (max-width: 1400px) {
     width: calc(98% - 20px);

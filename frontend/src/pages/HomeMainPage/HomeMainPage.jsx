@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CommonLayout from '@/components/@layout/CommonLayout';
 import PostGrid from '@/components/PostGrid/PostGrid';
 import api from '@/api/api';
-import { MainPostTitle, MainPostContainer, MainPostTitleBox, AllPostsContainer } from './HomeMainPage.style';
+import { MainPostTitle, MainPostContainer, MainPostTitleBox, AllPostsContainer, MainPostSection } from './HomeMainPage.style';
 
 function HomeMainPage() {
   const [item, setItem] = useState([]);
@@ -44,7 +44,7 @@ function HomeMainPage() {
 
   return (
     <CommonLayout>
-      <section>
+      <MainPostSection>
         <MainPostContainer>
           <MainPostTitleBox>
             <MainPostTitle>
@@ -62,7 +62,7 @@ function HomeMainPage() {
           </MainPostTitleBox>
           <PostGrid postItem={allItem} />
         </AllPostsContainer>
-      </section>
+      </MainPostSection>
     </CommonLayout>
   );
 }
