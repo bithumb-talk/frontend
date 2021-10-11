@@ -170,7 +170,7 @@ export default function SignUpPage() {
           >
             <LockIcon sx={{ fontSize: '25px' }} />
           </Box>
-          <Typography variant="h4" sx={{ fontWeight: '800' }}>회원가입</Typography>
+          <Typography variant="h4" sx={{ fontWeight: '700' }}>회원가입</Typography>
           <Box sx={{
             marginTop: '15px',
             display: 'flex',

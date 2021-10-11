@@ -1,10 +1,20 @@
-import { Link } from 'react-router-dom';
-import { BranchProfile } from '@/components/index';
+import { useEffect, useState } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import logo from '@/assets/image/newLogo.png';
 import './Header.style.css';
 import { menuData } from '@/assets/index';
+import { BranchProfile } from '@/components/index';
 
 export default function Header() {
+  const location = useLocation();
+  const [curUrl, setcurUrl] = useState(location.pathname);
+
+  useEffect(() => {
+    setcurUrl(location.pathname);
+  }, [location]);
+
+  const getUrl = (link) => curUrl.indexOf(link) > -1;
+
   return (
     <nav className="navbar">
       <div className="navbar__logo">
@@ -14,7 +24,7 @@ export default function Header() {
       </div>
       <ul className="navbar__menu">
         {menuData.map((menu) => (
-          <li key={menu.id}>
+          <li key={menu.id} className={getUrl(menu.link) ? menu.clicked : menu.class}>
             <Link to={menu.link}>
               <span className="menu__list">{menu.title}</span>
             </Link>

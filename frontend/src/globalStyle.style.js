@@ -3,6 +3,7 @@ import { Global, css } from '@emotion/react';
 const GlobalStyle = () => (
   <Global
     styles={css`
+      @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300&display=swap');
       @import url('https://fonts.googleapis.com/css2?family=Fira+Mono:wght@400&display=swap');
@@ -12,7 +13,7 @@ const GlobalStyle = () => (
       * {
         box-sizing: border-box;
         scroll-behavior: smooth;
-        font-family: 'Noto Sans KR', sans-serif !important;
+        font-family: 'Pretendard', 'Noto Sans KR', sans-serif !important;
       }
 
       html,

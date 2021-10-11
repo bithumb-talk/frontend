@@ -102,7 +102,7 @@ export const ChangeButton = styled((props) => (
   />
 ))({
   fontSize: '0.9rem',
-  fontWeight: 800,
+  fontWeight: 700,
 });
 
 export const QuitButton = styled((props) => (
@@ -118,7 +118,7 @@ export const QuitButton = styled((props) => (
   />
 ))({
   fontSize: '1rem',
-  fontWeight: 800,
+  fontWeight: 700,
   padding: '10px',
   marginTop: '10px',
   borderRadius: '10px',
@@ -138,7 +138,7 @@ export const PWChangeButton = styled((props) => (
   />
 ))({
   fontSize: '1rem',
-  fontWeight: 800,
+  fontWeight: 700,
   borderRadius: '10px',
   padding: '10px',
   marginTop: '10px',
@@ -157,7 +157,7 @@ export const ImgUploadButton = styled((props) => (
   border: '1px solid rgb(217, 217, 217)',
   width: '130px',
   fontSize: '0.9rem',
-  fontWeight: 800,
+  fontWeight: 700,
   boxShadow: '0 2px 0 rgb(0 0 0 / 2%)',
 });
 
@@ -172,7 +172,7 @@ export const ImgDeleteButton = styled((props) => (
   />
 ))({
   fontSize: '1rem',
-  fontWeight: 800,
+  fontWeight: 700,
 });
 
 export const UserContentBox = styled((props) => <Box {...props} />)({
@@ -193,7 +193,7 @@ export const ContentWrap = styled((props) => (
   flexDirection: 'column',
   padding: '18px 25px',
   fontSize: '19px',
-  fontWeight: 800,
+  fontWeight: 700,
 });
 
 export const DivideLine = styled((props) => <hr {...props} />)({

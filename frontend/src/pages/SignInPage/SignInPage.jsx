@@ -79,7 +79,7 @@ export default function SignInPage() {
           >
             <LockIcon sx={{ fontSize: '25px' }} />
           </Box>
-          <Typography variant="h4" sx={{ fontWeight: '800' }}>로그인</Typography>
+          <Typography variant="h4" sx={{ fontWeight: '700' }}>로그인</Typography>
           <Box sx={{
             marginTop: '15px',
             display: 'flex',

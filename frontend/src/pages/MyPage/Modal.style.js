@@ -23,6 +23,6 @@ export const ConfirmButton = styled((props) => (
   />
 ))({
   fontSize: '1.2rem',
-  fontWeight: 800,
+  fontWeight: 700,
   margin: '15px 0px 15px 0px',
 });

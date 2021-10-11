@@ -6,7 +6,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { PostGrid, PostPagination } from '@/components/index';
 import { menuData } from '@/assets/index';
 import api from '@/api/api';
-import { WriteButton, WriteIcon, PlusIcon } from './BoardList.style';
+import { WriteButton, PlusIcon } from './BoardList.style';
 
 export default function BoardListPage() {
   const { pathname } = useLocation();
@@ -73,9 +73,8 @@ export default function BoardListPage() {
         >
           <Link to="/boardwrite">
             <WriteButton aria-label="wirte">
-              <WriteIcon />
-              Write
-              <PlusIcon />
+              <PlusIcon sx={{ fontSize: '1em', marginRight: '0.2em' }} />
+              새 글 작성
             </WriteButton>
           </Link>
         </div>

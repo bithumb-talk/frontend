@@ -43,7 +43,7 @@ export const CardBottom = styled((props) => <Box {...props} />)({
   paddingRight: '16px',
   paddingLeft: '16px',
   paddingBottom: '8px',
-  borderTop: '1px solid gray',
+  borderTop: '1px solid #eee',
   Zindex: 1,
   background: 'white',
 });

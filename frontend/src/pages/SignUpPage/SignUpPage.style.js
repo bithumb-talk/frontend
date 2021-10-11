@@ -57,7 +57,7 @@ export const LoginButton = styled((props) => <Button {...props} />)({
   padding: '10px 0px 10px 0px',
   margin: '20px 0px 15px 0px',
   color: 'white',
-  fontWeight: 800,
+  fontWeight: 700,
 });
 
 export const UniqueCheckButton = styled((props) => <Button variant="contained" size="small" sx={{ bgcolor: 'black' }} {...props} />)({
@@ -65,5 +65,5 @@ export const UniqueCheckButton = styled((props) => <Button variant="contained" s
   maxWidth: '80px',
   minWidth: '80px',
   color: '#fff',
-  fontWeight: 800,
+  fontWeight: 700,
 });

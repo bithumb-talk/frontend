@@ -1,6 +1,11 @@
 import styled from 'styled-components';
 import { BREAK_POINT } from '@/constants/style';
 
+export const MainPostTitleBox = styled.div`
+  border-bottom: 1px solid #eee;
+  padding-bottom: 25px;
+`;
+
 export const MainPostTitle = styled.h2`
   font-weight: bold;
   font-size: 20px;
