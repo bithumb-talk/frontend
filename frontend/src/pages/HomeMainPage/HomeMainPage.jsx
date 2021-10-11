@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import CommonLayout from '@/components/@layout/CommonLayout';
 import PostGrid from '@/components/PostGrid/PostGrid';
 import api from '@/api/api';
+import { MainPostTitle, MainPostContainer, AllPostsContainer } from './HomeMainPage.style';
 
 function HomeMainPage() {
   const [item, setItem] = useState([]);
@@ -43,30 +44,21 @@ function HomeMainPage() {
 
   return (
     <CommonLayout>
-      <h2
-        style={{
-          margin: '0.5em',
-          paddingLeft: ' 4em',
-          display: 'flex',
-          justifyContent: 'flex-start',
-          fontFamily: 'Gowun Batang',
-        }}
-      >
-        베스트 인기글 Top4👑
-      </h2>
-      <PostGrid postItem={item} />
-      <h2
-        style={{
-          margin: '0.5em',
-          paddingLeft: ' 4em',
-          display: 'flex',
-          justifyContent: 'flex-start',
-          fontFamily: 'Gowun Batang',
-        }}
-      >
-        전체 글
-      </h2>
-      <PostGrid postItem={allItem} />
+      <section>
+        <MainPostContainer>
+          <MainPostTitle>
+            베스트 인기글 Top4👑
+          </MainPostTitle>
+          <PostGrid postItem={item} />
+        </MainPostContainer>
+
+        <AllPostsContainer>
+          <MainPostTitle>
+            전체 글
+          </MainPostTitle>
+          <PostGrid postItem={allItem} />
+        </AllPostsContainer>
+      </section>
     </CommonLayout>
   );
 }

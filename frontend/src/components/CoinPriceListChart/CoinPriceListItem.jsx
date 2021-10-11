@@ -3,10 +3,9 @@ import { styled } from '@mui/material';
 import PropTypes from 'prop-types';
 import StarIcon from '@mui/icons-material/Star';
 import { grey } from '@mui/material/colors';
-import { priceToString, stringToNumber, stringToUnitPrice } from '@/utils/utils';
+import { priceToString, stringToNumber, stringToUnitPrice, getItem } from '@/utils/utils';
 import { COLOR } from '@/constants/style';
 import useDebounce from '@/hooks/useDebounce';
-import { isLogin } from '@/utils/auth';
 import useCoin from '@/hooks/useCoin';
 import {
   CoinListItem,
@@ -37,7 +36,7 @@ function CoinPriceListItem({
   const handleClose = useCallback(() => setOpen(false), []);
 
   const onClickStar = () => {
-    if (isLogin) {
+    if (getItem('token')) {
       editInterestDebounce.current(isInterest);
       if (!isInterest) {
         onPostInterestCoin({ symbol });
