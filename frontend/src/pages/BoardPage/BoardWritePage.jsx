@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TextEditor, BoardCategory, TextBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
@@ -111,17 +111,6 @@ export default function BoardWritePage() {
         <TextEditor className="ql-editor" inputRef={inputRef} />
         <TextBottom onClick={onSubmit} goBack={goBack} />
       </div>
-      <ToastContainer
-        position="bottom-left"
-        autoClose={3000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
     </>
   );
 }

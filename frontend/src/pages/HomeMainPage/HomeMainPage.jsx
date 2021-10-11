@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
+import { ToastContainer } from 'react-toastify';
 import CommonLayout from '@/components/@layout/CommonLayout';
 import PostGrid from '@/components/PostGrid/PostGrid';
 import api from '@/api/api';
@@ -47,18 +48,14 @@ function HomeMainPage() {
       <section>
         <MainPostContainer>
           <MainPostTitleBox>
-            <MainPostTitle>
-              베스트 인기글 TOP4 👑
-            </MainPostTitle>
+            <MainPostTitle>베스트 인기글 TOP4 👑</MainPostTitle>
           </MainPostTitleBox>
           <PostGrid postItem={item} />
         </MainPostContainer>
 
         <AllPostsContainer>
           <MainPostTitleBox>
-            <MainPostTitle>
-              전체 글 ✨
-            </MainPostTitle>
+            <MainPostTitle>전체 글 ✨</MainPostTitle>
           </MainPostTitleBox>
           <PostGrid postItem={allItem} />
         </AllPostsContainer>
