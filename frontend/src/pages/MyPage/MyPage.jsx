@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Typography, Box, Alert, AlertTitle, Snackbar } from '@mui/material';
-import { getUserInfo, getMyBoardList, getMyLikeBoardList, getMyInterestStockList } from '@/redux/userInfoSlice';
+import { actLogOut, getUserInfo, getMyBoardList, getMyLikeBoardList, getMyInterestStockList } from '@/redux/userInfoSlice';
 import api from '@/api/api';
 import logo from '@/assets/image/newLogo.png';
 import PostGrid from '@/components/PostGrid/PostGrid';
@@ -199,6 +199,10 @@ export default function MyPage() {
     return (<EmptyContent type={myPageTab} />);
   };
 
+  const loginOutBtnClick = () => {
+    dispatch(actLogOut());
+  };
+
   return (
     <Box sx={{ display: 'flex', width: '100%' }}>
       <BackArrowBox>
@@ -210,9 +214,24 @@ export default function MyPage() {
         <Box sx={{ display: 'flex', width: '100%', padding: '10px' }}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <UserProfileBox>
-              <Typography variant="h6" sx={{ width: '100%' }}>
-                <b>내 정보</b>
-              </Typography>
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', width: '100%' }}>
+                <Typography variant="h6" sx={{ width: '100%' }}>
+                  <b>내 정보</b>
+                </Typography>
+                <ChangeButton
+                  color="default"
+                  onClick={loginOutBtnClick}
+                  sx={{
+                    minWidth: '82px',
+                    maxWidth: '82px',
+                    bgcolor: 'black',
+                    color: 'white',
+                    boxShadow: 'none',
+                  }}
+                >
+                  로그아웃
+                </ChangeButton>
+              </Box>
               <InfoDivideLine />
               <Box sx={{ display: 'flex', width: '100%', alignItems: 'center' }}>
                 <ProfileImage src={profileUrl} />

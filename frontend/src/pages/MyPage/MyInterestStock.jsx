@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Box, Typography, ToggleButton } from '@mui/material';
 import { Link } from 'react-router-dom';
@@ -12,15 +12,19 @@ import { stringAvatar } from '../../utils/index';
 export default function EmptyContent() {
   const dispatch = useDispatch();
   const myStockList = useSelector((state) => state.userInfo.myInterestStockList.data);
+  const [stockList, setstockList] = useState(myStockList);
   const { onDeleteInterestCoin } = useCoin();
 
   useEffect(() => {
-    dispatch(getMyInterestStockList());
-  }, []);
+    dispatch(getMyInterestStockList())
+      .then(() => {
+        setstockList(myStockList);
+      });
+  }, [myStockList]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', padding: '20px 50px', width: '100%', height: '100%' }}>
-      {myStockList.map((stock) => (
+      {stockList.map((stock) => (
         <Box key={stock.symbol} sx={{ display: 'flex', margin: '7px 0px', flexDirection: 'row', width: '100%', alignItems: 'center', justifyContent: 'space-between', borderBottom: '1px solid #ddd', paddingBottom: '12px' }}>
           <Link to={`/coin/${stock.symbol}`}>
             <Box sx={{ alignItems: 'center', display: 'flex' }}>

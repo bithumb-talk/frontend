@@ -16,6 +16,11 @@ const GlobalStyle = () => (
         font-family: 'Pretendard', 'Noto Sans KR', sans-serif !important;
       }
 
+      body {
+        overflow: auto !important;
+        padding: 0px !important;
+      }
+
       html,
       body,
       #root {

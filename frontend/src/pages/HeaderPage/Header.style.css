@@ -8,7 +8,7 @@
     align-items: center; /*반대축(현재는 반대축이 수직축)의 속성값 활용 */
     background-color:rgb(255, 255, 255);
     border-bottom: 1px solid #eee;
-    padding : 8px 50px; /*위아래 8px, 양옆 12px*/
+    padding : 8px 30px; /*위아래 8px, 양옆 12px*/
 }
  
 
@@ -82,11 +82,19 @@ a {
     padding-left : 0px; /*가운데 정렬*/
     list-style: none;
     color : white;
-    display: flex;
 }
 
 .navbar__icons li {
     padding : 8px 12px;
+}
+
+.navbar__toogleBtn {
+    display: none; /*일반 사이즈에선 나타나지 않음*/
+    position: absolute; /*소속된 배치와 무관하게 위치 설정*/
+    right : 30px; /*우측에서 32px 거리둠*/
+    top: 13px;
+    font-size: 24px;
+    color : black;
 }
 
 /*
@@ -97,7 +105,7 @@ a {
 
 @media screen and (max-width:1250px) {
     .menu__list {
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 700;
     }
     
@@ -106,15 +114,32 @@ a {
     }
 }
 
-@media screen and (max-width:1070px) {
+@media screen and (max-width:1000px) {
+    .navbar__logo {
+        padding : 8px 30px;
+    }
+
+    .navbar__toogleBtn{
+        display: block;
+    }
+    
+    .navbar__icons {
+        display: none;
+    }
     /*로고,메뉴바가 수직으로 나오도록*/
     .navbar {
         flex-direction: column;
         align-items : flex-start; /*로고,메뉴바 모두 왼쪽 정렬*/
-        padding : 8px 24px; /*hover시 한줄 가득 색상표시 안되도록 */
+        padding : 0px; /*hover시 한줄 가득 색상표시 안되도록 */
     }
+
+    .navbar__toggleBtn {
+        display: block;
+    }
+
     /*메뉴바가 한줄에 하나씩*/
     .navbar__menu{
+        display: none;
         flex-direction: column;
         align-items: center; /*메뉴바만 가운데 정렬 */
         width : 100%; /*메뉴바의 가운데 정렬을 위해 너비를 늘림*/
@@ -123,7 +148,7 @@ a {
     /*메뉴바 hover시 컨텐츠박스가 아닌 한 줄에 색상표시 */
     .navbar__menu li{
         width: 100%;
-        padding : 5px 0px;
+        padding : 10px 0px;
         text-align: center; /*text는 왼쪽 정렬이 기본값이므로 center로 수정*/
     }
 
@@ -131,5 +156,16 @@ a {
     .navbar__icons {
         justify-content: center; /*로고는 현재 반대축이므로 justify-content 사용*/
         width : 100%;
+    }
+
+    .navbar__menu.active,
+    .navbar__icons.active {
+        display :flex;
+    }
+
+    .special :hover {
+        color: #ff9900;
+        padding-bottom: 5px;
+        border-bottom: 3px solid #ff9900;
     }
 }

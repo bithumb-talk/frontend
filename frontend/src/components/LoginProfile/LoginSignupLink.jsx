@@ -6,7 +6,7 @@ import { LoginButton } from './LoginSignupLink.style';
 
 export default function LoginSignupLink() {
   return (
-    <Box sx={{ display: 'flex', borderRadius: '10px', padding: '10px', margin: '0px 20px 0px 30px', bgcolor: grey[50] }}>
+    <Box sx={{ display: 'flex', borderRadius: '10px', padding: '10px', margin: '0px 20px 0px 30px' }}>
       <Link to="/signin">
         <LoginButton
           sx={{

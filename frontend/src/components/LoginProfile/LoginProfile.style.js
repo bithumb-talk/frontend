@@ -13,8 +13,8 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 export const UserProfile = styled((props) => (
   <Avatar
     sx={{
-      width: '60px',
-      height: '60px',
+      width: '50px',
+      height: '50px',
       border: '1px solid #eee',
     }}
     {...props}
@@ -23,8 +23,9 @@ export const UserProfile = styled((props) => (
 
 export const UserInfo = styled((props) => <Box {...props} />)({
   display: 'flex',
-  flexDirection: 'column',
+  flexDirection: 'row',
   marginLeft: '10px',
+  width: '100%',
   justifyContent: 'center',
   alignItems: 'center',
 });
@@ -53,19 +54,42 @@ export const NotificationsNone = styled((props) => <NotificationsNoneIcon {...pr
 });
 
 export const ArrowDropDown = styled((props) => <ArrowDropDownIcon {...props} />)({
-  fontSize: '1.2rem',
-  width: '38px',
-  height: '38px',
+  fontSize: '2.3rem',
 });
 
-export const IconWrap = styled((props) => <Fab {...props} />)({
+export const IconWrap = styled((props) => <Fab sx={{ bgcolor: '#fff' }} {...props} />)({
   margin: '3.5px',
+  border: '1px solid #eee',
+  boxShadow: 'noen',
 });
 
 export const UserIcons = styled((props) => <Box {...props} />)({
   display: 'flex',
   flexDirection: 'row',
-  marginLeft: '10px',
+  width: '100%',
   alignItems: 'center',
   justifyContent: 'center',
+  // borderRadius: '4px',
+  // border: '1px solid #ddd',
+});
+
+export const UserPopup = styled((props) => <Box {...props} />)({
+  position: 'absolute',
+  top: '40px',
+  right: 0,
+  width: '220px',
+  height: 'auto',
+  animation: 'fadeInUp___2KM1w .2s ease-out',
+  padding: '12px',
+  borderRadius: '6px',
+  boxShadow: '0 2px 12px rgb(53 60 73 / 10%), 0 2px 5px rgb(53 60 73 / 5%)',
+  backgroundColor: '#fff',
+  textAlign: 'left',
+  zIndex: 100,
+});
+
+export const DivideLine = styled((props) => <hr {...props} />)({
+  borderColor: 'rgb(152 152 152 / 7%)',
+  margin: '20px 0px',
+  width: '100%',
 });
