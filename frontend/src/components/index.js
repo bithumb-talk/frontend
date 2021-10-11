@@ -6,9 +6,10 @@ export { default as CoinPriceListChart } from './CoinPriceListChart/CoinPriceLis
 export { default as TextEditor } from './Board/TextEditor';
 export { default as BoardCategory } from './Board/BoardCategory';
 export { default as TextTitle } from './Board/TextTitle';
-export { default as BoardBottom } from './Board/BoardBottom';
+export { default as TextBottom } from './Board/TextBottom';
 export { default as CoinCandleStickChart } from './CoinCandleStickChart/CoinCandleStickChart';
 export { default as CoinDetailInfo } from './CoinDetailInfo/CoinDetailInfo';
 export { default as PostView } from './Board/PostView';
 export { default as Comment } from './Board/Comment';
 export { default as CommentView } from './Board/CommentView';
+export { default as PostPagination } from './Board/PostPagination';

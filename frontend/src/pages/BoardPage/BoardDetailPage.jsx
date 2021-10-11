@@ -3,7 +3,6 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Grid from '@mui/material/Grid';
 import { useLocation, Link } from 'react-router-dom';
 import api from '@/api/api';
-
 import { PostContentBody } from '@/components/Board/Board.style';
 import { PostView, Comment } from '@/components/index';
 import { WriteButton, WriteIcon } from './BoardList.style';

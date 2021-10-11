@@ -3,10 +3,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import './BoradWrite.style.css';
 import { Grid } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
-import { PostGrid } from '@/components/index';
+import { PostGrid, PostPagination } from '@/components/index';
 import { menuData } from '@/assets/index';
 import api from '@/api/api';
-import { WriteButton, WriteIcon, PlusIcon, BoardPagination } from './BoardList.style';
+import { WriteButton, WriteIcon, PlusIcon } from './BoardList.style';
 
 export default function BoardListPage() {
   const { pathname } = useLocation();
@@ -61,7 +61,7 @@ export default function BoardListPage() {
             {titleName}
           </h3>
           <PostGrid postItem={item} />
-          <BoardPagination page={page} count={totalPage} onChange={onPageClick} />
+          <PostPagination page={page} count={totalPage} onChange={onPageClick} />
         </Grid>
         <div
           style={{

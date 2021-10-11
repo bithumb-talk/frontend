@@ -3,7 +3,7 @@ import { useHistory } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { TextEditor, BoardCategory, BoardBottom } from '@/components/index';
+import { TextEditor, BoardCategory, TextBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
 import { exportImgTag, exportSrcTag } from '@/utils/utils';
 import { categoryList } from '@/assets/index';
@@ -109,7 +109,7 @@ export default function BoardWritePage() {
         <BoardCategory name="boardCategory" onChange={onCategoryChange} />
         <TextTitle className="css-0" titleRef={titleRef} />
         <TextEditor className="ql-editor" inputRef={inputRef} />
-        <BoardBottom onClick={onSubmit} goBack={goBack} />
+        <TextBottom onClick={onSubmit} goBack={goBack} />
       </div>
       <ToastContainer
         position="bottom-left"

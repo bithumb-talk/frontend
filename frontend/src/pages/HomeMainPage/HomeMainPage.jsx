@@ -8,6 +8,7 @@ import { MainPostTitle, MainPostContainer, AllPostsContainer } from './HomeMainP
 function HomeMainPage() {
   const [item, setItem] = useState([]);
   const [allItem, setAll] = useState([]);
+  const [total, setTotal] = useState(0);
 
   const getRanking = async () => {
     const res = await api.getRanking();
@@ -16,16 +17,29 @@ function HomeMainPage() {
     }
   };
 
-  const getBoardAll = async () => {
+  const getBoardTotal = async () => {
     const res = await api.getBoardAll();
     if (res.data.status === 'SUCCESS') {
-      setAll(res.data.data.content);
+      setTotal(res.data.data.page.totalElements);
+    }
+  };
+
+  const getBoardAll = async () => {
+    const resPage = await api.getBoardAll(`?size=${total}`);
+    if (resPage.data.status === 'SUCCESS') {
+      setAll(resPage.data.data.content);
     }
   };
 
   useEffect(() => {
+    if (total !== 0) {
+      getBoardAll();
+    }
+  }, [total]);
+
+  useEffect(() => {
     getRanking();
-    getBoardAll();
+    getBoardTotal();
   }, []);
 
   return (
