@@ -1,27 +1,25 @@
-import React, { useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Badge from '@mui/material/Badge';
-import Tooltip from '@mui/material/Tooltip';
-import { ThemeProvider } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Box, Button, Popover } from '@mui/material';
+import { useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import PersonIcon from '@mui/icons-material/Person';
+import LogoutIcon from '@mui/icons-material/Logout';
 import { actLogOut, getUserInfo } from '@/redux/userInfoSlice';
-import { theme } from '../../constants/newColor';
 import {
   UserProfile,
-  UserInfo,
   UserNickname,
-  LoginButton,
-  Notifications,
-  NotificationsNone,
-  IconWrap,
   UserIcons,
   ArrowDropDown,
+  DivideLine,
 } from './LoginProfile.style';
 
 export default function LoginProfile() {
   const dispatch = useDispatch();
   const userInfo = useSelector((state) => state.userInfo.userInfo);
+  const [userPopup, setuserPopup] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const popId = userPopup ? 'simple-popover' : undefined;
+  const history = useHistory();
 
   useEffect(() => {
     const id = window.localStorage.getItem('id');
@@ -32,43 +30,59 @@ export default function LoginProfile() {
     dispatch(actLogOut());
   };
 
-  return (
-    <Box sx={{ display: 'flex', margin: '0px 20px 0px 30px' }}>
-      <Link to="/mypage">
-        <UserProfile src={userInfo ? userInfo.profileUrl : ''} />
-      </Link>
+  const closePopup = () => {
+    setuserPopup(false);
+    setAnchorEl(null);
+  };
+  const handleClick = (event) => {
+    setuserPopup(true);
+    setAnchorEl(event.currentTarget);
+  };
 
-      <UserInfo>
-        <UserNickname>
-          {userInfo.nickname}
-        </UserNickname>
-        <ThemeProvider theme={theme}>
-          <LoginButton
-            color="orange_500"
-            size="small"
-            variant="contained"
+  return (
+    <Box sx={{ display: 'flex', width: '100%', margin: '0px 20px 0px 30px', alignItems: 'center' }}>
+      <UserProfile src={userInfo ? userInfo.profileUrl : ''} />
+
+      <UserNickname sx={{ width: '100%', display: 'flex', alignItems: 'center', paddingLeft: '10px' }}>
+        {userInfo.nickname}
+      </UserNickname>
+
+      <UserIcons aria-describedby={popId} onClick={handleClick}>
+        <ArrowDropDown color="action" />
+      </UserIcons>
+
+      <Popover
+        id={popId}
+        open={userPopup}
+        anchorEl={anchorEl}
+        onClose={closePopup}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'right',
+        }}
+      >
+        <Box sx={{ display: 'flex', padding: '20px', flexDirection: 'column', justifyContent: 'flex-start', minWidth: '200px', maxWidth: '200px' }}>
+          <UserProfile onClick={() => history.push('/mypage')} src={userInfo ? userInfo.profileUrl : ''} />
+          <UserNickname onClick={() => history.push('/mypage')} sx={{ marginTop: '10px' }}>
+            {userInfo.nickname}
+          </UserNickname>
+          <DivideLine />
+          <Button
+            size="large"
+            sx={{ justifyContent: 'flex-start', padding: '8px 0px' }}
+            onClick={() => history.push('/mypage')}
+          >
+            <PersonIcon sx={{ marginRight: '10px' }} />내 정보
+          </Button>
+          <Button
+            size="large"
+            sx={{ justifyContent: 'flex-start', padding: '8px 0px' }}
             onClick={loginOutBtnClick}
           >
-            LOGOUT
-          </LoginButton>
-        </ThemeProvider>
-      </UserInfo>
-
-      <UserIcons>
-        <Tooltip title={`${userInfo.nickname}님에게 온 알림`}>
-          <IconWrap size="small" color="action">
-            <Badge badgeContent={userInfo.notifications} color="success">
-              { userInfo.notifications > 0 ? <Notifications color="action" /> : <NotificationsNone color="action" />}
-            </Badge>
-            {/* <UserAlertModal /> */}
-          </IconWrap>
-        </Tooltip>
-        <Link to="/mypage">
-          <IconWrap size="small">
-            <ArrowDropDown color="action" />
-          </IconWrap>
-        </Link>
-      </UserIcons>
+            <LogoutIcon sx={{ marginRight: '10px' }} />로그아웃
+          </Button>
+        </Box>
+      </Popover>
     </Box>
   );
 }

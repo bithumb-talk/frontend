@@ -1,0 +1,8 @@
+.MuiDialog-container .MuiPaper-root {
+    box-shadow: none;
+}
+
+
+.MuiDialog-container .MuiBackdrop-root .css-i9fmh8-MuiBackdrop-root-MuiModal-backdrop {
+background-color: red,
+}

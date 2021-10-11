@@ -82,7 +82,6 @@ a {
     padding-left : 0px; /*가운데 정렬*/
     list-style: none;
     color : white;
-    display: flex;
 }
 
 .navbar__icons li {
