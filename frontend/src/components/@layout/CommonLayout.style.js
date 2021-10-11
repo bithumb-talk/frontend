@@ -27,7 +27,7 @@ export const CommonContentsSection = styled.section`
 export const CoinPriceListChartSection = styled.section`
   display: none;
   position: sticky;
-  top: 0;
+  top: 100px;
   right: 20px;
   height: 100vh;
   width: 400px;
