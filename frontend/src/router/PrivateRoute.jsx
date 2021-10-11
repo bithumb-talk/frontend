@@ -3,14 +3,14 @@ import PropsTypes from 'prop-types';
 import ROUTE from './routePath';
 
 const PrivateRoute = ({ component, path }) => {
-  const userFlag = true;
+  const userFlag = window.localStorage.getItem('token');
 
   return (
     <>
       {
         userFlag
-          ? <Route path={path} render={(props) => component(props)} />
-          : <Redirect to={ROUTE.LOGIN.PATH} />
+          ? <Route key={path} exact path={path} render={(props) => component(props)} />
+          : <Redirect to={ROUTE.SIGNIN.PATH} />
       }
     </>
 

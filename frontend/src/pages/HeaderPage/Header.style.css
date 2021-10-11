@@ -31,6 +31,11 @@ a {
     color : black;
 }
 
+.menu__list {
+    font-size: 19px;
+    font-weight: 800;
+}
+
 .navbar__menu {
     margin-left: 20px;
     display: flex; /*메뉴를 일렬로 배치*/
@@ -65,7 +70,18 @@ a {
 이럴때 메뉴바를 아래로 내려가도록 만들자.
 */
 
-@media screen and (max-width:768px) {
+@media screen and (max-width:1250px) {
+    .menu__list {
+        font-size: 16px;
+        font-weight: 800;
+    }
+    
+    .navbar__menu li{
+        padding : 5px 8px; /*마우스 클릭영역확보*/   
+    }
+}
+
+@media screen and (max-width:1070px) {
     /*로고,메뉴바가 수직으로 나오도록*/
     .navbar {
         flex-direction: column;
@@ -82,6 +98,7 @@ a {
     /*메뉴바 hover시 컨텐츠박스가 아닌 한 줄에 색상표시 */
     .navbar__menu li{
         width: 100%;
+        padding : 5px 0px;
         text-align: center; /*text는 왼쪽 정렬이 기본값이므로 center로 수정*/
     }
 

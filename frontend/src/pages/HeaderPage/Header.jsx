@@ -1,5 +1,4 @@
 import { Link } from 'react-router-dom';
-import { Typography } from '@mui/material';
 import { BranchProfile } from '@/components/index';
 import logo from '@/assets/image/newLogo.png';
 import './Header.style.css';
@@ -17,7 +16,7 @@ export default function Header() {
         {menuData.map((menu) => (
           <li key={menu.id}>
             <Link to={menu.link}>
-              <Typography sx={{ fontSize: '19px', fontWeight: 800 }}>{menu.title}</Typography>
+              <span className="menu__list">{menu.title}</span>
             </Link>
           </li>
         ))}

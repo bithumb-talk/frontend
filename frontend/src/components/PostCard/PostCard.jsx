@@ -82,7 +82,7 @@ function PostCard(props) {
 
   useEffect(() => {
     // setLoading(false);
-    if (loading && postImg.length < 1) {
+    if (loading && !postImg) {
       setImg(defaultImg);
     }
   }, [loading, postImg]);
