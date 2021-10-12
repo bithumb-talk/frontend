@@ -1,6 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import React, { useState, useEffect } from 'react';
-import { ToastContainer } from 'react-toastify';
+// import { ToastContainer } from 'react-toastify';
 import CommonLayout from '@/components/@layout/CommonLayout';
 import PostGrid from '@/components/PostGrid/PostGrid';
 import api from '@/api/api';
