@@ -53,8 +53,7 @@ export default function BoardWritePage() {
       const res = await api.postBoard(1, postContent);
       if (res.data.status === 'SUCCESS') {
         toast.success('글이 작성되었습니다👌');
-        //  setTimeout(history.push({ pathname: '/' }), 3000);
-        setTimeout(goBack(), 2000);
+        setTimeout(history.push({ pathname: '/' }), 2500);
       } else {
         toast.error('저장에 실패하였습니다');
       }

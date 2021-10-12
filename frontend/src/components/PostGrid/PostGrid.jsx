@@ -2,10 +2,6 @@
 /* eslint-disable react/jsx-key */
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-<<<<<<< Updated upstream
-// import { ToastContainer } from 'react-toastify';
-=======
->>>>>>> Stashed changes
 import Grid from '@mui/material/Grid';
 import PostCard from '../PostCard/PostCard';
 

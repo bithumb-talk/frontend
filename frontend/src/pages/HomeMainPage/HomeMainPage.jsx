@@ -1,14 +1,15 @@
 /* eslint-disable react/no-array-index-key */
-<<<<<<< Updated upstream
-import React, { useState, useEffect } from 'react';
-// import { ToastContainer } from 'react-toastify';
-=======
 import React, { useState, useEffect, useCallback } from 'react';
 import { PostGrid, PostPagination } from '@/components/index';
->>>>>>> Stashed changes
 import CommonLayout from '@/components/@layout/CommonLayout';
 import api from '@/api/api';
-import { MainPostTitle, MainPostContainer, MainPostTitleBox, AllPostsContainer, MainPostSection } from './HomeMainPage.style';
+import {
+  MainPostTitle,
+  MainPostContainer,
+  MainPostTitleBox,
+  AllPostsContainer,
+  MainPostSection,
+} from './HomeMainPage.style';
 
 function HomeMainPage() {
   const [item, setItem] = useState([]);
