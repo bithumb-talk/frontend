@@ -1,10 +1,15 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
+import DeleteIcon from '@mui/icons-material/Delete';
+import IconButton from '@mui/material/IconButton';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
@@ -15,7 +20,8 @@ import './BoardDetail.style.css';
 
 export default function PostView(props) {
   const { postItem } = props;
-  const { id } = useSelector((state) => state.userInfo.userInfo);
+  const { id, nickname } = useSelector((state) => state.userInfo.userInfo);
+  const history = useHistory();
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
@@ -27,6 +33,7 @@ export default function PostView(props) {
   const [viewCount, setViewCnt] = useState(postItem.boardViews);
   const [likeCount, setLikeCnt] = useState(postItem.boardRecommend);
   const [likeCheck, setLikeCheck] = useState(false);
+  const [isDeleteAble, setDelete] = useState(false);
 
   const onClickContent = async () => {
     if (id) {
@@ -61,9 +68,26 @@ export default function PostView(props) {
     });
   });
 
+  const onDelete = async () => {
+    await api.deleteBoard(postNo, id).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        toast.success('글이 삭제 되었습니다👌');
+        setTimeout(history.push({ pathname: '/' }), 2500);
+      } else {
+        toast.error('삭제되지 않았습니다');
+      }
+    });
+  };
+
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
   }, [getUserBoardRecommend, postNo, props]);
+
+  useEffect(() => {
+    if (nickname && postName && nickname === postName) {
+      setDelete(true);
+    }
+  }, [nickname, postName]);
 
   useEffect(() => {
     setTitle(postItem.boardTitle);
@@ -118,6 +142,25 @@ export default function PostView(props) {
                 <span> Like Up {likeCount}</span>
               </ContentLikeEmptyButton>
             </div>
+          )}
+        </div>
+        <div>
+          {isDeleteAble ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: ' flex-end',
+                margin: '1em',
+              }}
+            >
+              <IconButton size="small" aria-label="delete" onClick={onDelete}>
+                <DeleteIcon style={{ padding: '0.2em' }} />
+                <span style={{ fontSize: '14px' }}>글 삭제</span>
+              </IconButton>
+            </div>
+          ) : (
+            <span />
           )}
         </div>
       </div>

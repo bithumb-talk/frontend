@@ -39,11 +39,15 @@ class Api {
   }
 
   async getInterest(userId) {
-    const res = await this.api.get(`${END_POINT.INTERESTS}/${userId}`, {
-      headers: {
-        ...authHeader(),
+    const res = await this.api.get(
+      `${END_POINT.INTERESTS}/${userId}`,
+      {
+        headers: {
+          ...authHeader(),
+        },
       },
-    }, true);
+      true,
+    );
     return res;
   }
 
@@ -53,11 +57,15 @@ class Api {
   }
 
   async getLikeBoardNumberList(userId) {
-    const res = await this.api.get(`${END_POINT.BOARD_LIKE_LIST}/${userId}/like-board-contents`, {
-      headers: {
-        ...authHeader(),
+    const res = await this.api.get(
+      `${END_POINT.BOARD_LIKE_LIST}/${userId}/like-board-contents`,
+      {
+        headers: {
+          ...authHeader(),
+        },
       },
-    }, true);
+      true,
+    );
     return res;
   }
 
@@ -75,11 +83,15 @@ class Api {
   }
 
   async getMyBoardList(userId) {
-    const res = await this.api.get(`${END_POINT.BOARD_MY_LIST}/${userId}?size=8`, {
-      headers: {
-        ...authHeader(),
+    const res = await this.api.get(
+      `${END_POINT.BOARD_MY_LIST}/${userId}?size=8`,
+      {
+        headers: {
+          ...authHeader(),
+        },
       },
-    }, true);
+      true,
+    );
     return res;
   }
 
@@ -94,13 +106,18 @@ class Api {
   }
 
   async getMyLikeBoardList(id, contentIdList) {
-    const res = await this.api.post(`${END_POINT.BOARD_MY_LIST}/${id}/recommend?page=0`, {
-      contentIdList,
-    }, {
-      headers: {
-        ...authHeader(),
+    const res = await this.api.post(
+      `${END_POINT.BOARD_MY_LIST}/${id}/recommend?page=0`,
+      {
+        contentIdList,
       },
-    }, true);
+      {
+        headers: {
+          ...authHeader(),
+        },
+      },
+      true,
+    );
     return res;
   }
 
@@ -326,7 +343,28 @@ class Api {
 
     try {
       res = await this.api.post(`${END_POINT.BOARD_DETAIL}/${boardNo}/auth/recommend`, data, this.config, true);
-      console.log(res);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
+  async deleteBoard(boardNo, userId) {
+    let res = {
+      data: {},
+    };
+
+    try {
+      res = await this.api.delete(
+        `${END_POINT.BOARD_DETAIL}/${boardNo}/auth/${userId}`,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
@@ -418,8 +456,6 @@ class Api {
     }
     return res;
   }
-
-  // 현
 
   async postUserCommentRecommend(userId, commentNo) {
     let res = {
