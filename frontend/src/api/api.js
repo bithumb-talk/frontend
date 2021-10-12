@@ -283,7 +283,6 @@ class Api {
     let res = {
       data: {},
     };
-    console.log(data);
     try {
       res = await this.api.post(
         `${END_POINT.BOARD_DETAIL}/auth/${userId}`,

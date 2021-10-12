@@ -37,15 +37,15 @@ export default function BoardListPage() {
 
   useEffect(() => {
     if (page !== 0) {
-      const menuLink = categoryList.find((menu) => menu.link === pathname).name;
-      getboardList(menuLink, `?page=${page - 1}`);
+      const menuName = categoryList.find((menu) => menu.link === pathname).name;
+      getboardList(menuName, `?page=${page - 1}`);
     }
   }, [getboardList, page, pathname]);
 
   useEffect(() => {
     if (pathname.indexOf('/board/') !== -1) {
-      const menuLink = categoryList.find((menu) => menu.link === pathname).name;
-      getboardList(menuLink, null);
+      const menuName = categoryList.find((menu) => menu.link === pathname).name;
+      getboardList(menuName, null);
     }
   }, [getboardList, pathname]);
 

@@ -13,7 +13,7 @@ import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
 const CoinInfoPage = lazy(() => import('@/pages/CoinInfoPage/CoinInfoPage'));
-const BoardListPage = lazy(() => import('@/pages/BoardPage/BoardDetailPage'));
+const BoardListPage = lazy(() => import('@/pages/BoardPage/BoardListPage'));
 const BoardDetailPage = lazy(() => import('@/pages/BoardPage/BoardDetailPage'));
 const BoardWritePage = lazy(() => import('@/pages/BoardPage/BoardWritePage'));
 const MyPage = lazy(() => import('@/pages/MyPage/MyPage'));

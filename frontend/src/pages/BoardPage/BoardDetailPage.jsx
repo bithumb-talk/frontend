@@ -29,7 +29,7 @@ export default function BoardReadDetail() {
   };
 
   useEffect(() => {
-    getBoardDetail(pathname.split('/')[2]);
+    if (pathname.indexOf('/boarddetail/') > -1) getBoardDetail(pathname.split('/')[2]);
   }, []);
 
   return (

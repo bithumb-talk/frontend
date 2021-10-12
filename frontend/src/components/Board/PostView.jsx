@@ -9,6 +9,7 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
 import DeleteIcon from '@mui/icons-material/Delete';
+import UpdateIcon from '@mui/icons-material/Update';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
@@ -89,6 +90,10 @@ export default function PostView(props) {
     });
   };
 
+  const onUpdate = async () => {
+    history.push({ pathname: '/boardwritemodify', state: { boardContent: postContent, postCatagory, title } });
+  };
+
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
   }, [getUserBoardRecommend, postNo, props]);
@@ -164,6 +169,18 @@ export default function PostView(props) {
                 margin: '1em',
               }}
             >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+                onClick={onUpdate}
+              >
+                <UpdateIcon style={{ padding: '0.2em' }} />
+                <span style={{ fontSize: '14px' }}>글 수정</span>
+              </div>
+              &nbsp;&nbsp;
               <div
                 style={{
                   display: 'flex',
