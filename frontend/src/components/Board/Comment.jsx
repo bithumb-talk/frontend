@@ -60,7 +60,12 @@ export default function Comment(props) {
       <div className="commentWrite">
         <div className="">
           <div className="commentName">{nickname}</div>
-          <textarea placeholder="댓글을 작성하세요" className="commentWriteText" onChange={commentChange} />
+          <textarea
+            value={isWrite}
+            placeholder="댓글을 작성하세요"
+            className="commentWriteText"
+            onChange={commentChange}
+          />
         </div>
         <Button
           onClick={onSubmit}
