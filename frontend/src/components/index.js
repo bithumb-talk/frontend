@@ -14,3 +14,4 @@ export { default as Comment } from './Board/Comment';
 export { default as CommentView } from './Board/CommentView';
 export { default as PostPagination } from './Board/PostPagination';
 export { default as Footer } from './Footer/Footer';
+export { default as ConfirmModal } from './Modal/ConfirmModal';

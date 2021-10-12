@@ -9,12 +9,12 @@ import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
 import DeleteIcon from '@mui/icons-material/Delete';
-import IconButton from '@mui/material/IconButton';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 import { categoryList } from '@/assets/index';
 import { gapTime } from '@/utils/utils';
+import { ConfirmModal } from '@/components/index';
 import { ContentLikeButton, ContentLikeIcon, ContentLikeEmptyIcon, ContentLikeEmptyButton } from './Board.style';
 import './BoardDetail.style.css';
 
@@ -34,6 +34,10 @@ export default function PostView(props) {
   const [likeCount, setLikeCnt] = useState(postItem.boardRecommend);
   const [likeCheck, setLikeCheck] = useState(false);
   const [isDeleteAble, setDelete] = useState(false);
+
+  const [Modalopen, setModalopen] = useState(false);
+  const [Modaltitle, setModaltitle] = useState('');
+  const [Modalcontent, setModalcontent] = useState('');
 
   const onClickContent = async () => {
     if (id) {
@@ -67,6 +71,12 @@ export default function PostView(props) {
       }
     });
   });
+
+  const onOpenModal = async () => {
+    setModalopen(true);
+    setModaltitle('글 삭제');
+    setModalcontent('해당 글을 정말 삭제하시겠습니까?');
+  };
 
   const onDelete = async () => {
     await api.deleteBoard(postNo, id).then((res) => {
@@ -154,14 +164,22 @@ export default function PostView(props) {
                 margin: '1em',
               }}
             >
-              <IconButton size="small" aria-label="delete" onClick={onDelete}>
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+                onClick={onOpenModal}
+              >
                 <DeleteIcon style={{ padding: '0.2em' }} />
                 <span style={{ fontSize: '14px' }}>글 삭제</span>
-              </IconButton>
+              </div>
             </div>
           ) : (
             <span />
           )}
+          <ConfirmModal isOpen={Modalopen} title={Modaltitle} content={Modalcontent} onClickConfirm={onDelete} />
         </div>
       </div>
     </>
