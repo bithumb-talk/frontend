@@ -1,7 +1,7 @@
 export const categoryList = [
-  { id: 1, name: 'talk', label: '자유게시판' },
-  { id: 2, name: 'cointalk', label: '코인잡담' },
-  { id: 3, name: 'coinBeginner', label: '코인초보' },
+  { id: 1, link: '/board/talk', name: 'talk', label: '자유게시판' },
+  { id: 2, link: '/board/cointalk', name: 'cointalk', label: '코인잡담' },
+  { id: 3, link: '/board/coinBeginner', name: 'coinBeginner', label: '코인초보' },
 ];
 
 export const menuData = [
