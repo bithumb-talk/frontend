@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 import { categoryList } from '@/assets/index';
 import { gapTime } from '@/utils/utils';
-import { ConfirmModal } from '@/components/index';
+import ConfirmModal from '../Modal/ConfirmModal';
 import { ContentLikeButton, ContentLikeIcon, ContentLikeEmptyIcon, ContentLikeEmptyButton } from './Board.style';
 import './BoardDetail.style.css';
 
