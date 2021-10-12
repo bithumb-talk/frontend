@@ -47,6 +47,7 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
       return {
         ...coin,
         isInterest: isEqual,
+        diff: 'same',
       };
     });
 
@@ -68,6 +69,7 @@ export const getCoinPriceList = createAsyncThunk('coinPrice/getCoinPriceList', a
   const onlyNewCoinPriceList = onlyPriceRes.data.data.map((coin) => ({
     ...coin,
     isInterest: false,
+    diff: 'same',
   }));
 
   onlyNewCoinPriceList.sort((prev, next) => {

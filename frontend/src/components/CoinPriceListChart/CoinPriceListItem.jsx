@@ -23,7 +23,7 @@ const CustomStarBorderIcon = styled((props) => <StarIcon {...props} />)({
   fontSize: '16px',
 });
 function CoinPriceListItem({
-  korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest,
+  korean, symbol, closePrice, chgRate, chgAmt, accTradeValue, isInterest, diff,
 }) {
   const [open, setOpen] = useState(false);
   const [borderColor, setBorderColor] = useState({ flag: false, color: COLOR.TYPO });
@@ -61,9 +61,11 @@ function CoinPriceListItem({
   );
 
   useEffect(() => {
-    if (chgAmt > 0) {
+    if (diff === 'up') {
       setBorderColor({ flag: true, color: RED });
-    } else {
+    }
+
+    if (diff === 'down') {
       setBorderColor({ flag: true, color: BLUE });
     }
 
@@ -74,7 +76,7 @@ function CoinPriceListItem({
     return () => {
       setBorderColor({ flag: false, color: 'none' });
     };
-  }, [chgAmt]);
+  }, [diff]);
 
   return (
     <>
@@ -143,6 +145,7 @@ CoinPriceListItem.propTypes = {
   chgAmt: PropTypes.string.isRequired,
   accTradeValue: PropTypes.string.isRequired,
   isInterest: PropTypes.bool.isRequired,
+  diff: PropTypes.string.isRequired,
 };
 
 export default memo(CoinPriceListItem);
