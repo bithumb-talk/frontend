@@ -1,4 +1,4 @@
-import React, { useEffect, useState, memo, useCallback } from 'react';
+import React, { useEffect, useState } from 'react';
 import Highcharts from 'highcharts/highstock';
 import HighchartsReact from 'highcharts-react-official';
 import { useSelector } from 'react-redux';
@@ -19,9 +19,9 @@ function CoinCandleStickChart({ symbol }) {
   const [chartOptions, setChartOptions] = useState({});
   const prevData = usePrevious(data);
 
-  const onSetChartGap = useCallback((gap) => {
+  const onSetChartGap = (gap) => {
     setChartGap(gap);
-  }, []);
+  };
 
   useEffect(() => {
     setChartGap(COIN_CHART_GAP.DAY.UNIT);
@@ -69,4 +69,4 @@ CoinCandleStickChart.propTypes = {
   symbol: PropTypes.string.isRequired,
 };
 
-export default memo(CoinCandleStickChart);
+export default CoinCandleStickChart;

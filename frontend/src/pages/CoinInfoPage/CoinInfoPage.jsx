@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import CommonLayout from '@/components/@layout/CommonLayout';
 import { CoinCandleStickChart } from '@/components/index';
@@ -26,4 +26,4 @@ CoinInfoPage.propTypes = {
   }).isRequired,
 };
 
-export default memo(CoinInfoPage);
+export default CoinInfoPage;
