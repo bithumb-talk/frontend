@@ -6,17 +6,17 @@ import {
   HomeMainPage,
   SignInPage,
   SignUpPage,
-  MyPage,
   NotFound,
-  BoardListPage,
-  BoardDetailPage,
   Header,
-  BoardWritePage,
 } from '@/pages/index';
 import ROUTE from './routePath';
 import PrivateRoute from './PrivateRoute';
 
 const CoinInfoPage = lazy(() => import('@/pages/CoinInfoPage/CoinInfoPage'));
+const BoardListPage = lazy(() => import('@/pages/BoardPage/BoardDetailPage'));
+const BoardDetailPage = lazy(() => import('@/pages/BoardPage/BoardDetailPage'));
+const BoardWritePage = lazy(() => import('@/pages/BoardPage/BoardWritePage'));
+const MyPage = lazy(() => import('@/pages/MyPage/MyPage'));
 
 const routes = [
   {
