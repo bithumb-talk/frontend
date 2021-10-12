@@ -1,21 +1,27 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
 import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
 import ReactHtmlParser from 'react-html-parser';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import api from '@/api/api';
 import { categoryList } from '@/assets/index';
 import { gapTime } from '@/utils/utils';
+import { ConfirmModal } from '@/components/index';
 import { ContentLikeButton, ContentLikeIcon, ContentLikeEmptyIcon, ContentLikeEmptyButton } from './Board.style';
 import './BoardDetail.style.css';
 
 export default function PostView(props) {
   const { postItem } = props;
-  const { id } = useSelector((state) => state.userInfo.userInfo);
+  const { id, nickname } = useSelector((state) => state.userInfo.userInfo);
+  const history = useHistory();
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
@@ -27,6 +33,11 @@ export default function PostView(props) {
   const [viewCount, setViewCnt] = useState(postItem.boardViews);
   const [likeCount, setLikeCnt] = useState(postItem.boardRecommend);
   const [likeCheck, setLikeCheck] = useState(false);
+  const [isDeleteAble, setDelete] = useState(false);
+
+  const [Modalopen, setModalopen] = useState(false);
+  const [Modaltitle, setModaltitle] = useState('');
+  const [Modalcontent, setModalcontent] = useState('');
 
   const onClickContent = async () => {
     if (id) {
@@ -61,9 +72,32 @@ export default function PostView(props) {
     });
   });
 
+  const onOpenModal = async () => {
+    setModalopen(true);
+    setModaltitle('글 삭제');
+    setModalcontent('해당 글을 정말 삭제하시겠습니까?');
+  };
+
+  const onDelete = async () => {
+    await api.deleteBoard(postNo, id).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        toast.success('글이 삭제 되었습니다👌');
+        setTimeout(history.push({ pathname: '/' }), 2500);
+      } else {
+        toast.error('삭제되지 않았습니다');
+      }
+    });
+  };
+
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
   }, [getUserBoardRecommend, postNo, props]);
+
+  useEffect(() => {
+    if (nickname && postName && nickname === postName) {
+      setDelete(true);
+    }
+  }, [nickname, postName]);
 
   useEffect(() => {
     setTitle(postItem.boardTitle);
@@ -119,6 +153,33 @@ export default function PostView(props) {
               </ContentLikeEmptyButton>
             </div>
           )}
+        </div>
+        <div>
+          {isDeleteAble ? (
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: ' flex-end',
+                margin: '1em',
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  cursor: 'pointer',
+                }}
+                onClick={onOpenModal}
+              >
+                <DeleteIcon style={{ padding: '0.2em' }} />
+                <span style={{ fontSize: '14px' }}>글 삭제</span>
+              </div>
+            </div>
+          ) : (
+            <span />
+          )}
+          <ConfirmModal isOpen={Modalopen} title={Modaltitle} content={Modalcontent} onClickConfirm={onDelete} />
         </div>
       </div>
     </>

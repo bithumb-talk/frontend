@@ -1,18 +1,16 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-key */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-// import { ToastContainer } from 'react-toastify';
 import Grid from '@mui/material/Grid';
 import PostCard from '../PostCard/PostCard';
 
 function PostGrid(props) {
-  const postArr = props.postItem;
-  const [postGridItem, setPostGridItem] = React.useState(postArr);
+  const [postGridItem, setPostGridItem] = useState(props.postItem);
 
-  React.useEffect(() => {
-    setPostGridItem(postArr);
-  }, [postArr]);
+  useEffect(() => {
+    setPostGridItem(props.postItem);
+  }, [props]);
 
   return (
     <div
