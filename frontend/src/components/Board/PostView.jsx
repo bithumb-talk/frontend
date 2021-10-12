@@ -23,7 +23,7 @@ export default function PostView(props) {
   const { postItem } = props;
   const { id, nickname } = useSelector((state) => state.userInfo.userInfo);
   const history = useHistory();
-  const [title, setTitle] = useState(postItem.boardTitle);
+  const [postTitle, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
   const [postDate, setDate] = useState(postItem.boardCreatedDate);
@@ -74,7 +74,7 @@ export default function PostView(props) {
   });
 
   const onOpenModal = async () => {
-    setModalopen(true);
+    setModalopen(!Modalopen);
     setModaltitle('글 삭제');
     setModalcontent('해당 글을 정말 삭제하시겠습니까?');
   };
@@ -82,7 +82,7 @@ export default function PostView(props) {
   const onDelete = async () => {
     await api.deleteBoard(postNo, id).then((res) => {
       if (res.data.status === 'SUCCESS') {
-        toast.success('글이 삭제 되었습니다👌');
+        toast.success('글이 삭제 되었습니다');
         setTimeout(history.push({ pathname: '/' }), 2500);
       } else {
         toast.error('삭제되지 않았습니다');
@@ -91,7 +91,10 @@ export default function PostView(props) {
   };
 
   const onUpdate = async () => {
-    history.push({ pathname: '/boardwritemodify', state: { boardContent: postContent, postCatagory, title } });
+    history.push({
+      pathname: '/boardwrite',
+      state: { postNo, postCatagory, renameCatagory, postContent, postTitle, postName },
+    });
   };
 
   useEffect(() => {
@@ -118,8 +121,8 @@ export default function PostView(props) {
 
   useEffect(() => {
     if (categoryList && postCatagory) {
-      const name = categoryList.filter((item) => item.name === postCatagory);
-      if (name) setRename(name[0].label);
+      const name = categoryList.find((item) => item.name === postCatagory);
+      if (name) setRename(name.label);
     }
   }, [postCatagory]);
   return (
@@ -129,7 +132,7 @@ export default function PostView(props) {
           커뮤니티 <Link href={cataogryUrl}>{renameCatagory}</Link>
         </div>
         <div className="postTitle">
-          <span className="titleText">{title}</span>
+          <span className="titleText">{postTitle}</span>
           <Grid container spacing={0} alignItems="center">
             <Grid item xs={6} className="postTopInfo">
               <span>{postName}&nbsp;</span>&nbsp; |&nbsp; <span>&nbsp;{postDate}&nbsp;</span>

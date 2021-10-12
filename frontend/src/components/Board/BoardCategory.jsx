@@ -6,13 +6,16 @@ import { categoryList } from '@/assets/index';
 import { CssTextField } from './Board.style';
 
 export default function ComboBox(props) {
-  const { onChange } = props;
+  const { value, inputValue, onChange } = props;
+
   return (
     <Stack spacing={2} sx={{ width: 250 }}>
       <Autocomplete
         disablePortal
         id="Combo_community"
         size="small"
+        value={value}
+        inputValue={inputValue}
         options={categoryList}
         getOptionLabel={(option) => option.label}
         renderInput={(params) => (

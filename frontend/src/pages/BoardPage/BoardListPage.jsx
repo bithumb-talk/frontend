@@ -4,7 +4,7 @@ import './BoradWrite.style.css';
 import { Grid } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import { PostGrid, PostPagination } from '@/components/index';
-import { categoryList } from '@/assets/index';
+import { menuData } from '@/assets/index';
 import api from '@/api/api';
 import { WriteButton, PlusIcon } from './BoardList.style';
 
@@ -21,7 +21,7 @@ export default function BoardListPage() {
         if (res.data.data.content) setItem(res.data.data.content);
         setTotalPage(res.data.data.page.totalPages);
       }
-    } else if (url === 'talk') {
+    } else {
       const pageUrl = search ? url.concat(search) : url;
       const res = await api.getBoardCategory(pageUrl);
       if (res.data.status === 'SUCCESS') {
@@ -37,14 +37,14 @@ export default function BoardListPage() {
 
   useEffect(() => {
     if (page !== 0) {
-      const menuName = categoryList.find((menu) => menu.link === pathname).name;
+      const menuName = menuData.find((menu) => menu.link === pathname).name;
       getboardList(menuName, `?page=${page - 1}`);
     }
   }, [getboardList, page, pathname]);
 
   useEffect(() => {
     if (pathname.indexOf('/board/') !== -1) {
-      const menuName = categoryList.find((menu) => menu.link === pathname).name;
+      const menuName = menuData.find((menu) => menu.link === pathname).name;
       getboardList(menuName, null);
     }
   }, [getboardList, pathname]);

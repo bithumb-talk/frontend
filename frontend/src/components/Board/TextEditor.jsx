@@ -75,11 +75,12 @@ const TextEditor = (props) => {
       matchVisual: false,
     },
   };
-  const { inputRef } = props;
+  const { value, inputRef } = props;
 
   return (
     <ReactQuill
       placeholder="내용을 적어보세요 ..."
+      value={value}
       ref={inputRef}
       // onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
       formats={formats}

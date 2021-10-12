@@ -1,23 +1,27 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { TextEditor, BoardCategory, TextBottom } from '@/components/index';
 import TextTitle from '@/components/Board/TextTitle';
 import { exportImgTag, exportSrcTag } from '@/utils/utils';
-import { categoryList } from '@/assets/index';
 import api from '@/api/api';
 import './BoradWrite.style.css';
 import 'react-quill/dist/quill.snow.css';
 
 export default function BoardWritePage() {
   const { id, nickname } = useSelector((state) => state.userInfo.userInfo);
+  const location = useLocation();
   const history = useHistory();
   const inputRef = React.useRef();
   const titleRef = React.useRef();
   const [isSend, setIsSend] = useState(false);
-  const [postContent, setPostContent] = useState({
+  const [isModify, setModify] = useState(false);
+  const [isCategory, setCategory] = useState('');
+  const [isNameCategory, setNameCategory] = useState('');
+  const [boardNo, setNo] = useState('');
+  const [postInputs, setPostInputs] = useState({
     boardCategory: '',
     boardTitle: '',
     boardContent: '',
@@ -28,29 +32,63 @@ export default function BoardWritePage() {
     nickname,
   });
 
+  useEffect(() => {
+    if (location.state) {
+      setPostInputs({
+        ...postInputs,
+        boardCategory: location.state.postCatagory,
+        boardContent: location.state.postContent,
+        nickname: location.state.postName,
+      });
+      titleRef.current.value = location.state.postTitle;
+      setNo(location.state.postNo);
+      setCategory(location.state.postCatagory);
+      setNameCategory(location.state.renameCatagory);
+      setModify(true);
+    }
+  }, [location]);
+
   const goBack = useCallback(() => {
     history.goBack();
   }, [history]);
 
-  const onCategoryChange = (e) => {
-    const { innerText } = e.target;
-    if (innerText) {
-      const pick = categoryList.filter((item) => item.label === innerText)[0].name;
-      setPostContent({
-        ...postContent,
-        boardCategory: pick,
+  const onCategoryChange = (event, newValue) => {
+    if (newValue) {
+      setCategory(newValue.name);
+      setNameCategory(newValue.label);
+
+      setPostInputs({
+        ...postInputs,
+        boardCategory: newValue.name,
       });
     } else {
-      setPostContent({
-        ...postContent,
+      setCategory('');
+      setNameCategory('');
+      setPostInputs({
+        ...postInputs,
         boardCategory: '',
       });
     }
   };
 
+  const postModifySubmit = useCallback(async () => {
+    if (id) {
+      const res = await api.putBoard(id, boardNo, postInputs);
+      if (res.data.status === 'SUCCESS') {
+        toast.success('글이 수정 되었습니다👌');
+        setTimeout(goBack(), 2500);
+      } else {
+        toast.error('저장에 실패하였습니다');
+      }
+      setIsSend(false);
+    } else {
+      toast.info('로그인이 필요한 서비스입니다.');
+    }
+  }, [goBack, id, postInputs]);
+
   const postSubmit = useCallback(async () => {
     if (id) {
-      const res = await api.postBoard(id, postContent);
+      const res = await api.postBoard(id, postInputs);
       if (res.data.status === 'SUCCESS') {
         toast.success('글이 작성되었습니다👌');
         setTimeout(history.push({ pathname: '/' }), 2500);
@@ -61,7 +99,7 @@ export default function BoardWritePage() {
     } else {
       toast.info('로그인이 필요한 서비스입니다.');
     }
-  }, [goBack, id, postContent]);
+  }, [id, postInputs]);
 
   const onSubmit = async () => {
     if (nickname) {
@@ -73,17 +111,20 @@ export default function BoardWritePage() {
         imgUrl = exportSrcTag(imgUrl).pop();
         imgUrl = imgUrl.replace('"', '');
         imgUrl = imgUrl.replace('>', '');
-      } else if (postContent.boardImg.length === 0) imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
+      } else if (postInputs.boardImg.length === 0) imgUrl = 'https://i.ibb.co/3r0SVSb/default-Img.png';
       else imgUrl = '';
 
-      setPostContent({
-        ...postContent,
+      setPostInputs({
+        ...postInputs,
         boardContent: editorContent,
         boardTitle: titleRef.current.value,
-        boardImg: imgUrl.length > 0 ? postContent.boardImg.concat(imgUrl) : postContent.boardImg,
+        boardImg:
+          imgUrl.length > 0 && postInputs.boardImg.length < 1
+            ? postInputs.boardImg.concat(imgUrl)
+            : postInputs.boardImg,
         nickname,
       });
-      if (postContent.boardCategory === '') {
+      if (postInputs.boardCategory === '') {
         toast('카테고리를 선택해주세요');
       } else if (titleRef.current.value === '') {
         toast('제목을 작성해주세요');
@@ -98,16 +139,22 @@ export default function BoardWritePage() {
   };
 
   useEffect(() => {
-    if (isSend) postSubmit();
+    if (isSend && isModify) postModifySubmit();
+    else if (isSend) postSubmit();
   }, [isSend, postSubmit]);
 
   return (
     <>
       <div className="board">
         <h3>글쓰기</h3>
-        <BoardCategory name="boardCategory" onChange={onCategoryChange} />
+        <BoardCategory
+          value={isCategory}
+          inputValue={isNameCategory}
+          name="boardCategory"
+          onChange={onCategoryChange}
+        />
         <TextTitle className="css-0" titleRef={titleRef} />
-        <TextEditor className="ql-editor" inputRef={inputRef} />
+        <TextEditor value={postInputs.boardContent} className="ql-editor" inputRef={inputRef} />
         <TextBottom onClick={onSubmit} goBack={goBack} />
       </div>
     </>

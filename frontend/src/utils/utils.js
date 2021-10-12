@@ -20,6 +20,8 @@ export const setItem = (key, value) => window.localStorage.setItem(key, value);
 
 export const withoutImgTag = (value) => value.replace(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
 
+export const withoutSrcTag = (value) => value.replace(/\bhttps?:\/\/\S+/gi, '');
+
 export const exportImgTag = (value) => value.match(/<img[^>]*src=[\\']?([^>\\']+)[\\']?[^>]*>/gi, '');
 
 export const exportSrcTag = (value) => value.match(/\bhttps?:\/\/\S+/gi);

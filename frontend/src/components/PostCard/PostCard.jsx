@@ -14,7 +14,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Skeleton from '@mui/material/Skeleton';
 import api from '@/api/api';
 import defaultImg from '@/assets/image/defaultImg.png';
-import { withoutImgTag, gapTime } from '@/utils/utils';
+import { withoutImgTag, exportSrcTag, gapTime } from '@/utils/utils';
 import { CardProfile, CardInfo, Like, LikeEmpty, CardBottom, CardWrap } from './PostCard.style';
 
 function PostCard(props) {
@@ -64,7 +64,11 @@ function PostCard(props) {
 
     // DefaultImg 설정
     if (postItem.boardImg && postItem.boardImg.indexOf('http') !== -1) {
-      setImg(postItem.boardImg);
+      const count = postItem.boardImg.match(/http/gi);
+      if (count.length > 1) {
+        const result = exportSrcTag(postItem.boardImg);
+        setImg(result[0]);
+      } else setImg(postItem.boardImg);
     } else if (postItem.boardImg && postItem.boardImg.indexOf('http') === -1) {
       setImg(defaultImg);
     } else {

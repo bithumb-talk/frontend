@@ -302,6 +302,29 @@ class Api {
     return res;
   }
 
+  async putBoard(userId, boardNo, data) {
+    let res = {
+      data: {},
+    };
+    try {
+      res = await this.api.put(
+        `${END_POINT.BOARD_DETAIL}/${boardNo}/auth/${userId}`,
+        data,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
+      console.log(res);
+    } catch (error) {
+      res.data.status = 'FAIL';
+      console.log(error);
+    }
+    return res;
+  }
+
   async postInterestCoin({ symbol, userId }) {
     const res = await this.api.post(`${END_POINT.INTEREST}/${userId}`, { symbol }, this.config);
     return res;
