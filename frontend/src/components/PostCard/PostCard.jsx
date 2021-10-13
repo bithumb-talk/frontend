@@ -1,7 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import React, { useState, useEffect, useCallback } from 'react';
-import proptypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CardMedia from '@mui/material/CardMedia';
@@ -21,7 +20,6 @@ function PostCard(props) {
   const { postItem } = props;
   const [loading, setLoading] = useState(true);
   const { id } = useSelector((state) => state.userInfo.userInfo);
-
   const [title, setTitle] = useState(postItem.boardTitle);
   const [postNo, setNo] = useState(postItem.boardNo);
   const [postName, setName] = useState(postItem.nickname);
@@ -103,7 +101,7 @@ function PostCard(props) {
 
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
-  }, [getUserBoardRecommend, postNo]);
+  }, [getUserBoardRecommend, postNo, id]);
 
   return (
     <>
@@ -170,8 +168,3 @@ function PostCard(props) {
 }
 
 export default PostCard;
-
-PostCard.propTypes = {
-  // props: PropTypes.elementType.isRequired,
-  boardCreatedDate: proptypes.elementType.isRequired,
-};

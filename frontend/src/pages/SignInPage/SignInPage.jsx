@@ -148,7 +148,9 @@ export default function SignInPage() {
               <Button sx={{ fontSize: '12.5px' }}>비밀번호를 잊어버리셨나요?</Button>
               <Link to="/signup">
                 <Button>
-                  <Typography sx={{ fontSize: '12.5px' }}>계정이 없으신가요? <strong>회원가입하기</strong></Typography>
+                  <Typography sx={{ fontSize: '12.5px' }}>
+                    계정이 없으신가요? <strong>회원가입하기</strong>
+                  </Typography>
                 </Button>
               </Link>
             </Box>

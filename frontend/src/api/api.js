@@ -471,7 +471,15 @@ class Api {
     };
 
     try {
-      res = await this.api.get(`${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`, this.config);
+      res = await this.api.get(
+        `${END_POINT.BOARD_USER}/${userId}/like-board-content/${boardNo}`,
+        {
+          headers: {
+            ...authHeader(),
+          },
+        },
+        true,
+      );
     } catch (error) {
       res.data.status = 'FAIL';
       console.log(error);
