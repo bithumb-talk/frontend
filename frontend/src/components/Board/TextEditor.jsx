@@ -78,15 +78,26 @@ const TextEditor = (props) => {
   const { value, inputRef } = props;
 
   return (
-    <ReactQuill
-      placeholder="내용을 적어보세요 ..."
-      value={value}
-      ref={inputRef}
-      // onChange={(content, delta, source, editor) => onChange(editor.getHTML())}
-      formats={formats}
-      modules={modules}
-      theme="snow"
-    />
+    <>
+      {value.length > 0 ? (
+        <ReactQuill
+          placeholder="내용을 적어보세요 ..."
+          value={value}
+          ref={inputRef}
+          formats={formats}
+          modules={modules}
+          theme="snow"
+        />
+      ) : (
+        <ReactQuill
+          placeholder="내용을 적어보세요 ..."
+          ref={inputRef}
+          formats={formats}
+          modules={modules}
+          theme="snow"
+        />
+      )}
+    </>
   );
 };
 
