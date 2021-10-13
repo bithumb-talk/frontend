@@ -3,7 +3,6 @@ import { INITIAL_STATUS, SORT_STATUS } from '@/constants/reduxConstants';
 import { copy, includeKor, includeEng, getItem } from '@/utils/utils';
 import api from '@/api/api';
 import { setNewDataWithSymbol } from '@/utils/reduxUtils';
-import { authUserId } from '@/utils/auth';
 
 const initialState = {
   tabIndex: 0,
@@ -104,16 +103,14 @@ export const getCandleStick = createAsyncThunk('coinPrice/getCandleStick', async
 });
 
 export const postInterestCoin = createAsyncThunk('coinPrice/postInterestCoin', async ({ symbol }) => {
-  const { data } = await api.postInterestCoin({ symbol, userId: authUserId });
-
+  const { data } = await api.postInterestCoin({ symbol, userId: getItem('id') });
   return {
     data: data.data,
   };
 });
 
 export const deleteInterestCoin = createAsyncThunk('coinPrice/deleteInterestCoin', async ({ symbol }) => {
-  const { data } = await api.deleteInterestCoin({ symbol, userId: authUserId });
-
+  const { data } = await api.deleteInterestCoin({ symbol, userId: getItem('id') });
   return {
     data: data.data,
   };
