@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import proptypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -52,6 +52,16 @@ function PostCard(props) {
     }
   };
 
+  const getUserBoardRecommend = useCallback(async () => {
+    await api.getUserBoardRecommend(id, postNo).then((res) => {
+      if (res.data.status === 'SUCCESS') {
+        if (res.data.data.likeStatus === 'false') setChecked(false);
+        else if (res.data.data.likeStatus === 'true') setChecked(true);
+      }
+    });
+    setLoading(false);
+  });
+
   useEffect(() => {
     setTitle(postItem.boardTitle);
     setNo(postItem.boardNo);
@@ -91,19 +101,9 @@ function PostCard(props) {
     }
   }, [loading, postImg]);
 
-  const getUserBoardRecommend = async () => {
-    await api.getUserBoardRecommend(id, postNo).then((res) => {
-      if (res.data.status === 'SUCCESS') {
-        if (res.data.data.likeStatus === 'false') setChecked(false);
-        else if (res.data.data.likeStatus === 'true') setChecked(true);
-      }
-    });
-    setLoading(false);
-  };
-
   useEffect(() => {
     if (postNo) getUserBoardRecommend(postNo);
-  }, [postNo]);
+  }, [getUserBoardRecommend, postNo]);
 
   return (
     <>
@@ -124,9 +124,6 @@ function PostCard(props) {
                 </Typography>
                 <Typography variant="body2" height="80px" style={{ color: 'rgb(73, 80, 87)' }}>
                   {postContent}
-                  {/*  {ReactHtmlParser(postContent.length) >= 120
-              ? `${ReactHtmlParser(postContent.substr(0, 120))}...`
-              : ReactHtmlParser(postContent)} */}
                 </Typography>
               </>
             )}
