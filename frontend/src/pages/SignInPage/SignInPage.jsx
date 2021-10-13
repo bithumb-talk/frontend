@@ -1,6 +1,6 @@
 import { Box, Button, Typography, InputAdornment } from '@mui/material';
 import React, { useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import VpnKeyOutlinedIcon from '@mui/icons-material/VpnKeyOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
@@ -10,7 +10,7 @@ import { actLogIn } from '@/redux/userInfoSlice';
 import { LockIcon, SignInForm, LoginButton, SignInWrap, BackArrowBox } from './SignInPage.style';
 
 export default function SignInPage() {
-  const history = useHistory();
+  // const history = useHistory();
   const dispatch = useDispatch();
   const deviceToken = useSelector((state) => state.userInfo.deviceToken);
 
@@ -37,7 +37,8 @@ export default function SignInPage() {
     const userInfo = res.data;
 
     if (userInfo.status === 'SUCCESS') {
-      history.push('/');
+      window.location.replace('/');
+      // history.push('/');
 
       dispatch(actLogIn(userInfo.data));
     } else {
@@ -65,28 +66,32 @@ export default function SignInPage() {
             bgcolor: 'white',
           }}
         >
-          <Box sx={{
-            padding: '10px',
-            bgcolor: 'orange',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            borderRadius: '100%',
-            marginBottom: '10px',
-            minWidth: '45px',
-            maxWidth: '45px',
-          }}
+          <Box
+            sx={{
+              padding: '10px',
+              bgcolor: 'orange',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              borderRadius: '100%',
+              marginBottom: '10px',
+              minWidth: '45px',
+              maxWidth: '45px',
+            }}
           >
             <LockIcon sx={{ fontSize: '25px' }} />
           </Box>
-          <Typography variant="h4" sx={{ fontWeight: '700' }}>로그인</Typography>
-          <Box sx={{
-            marginTop: '15px',
-            display: 'flex',
-            // minWidth: '400px',
-            maxWidth: '400px',
-            flexDirection: 'column',
-          }}
+          <Typography variant="h4" sx={{ fontWeight: '700' }}>
+            로그인
+          </Typography>
+          <Box
+            sx={{
+              marginTop: '15px',
+              display: 'flex',
+              // minWidth: '400px',
+              maxWidth: '400px',
+              flexDirection: 'column',
+            }}
           >
             <SignInForm
               required
@@ -124,26 +129,25 @@ export default function SignInPage() {
 
             {errorStatus ? (
               <Typography variant="body2" color="error">
-                아이디 또는 비밀번호가 잘못 입력 되었습니다.<br />
+                아이디 또는 비밀번호가 잘못 입력 되었습니다.
+                <br />
                 <b>아이디</b>와 <b>비밀번호</b>를 정확히 입력해 주세요.
               </Typography>
-            )
-              : <></>}
+            ) : (
+              <></>
+            )}
 
-            <LoginButton
-              fullWidth
-              variant="contained"
-              onClick={getSignin}
-            >
+            <LoginButton fullWidth variant="contained" onClick={getSignin}>
               로그인
             </LoginButton>
 
-            <Box sx={{
-              display: 'flex',
-              flexDirection: 'row',
-              justifyContent: 'space-between',
-              width: '100%',
-            }}
+            <Box
+              sx={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                width: '100%',
+              }}
             >
               <Button sx={{ fontSize: '12.5px' }}>비밀번호를 잊어버리셨나요?</Button>
               <Link to="/signup">

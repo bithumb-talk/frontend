@@ -18,6 +18,7 @@ export default function BoardWritePage() {
   const titleRef = React.useRef();
   const [isSend, setIsSend] = useState(false);
   const [isModify, setModify] = useState(false);
+  // const [isText] = useState('');
   const [isCategory, setCategory] = useState('');
   const [isNameCategory, setNameCategory] = useState('');
   const [boardNo, setNo] = useState('');
