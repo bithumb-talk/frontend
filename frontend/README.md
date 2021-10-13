@@ -5,6 +5,12 @@ yarn install
 yarn start
 ```
 
+## Build Production
+
+```bash
+yarn build
+```
+
 ## Coding Convention
 
 - alias
@@ -43,10 +49,10 @@ return (
 
 - 상수는 `const CONSTANTS_NAME = 'name'` 로 선언
 
-# File
+## File
 
-- `View`와 관련된 파일은 `jsx` 확장자를 사용하며 CamelCase를 사용합니다.
-- 그 외 util, constant 등의 파일은 `js` 확장자를 사용하며 lowCamelCate를 사용합니다.
+- `View`와 관련된 파일은 `jsx` 확장자를 사용하며 CamelCase를 사용.
+- 그 외 util, constant 등의 파일은 `js` 확장자를 사용하며 lowCamelCate를 사용.
 - Style 파일은 `style.js` 확장자를 사용합니다.
 - Storybook 파일은 `stories.jsx` 확장자를 사용합니다.
 
@@ -66,24 +72,7 @@ src
 ```
 
 - Router
-  - `Router.jsx`의 routes Array에 path, component, isPrivate를 추가하여 route를 적용합니다.
-  - `PrivateRoute.jsx`는 로그인 유무에 따라, 기능이 변하는 route를 적용하며, Token이 없을 경우 로그인 페이지로 Redirect됩니다.
-    - 아직 기능 확인은 해보지않아 오류가 있을 수 있습니다.
-  - `routePath.js`에 route path name을 지정하여, constant로 사용합니다.
-  - `NotFound` 페이지는 항상 route 배열의 마지막에 위치해야합니다.
-
-## Library
-
-- Axios
-- Material UI
-- react-router-dom
-- Redux
-  - Redux Toolkit
-  - Redux Saga
-  - react-redux
-- Storybook
-- Craco
-
-```bash
-yarn storybook
-```
+  - `Router.jsx`의 routes Array에 path, component, isPrivate를 추가하여 route를 적용.
+  - `PrivateRoute.jsx`는 로그인 유무에 따라, 기능이 변하는 route를 적용하며, Token이 없을 경우 로그인 페이지로 Redirect.
+  - `routePath.js`에 route path name을 지정하여, constant로 사용.
+  - `NotFound` 페이지는 항상 route 배열의 마지막에 위치.
